@@ -1,0 +1,17 @@
+# Editor/IDE files
+.vs/
+.vscode/
+*.user
+CMakeSettings.json
+
+# LSP files
+.cache/
+.clangd/
+compile_commands.json
+
+# Build directories
+build*/
+out/
+
+# macOS Finder junk
+.DS_Store

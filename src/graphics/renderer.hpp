@@ -21,8 +21,6 @@ public:
     void setViewBounds(float width, float height);
     void clearColor(const glm::vec4& color) const;
     void draw(const Texture& texture, const Rectangle& region, const glm::vec2& position, float scale);
-    void draw(const Texture& texture, const Rectangle& region, const glm::vec2& position);
-    void draw(const Texture& texture, const glm::vec2& position);
     void finish();
 
 private:

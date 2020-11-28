@@ -8,7 +8,7 @@ void update(entt::registry& registry, Renderer& renderer)
 {
     const auto view = registry.view<Drawable, Transform>();
     view.each([&](const Drawable& drawable, const Transform& transform) {
-        renderer.draw(*drawable.texture, drawable.region, transform.position);
+        renderer.draw(*drawable.texture, drawable.region, transform.position, 1.F);
     });
 }
 

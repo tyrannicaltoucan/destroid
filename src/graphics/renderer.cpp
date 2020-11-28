@@ -135,24 +135,6 @@ void Renderer::clearColor(const glm::vec4& color) const
     glClearColor(color.r, color.g, color.b, color.a);
 }
 
-void Renderer::draw(const Texture& texture, const glm::vec2& position)
-{
-    const Rectangle region{
-        glm::vec2{ 0.F, 0.F },
-        glm::vec2{ texture.width(), texture.height() }
-    };
-
-    draw(texture, region, position);
-}
-
-void Renderer::draw(
-    const Texture& texture,
-    const Rectangle& region,
-    const glm::vec2& position)
-{
-    draw(texture, region, position, 1.F);
-}
-
 void Renderer::draw(
     const Texture& texture,
     const Rectangle& region,

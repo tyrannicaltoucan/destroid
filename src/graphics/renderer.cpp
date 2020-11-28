@@ -16,30 +16,30 @@ namespace {
     constexpr std::string_view VERTEX_SOURCE = R"(
         #version 330
 
-        layout (location = 0) in vec2 in_position;
+        layout (location = 0) in vec2 position;
         layout (location = 1) in vec2 in_texcoord;
 
-        out vec2 vs_texcoord;
+        out vec2 texcoord;
 
-        uniform mat4 u_projection;
+        uniform mat4 projection;
 
         void main() {
-            gl_Position = u_projection * vec4(in_position, 0.0, 1.0);
-            vs_texcoord = in_texcoord;
+            gl_Position = projection * vec4(position, 0.0, 1.0);
+            texcoord = in_texcoord;
         }
     )";
 
     constexpr std::string_view FRAGMENT_SOURCE = R"(
         #version 330
 
-        in vec2 vs_texcoord;
+        in vec2 texcoord;
 
-        out vec4 out_color;
+        out vec4 color;
 
-        uniform sampler2D u_texSampler;
+        uniform sampler2D tex_sampler;
 
         void main() {
-            out_color = texture(u_texSampler, vs_texcoord);
+            color = texture(tex_sampler, texcoord);
         }
     )";
 
@@ -126,7 +126,7 @@ void Renderer::setViewBounds(float width, float height)
 {
     const glm::mat4x4 view = glm::ortho(0.F, width, 0.F, height, -1.F, 1.F);
     m_shader.bind();
-    m_shader.setUniform("u_projection", view);
+    m_shader.setUniform("projection", view);
 }
 
 void Renderer::clearColor(const glm::vec4& color) const

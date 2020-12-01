@@ -78,11 +78,11 @@ Renderer::Renderer()
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo);
 
     // TL       TR
-    //  0 ----- 2   ASCII Art Time!
+    //  0 ----- 1   ASCII Art Time!
     //  | A   / |   Quads are assembled from four vertices in the following order:
     //  |   /   |   0, 1, 2 = Triangle A
     //  | /   B |   2, 1, 3 = Triangle B
-    //  1 ----- 3
+    //  2 ----- 3
     // BL       BR
 
     std::array<GLushort, MAX_INDICES> indices;
@@ -160,8 +160,8 @@ void Renderer::draw(
 
     // Vertex coordinates
     glm::vec2 positionTL = glm::vec2{ -origin.x, -origin.y } * scale;
-    glm::vec2 positionBL = glm::vec2{ -origin.x, origin.y } * scale;
     glm::vec2 positionTR = glm::vec2{ origin.x, -origin.y } * scale;
+    glm::vec2 positionBL = glm::vec2{ -origin.x, origin.y } * scale;
     glm::vec2 positionBR = glm::vec2{ origin.x, origin.y } * scale;
 
     if (angle != 0.F) {
@@ -169,8 +169,8 @@ void Renderer::draw(
         const float cos = glm::cos(glm::radians(-angle));
 
         rotatePoint(positionTL, sin, cos);
-        rotatePoint(positionBL, sin, cos);
         rotatePoint(positionTR, sin, cos);
+        rotatePoint(positionBL, sin, cos);
         rotatePoint(positionBR, sin, cos);
     }
 
@@ -188,8 +188,8 @@ void Renderer::draw(
     const float bottom = region.bottom() / texture.height();
 
     m_vertices.emplace_back(Vertex { positionTL, glm::vec2{ left, top } });
-    m_vertices.emplace_back(Vertex { positionBL, glm::vec2{ left, bottom } });
     m_vertices.emplace_back(Vertex { positionTR, glm::vec2{ right, top } });
+    m_vertices.emplace_back(Vertex { positionBL, glm::vec2{ left, bottom } });
     m_vertices.emplace_back(Vertex { positionBR, glm::vec2{ right, bottom } });
 
     m_batchCount += 1;

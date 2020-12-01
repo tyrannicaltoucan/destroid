@@ -3,7 +3,6 @@
 #include "component/velocity.hpp"
 #include "component/player.hpp"
 #include "component/transform.hpp"
-#include <glm/exponential.hpp>
 #include <glm/common.hpp>
 
 namespace destroid::physics_system {

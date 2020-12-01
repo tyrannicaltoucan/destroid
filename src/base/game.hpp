@@ -3,8 +3,6 @@
 #include "graphics/renderer.hpp"
 #include "graphics/texture.hpp"
 #include <entt/entity/registry.hpp>
-#include <glm/vec2.hpp>
-#include <SDL.h>
 #include <memory>
 
 namespace destroid {

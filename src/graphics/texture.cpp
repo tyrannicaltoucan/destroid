@@ -1,6 +1,5 @@
 #include "texture.hpp"
 #include <stb_image.h>
-#include <array>
 #include <stdexcept>
 
 namespace destroid {

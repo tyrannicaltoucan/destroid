@@ -2,7 +2,6 @@
 #include "component/velocity.hpp"
 #include "component/player.hpp"
 #include <glm/trigonometric.hpp>
-#include <glm/gtx/norm.hpp>
 #include <SDL.h>
 
 namespace destroid::input_system {

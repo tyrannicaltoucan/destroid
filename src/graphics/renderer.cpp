@@ -43,6 +43,14 @@ namespace {
         }
     )";
 
+    void rotatePoint(glm::vec2& point, float sin, float cos)
+    {
+        point = glm::vec2{
+            point.x * cos - point.y * sin,
+            point.x * sin + point.y * cos
+        };
+    }
+
 } // namespace
 
 Renderer::Renderer()
@@ -139,6 +147,7 @@ void Renderer::draw(
     const Texture& texture,
     const Rectangle& region,
     const glm::vec2& position,
+    float angle,
     float scale)
 {
     if (m_boundTexureHandle != texture.handle()) {
@@ -147,9 +156,30 @@ void Renderer::draw(
         m_boundTexureHandle = texture.handle();
     }
 
-    // Sprite dimensions
-    const float spriteWidth = position.x + region.width * scale;
-    const float spriteHeight = position.y + region.height * scale;
+    const glm::vec2 origin{ region.width * 0.5F, region.height * 0.5F };
+
+    // Vertex coordinates
+    glm::vec2 positionTL = glm::vec2{ -origin.x, -origin.y } * scale;
+    glm::vec2 positionBL = glm::vec2{ -origin.x, origin.y } * scale;
+    glm::vec2 positionTR = glm::vec2{ origin.x, -origin.y } * scale;
+    glm::vec2 positionBR = glm::vec2{ origin.x, origin.y } * scale;
+
+    if (angle != 0.F) {
+        const float sin = glm::sin(glm::radians(-angle));
+        const float cos = glm::cos(glm::radians(-angle));
+
+        rotatePoint(positionTL, sin, cos);
+        rotatePoint(positionBL, sin, cos);
+        rotatePoint(positionTR, sin, cos);
+        rotatePoint(positionBR, sin, cos);
+    }
+
+    const glm::vec2 worldPosition = position + origin;
+
+    positionTL += worldPosition;
+    positionTR += worldPosition;
+    positionBL += worldPosition;
+    positionBR += worldPosition;
 
     // Texture atlas coordinates
     const float left = region.left() / texture.width();
@@ -157,17 +187,10 @@ void Renderer::draw(
     const float top = region.top() / texture.height();
     const float bottom = region.bottom() / texture.height();
 
-    m_vertices.emplace_back(
-        Vertex{ glm::vec2{ position.x, spriteHeight }, glm::vec2{ left, top } });
-
-    m_vertices.emplace_back(
-        Vertex{ position, glm::vec2{ left, bottom } });
-
-    m_vertices.emplace_back(
-        Vertex{ glm::vec2{ spriteWidth, spriteHeight }, glm::vec2{ right, top } });
-
-    m_vertices.emplace_back(
-        Vertex{ glm::vec2{ spriteWidth, position.y }, glm::vec2{ right, bottom } });
+    m_vertices.emplace_back(Vertex { positionTL, glm::vec2{ left, bottom } });
+    m_vertices.emplace_back(Vertex { positionBL, glm::vec2{ left, top } });
+    m_vertices.emplace_back(Vertex { positionTR, glm::vec2{ right, bottom } });
+    m_vertices.emplace_back(Vertex { positionBR, glm::vec2{ right, top } });
 
     m_batchCount += 1;
 }

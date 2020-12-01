@@ -25,7 +25,7 @@ namespace {
 
         void main() {
             gl_Position = projection * vec4(position, 0.0, 1.0);
-            texcoord = in_texcoord;
+            texcoord = vec2(in_texcoord.x, 1.0 - in_texcoord.y);
         }
     )";
 
@@ -187,10 +187,10 @@ void Renderer::draw(
     const float top = region.top() / texture.height();
     const float bottom = region.bottom() / texture.height();
 
-    m_vertices.emplace_back(Vertex { positionTL, glm::vec2{ left, bottom } });
-    m_vertices.emplace_back(Vertex { positionBL, glm::vec2{ left, top } });
-    m_vertices.emplace_back(Vertex { positionTR, glm::vec2{ right, bottom } });
-    m_vertices.emplace_back(Vertex { positionBR, glm::vec2{ right, top } });
+    m_vertices.emplace_back(Vertex { positionTL, glm::vec2{ left, top } });
+    m_vertices.emplace_back(Vertex { positionBL, glm::vec2{ left, bottom } });
+    m_vertices.emplace_back(Vertex { positionTR, glm::vec2{ right, top } });
+    m_vertices.emplace_back(Vertex { positionBR, glm::vec2{ right, bottom } });
 
     m_batchCount += 1;
 }

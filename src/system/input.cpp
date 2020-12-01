@@ -1,7 +1,6 @@
 #include "input.hpp"
 #include "component/velocity.hpp"
 #include "component/player.hpp"
-#include <glm/common.hpp>
 #include <glm/trigonometric.hpp>
 #include <glm/gtx/norm.hpp>
 #include <SDL.h>
@@ -22,11 +21,8 @@ void update(entt::registry& registry, const unsigned char* keystate)
         }
 
         if (keystate[SDL_SCANCODE_W]) {
-            // Keep the rotation bound between 0 and 360 degrees.
-            const float rotation = glm::mod((glm::mod(velocity.angular, 360.F) + 360.F), 360.F);
-
-            velocity.linear.x += glm::sin(glm::radians(rotation)) * player.movementSpeed;
-            velocity.linear.y += glm::cos(glm::radians(rotation)) * player.movementSpeed;
+            velocity.linear.x += glm::sin(glm::radians(velocity.angular)) * player.movementSpeed;
+            velocity.linear.y += glm::cos(glm::radians(velocity.angular)) * player.movementSpeed;
         }
     });
 }

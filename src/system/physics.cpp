@@ -4,6 +4,7 @@
 #include "component/player.hpp"
 #include "component/transform.hpp"
 #include <glm/exponential.hpp>
+#include <glm/common.hpp>
 
 namespace destroid::physics_system {
 
@@ -12,7 +13,8 @@ void update(entt::registry& registry, float delta)
     const auto positionView = registry.view<Velocity, Transform>();
     positionView.each([&](const Velocity& velocity, Transform& transform) {
         transform.position += velocity.linear * delta;
-        transform.rotation += velocity.angular * delta;
+        // Keep the rotation bound between 0 and 360 degrees.
+        transform.rotation = glm::mod((glm::mod(velocity.angular, 360.F) + 360.F), 360.F);
 
         const Rectangle viewRect = registry.ctx<Rectangle>();
 

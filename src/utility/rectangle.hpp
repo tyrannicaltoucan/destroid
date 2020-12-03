@@ -21,11 +21,11 @@ struct Rectangle {
     {
     }
 
-    constexpr Rectangle(float x, float y, float width, float height)
-        : x(x)
-        , y(y)
-        , width(width)
-        , height(height)
+    constexpr Rectangle(float xPos, float yPos, float sizeWidth, float sizeHeight)
+        : x(xPos)
+        , y(yPos)
+        , width(sizeWidth)
+        , height(sizeHeight)
     {
     }
 

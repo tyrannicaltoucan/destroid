@@ -24,49 +24,48 @@ Game::Game()
 {
     m_registry.set<Rectangle>(GAME_BOUNDS);
 
-    const float movementSpeed = 10.F;
+    const float playerSpeed = 10.F;
     const float rotationSpeed = 2.5F;
-    const float damping = 0.95F;
+    const float playerDamping = 0.95F;
     const Rectangle playerRegion{ glm::vec2{ 0.F }, glm::vec2{ 32.F } };
-    const glm::vec2 position = GAME_BOUNDS.center() - playerRegion.center();
+    const glm::vec2 playerPosition = GAME_BOUNDS.center() - playerRegion.center();
 
     const entt::entity player = m_registry.create();
     m_registry.emplace<Drawable>(player, m_debugTexture, playerRegion);
-    m_registry.emplace<Player>(player, movementSpeed, rotationSpeed, damping);
+    m_registry.emplace<Player>(player, playerSpeed, rotationSpeed, playerDamping);
     m_registry.emplace<Velocity>(player);
-    m_registry.emplace<Transform>(player, position);
+    m_registry.emplace<Transform>(player, playerPosition);
 
-    const Rectangle asteroidRegion { glm::vec2{ 32.F, 0.F }, glm::vec2 { 32.F } };
-    const float maxAsteroidSpeed = 45.F;
-    glm::vec2 asteroidPosition { 0.F, 0.F };
+    const Rectangle asteroidRegion{ glm::vec2{ 32.F, 0.F }, glm::vec2{ 32.F } };
+    const float asteroidMaxSpeed = 45.F;
+    glm::vec2 asteroidPosition{ 0.F, 0.F };
 
     std::random_device rd;
     std::mt19937 rng(rd());
-    std::uniform_int_distribution<int> spawnDirection(1, 4);
-    std::uniform_real_distribution<float> velocity(-maxAsteroidSpeed, maxAsteroidSpeed);
-    std::uniform_real_distribution<float> posX(GAME_BOUNDS.x, GAME_BOUNDS.width);
-    std::uniform_real_distribution<float> posY(GAME_BOUNDS.y, GAME_BOUNDS.height);
+    std::uniform_int_distribution<int> asteroidSpawnEdge(1, 4);
+    std::uniform_real_distribution<float> asteroidSpeed(-asteroidMaxSpeed, asteroidMaxSpeed);
+    std::uniform_real_distribution<float> asteroidXPos(GAME_BOUNDS.x, GAME_BOUNDS.width);
+    std::uniform_real_distribution<float> asteroidYPos(GAME_BOUNDS.y, GAME_BOUNDS.height);
 
     for (auto i = 0; i < ASTEROID_COUNT; i++) {
-        const entt::entity asteroid = m_registry.create();
-
-        switch(spawnDirection(rng)) {
-        case 1:
-            asteroidPosition = glm::vec2{ GAME_BOUNDS.x, posY(rng) };
+        switch(asteroidSpawnEdge(rng)) {
+        case 1: // left
+            asteroidPosition = glm::vec2{ GAME_BOUNDS.x, asteroidYPos(rng) };
             break;
-        case 2:
-            asteroidPosition = glm::vec2{ GAME_BOUNDS.width, posY(rng) };
+        case 2: // right
+            asteroidPosition = glm::vec2{ GAME_BOUNDS.width, asteroidYPos(rng) };
             break;
-        case 3:
-            asteroidPosition = glm::vec2{ posX(rng), GAME_BOUNDS.y };
+        case 3: // bottom
+            asteroidPosition = glm::vec2{ asteroidXPos(rng), GAME_BOUNDS.y };
             break;
-        case 4:
-            asteroidPosition = glm::vec2{ posX(rng), GAME_BOUNDS.height };
+        case 4: // top
+            asteroidPosition = glm::vec2{ asteroidXPos(rng), GAME_BOUNDS.height };
             break;
         }
 
+        const entt::entity asteroid = m_registry.create();
         m_registry.emplace<Drawable>(asteroid, m_debugTexture, asteroidRegion);
-        m_registry.emplace<Velocity>(asteroid, glm::vec2{ velocity(rng), velocity(rng) });
+        m_registry.emplace<Velocity>(asteroid, glm::vec2{asteroidSpeed(rng), asteroidSpeed(rng)});
         m_registry.emplace<Transform>(asteroid, asteroidPosition);
     }
 }

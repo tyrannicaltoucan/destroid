@@ -9,8 +9,8 @@ namespace destroid::physics_system {
 
 void update(entt::registry& registry, float delta)
 {
-    const auto positionView = registry.view<Velocity, Transform>();
-    positionView.each([&](const Velocity& velocity, Transform& transform) {
+    const auto view = registry.view<Velocity, Transform>();
+    view.each([&](const Velocity& velocity, Transform& transform) {
         transform.position += velocity.linear * delta;
         // Keep the rotation bound between 0 and 360 degrees.
         transform.rotation = glm::mod((glm::mod(velocity.angular, 360.F) + 360.F), 360.F);
@@ -33,12 +33,6 @@ void update(entt::registry& registry, float delta)
         if (transform.position.y >= viewRect.bottom()) {
             transform.position.y = transform.position.y - viewRect.height;
         }
-    });
-
-    // Space may not have friction, but adding some makes movement feel nicer!
-    const auto dampingView = registry.view<Player, Velocity>();
-    dampingView.each([&](const Player& player, Velocity& velocity) {
-        velocity.linear *= player.damping;
     });
 }
 

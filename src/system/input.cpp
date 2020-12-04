@@ -23,6 +23,9 @@ void update(entt::registry& registry, const unsigned char* keystate)
             velocity.linear.x += glm::sin(glm::radians(velocity.angular)) * player.movementSpeed;
             velocity.linear.y += glm::cos(glm::radians(velocity.angular)) * player.movementSpeed;
         }
+
+        // Add damping to make controls feel "tighter".
+        velocity.linear *= player.damping;
     });
 }
 

@@ -25,13 +25,13 @@ add_executable(destroid
     src/graphics/shader.hpp
     src/graphics/texture.cpp
     src/graphics/texture.hpp
+    src/math/rectangle.hpp
     src/system/drawing.cpp
     src/system/drawing.hpp
     src/system/input.cpp
     src/system/input.hpp
     src/system/physics.cpp
     src/system/physics.hpp
-    src/utility/rectangle.hpp
     src/main.cpp)
 
 target_include_directories(destroid PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)

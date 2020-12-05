@@ -1,5 +1,5 @@
 #include "physics.hpp"
-#include "utility/rectangle.hpp"
+#include "math/rectangle.hpp"
 #include "component/velocity.hpp"
 #include "component/player.hpp"
 #include "component/transform.hpp"

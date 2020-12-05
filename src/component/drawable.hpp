@@ -1,7 +1,7 @@
 #pragma once
 
 #include "graphics/texture.hpp"
-#include "utility/rectangle.hpp"
+#include "math/rectangle.hpp"
 #include <memory>
 
 namespace destroid {

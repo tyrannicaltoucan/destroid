@@ -2,7 +2,7 @@
 
 #include "shader.hpp"
 #include "texture.hpp"
-#include "utility/rectangle.hpp"
+#include "math/rectangle.hpp"
 #include <glad/gl.h>
 #include <glm/vec2.hpp>
 #include <glm/vec4.hpp>

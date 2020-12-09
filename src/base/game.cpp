@@ -17,6 +17,58 @@ namespace {
     constexpr Rectangle GAME_BOUNDS{ 0.F, 0.F, 450.F, 300.F };
     constexpr int ASTEROID_COUNT = 5;
 
+    void createPlayer(entt::registry& registry, std::shared_ptr<Texture> texture)
+    {
+        const Rectangle region{0, 0, 32, 32};
+        const glm::vec2 position = GAME_BOUNDS.center() - region.center();
+        const float thrustSpeed = 10.F;
+        const float rotationSpeed = thrustSpeed * 0.25F;
+        const float damping = 0.95F;
+
+        const entt::entity player = registry.create();
+        registry.emplace<Transform>(player, position);
+        registry.emplace<Velocity>(player);
+        registry.emplace<Player>(player, thrustSpeed, rotationSpeed, damping);
+        registry.emplace<Drawable>(player, texture, region);
+    }
+
+    void createAsteroidField(entt::registry& registry, std::shared_ptr<Texture> texture)
+    {
+        std::random_device rd;
+        std::minstd_rand gen(rd());
+
+        std::uniform_real_distribution<float> xPos(0, GAME_BOUNDS.width);
+        std::uniform_real_distribution<float> yPos(0, GAME_BOUNDS.height);
+        std::uniform_real_distribution<float> speed(-45, 45);
+        std::uniform_int_distribution<int> spawnDir(1, 4);
+
+        const Rectangle region{32, 0, 32, 32};
+        glm::vec2 position{};
+
+        for (int i = 0; i < ASTEROID_COUNT; i++) {
+            switch (spawnDir(gen)) {
+            case 1: // left
+                position = {GAME_BOUNDS.x, yPos(gen)};
+                break;
+            case 2: // right
+                position = {GAME_BOUNDS.width, yPos(gen)};
+                break;
+            case 3: // bottom
+                position = {xPos(gen), GAME_BOUNDS.y};
+                break;
+            case 4: // top
+                position = {xPos(gen), GAME_BOUNDS.height};
+                break;
+            }
+
+            const glm::vec2 velocity{speed(gen), speed(gen)};
+            const entt::entity asteroid = registry.create();
+            registry.emplace<Transform>(asteroid, position);
+            registry.emplace<Velocity>(asteroid, velocity);
+            registry.emplace<Drawable>(asteroid, texture, region);
+        }
+    }
+
 } // namespace
 
 Game::Game()
@@ -24,50 +76,8 @@ Game::Game()
 {
     m_registry.set<Rectangle>(GAME_BOUNDS);
 
-    const float playerSpeed = 10.F;
-    const float rotationSpeed = 2.5F;
-    const float playerDamping = 0.95F;
-    const Rectangle playerRegion{ glm::vec2{ 0.F }, glm::vec2{ 32.F } };
-    const glm::vec2 playerPosition = GAME_BOUNDS.center() - playerRegion.center();
-
-    const entt::entity player = m_registry.create();
-    m_registry.emplace<Drawable>(player, m_debugTexture, playerRegion);
-    m_registry.emplace<Player>(player, playerSpeed, rotationSpeed, playerDamping);
-    m_registry.emplace<Velocity>(player);
-    m_registry.emplace<Transform>(player, playerPosition);
-
-    const Rectangle asteroidRegion{ glm::vec2{ 32.F, 0.F }, glm::vec2{ 32.F } };
-    const float asteroidMaxSpeed = 45.F;
-    glm::vec2 asteroidPosition{ 0.F, 0.F };
-
-    std::random_device rd;
-    std::mt19937 rng(rd());
-    std::uniform_int_distribution<int> asteroidSpawnEdge(1, 4);
-    std::uniform_real_distribution<float> asteroidSpeed(-asteroidMaxSpeed, asteroidMaxSpeed);
-    std::uniform_real_distribution<float> asteroidXPos(GAME_BOUNDS.x, GAME_BOUNDS.width);
-    std::uniform_real_distribution<float> asteroidYPos(GAME_BOUNDS.y, GAME_BOUNDS.height);
-
-    for (auto i = 0; i < ASTEROID_COUNT; i++) {
-        switch(asteroidSpawnEdge(rng)) {
-        case 1: // left
-            asteroidPosition = glm::vec2{ GAME_BOUNDS.x, asteroidYPos(rng) };
-            break;
-        case 2: // right
-            asteroidPosition = glm::vec2{ GAME_BOUNDS.width, asteroidYPos(rng) };
-            break;
-        case 3: // bottom
-            asteroidPosition = glm::vec2{ asteroidXPos(rng), GAME_BOUNDS.y };
-            break;
-        case 4: // top
-            asteroidPosition = glm::vec2{ asteroidXPos(rng), GAME_BOUNDS.height };
-            break;
-        }
-
-        const entt::entity asteroid = m_registry.create();
-        m_registry.emplace<Drawable>(asteroid, m_debugTexture, asteroidRegion);
-        m_registry.emplace<Velocity>(asteroid, glm::vec2{asteroidSpeed(rng), asteroidSpeed(rng)});
-        m_registry.emplace<Transform>(asteroid, asteroidPosition);
-    }
+    createPlayer(m_registry, m_debugTexture);
+    createAsteroidField(m_registry, m_debugTexture);
 }
 
 void Game::pollInput(const unsigned char* keystate)

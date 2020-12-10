@@ -3,9 +3,12 @@
 #include "component/velocity.hpp"
 #include "component/player.hpp"
 #include "component/transform.hpp"
+#include "component/collider.hpp"
+#include "component/asteroid.hpp"
 #include "system/drawing.hpp"
 #include "system/input.hpp"
 #include "system/physics.hpp"
+#include <system/collision.hpp>
 #include <glm/vec4.hpp>
 #include <random>
 
@@ -21,6 +24,7 @@ namespace {
     {
         const Rectangle region{0, 0, 32, 32};
         const glm::vec2 position = GAME_BOUNDS.center() - region.center();
+        const Circle bounds{position, region.width * 0.25F};
         const float thrustSpeed = 10.F;
         const float rotationSpeed = thrustSpeed * 0.25F;
         const float damping = 0.95F;
@@ -29,6 +33,7 @@ namespace {
         registry.emplace<Transform>(player, position);
         registry.emplace<Velocity>(player);
         registry.emplace<Player>(player, thrustSpeed, rotationSpeed, damping);
+        registry.emplace<Collider>(player, bounds);
         registry.emplace<Drawable>(player, texture, region);
     }
 
@@ -62,9 +67,12 @@ namespace {
             }
 
             const glm::vec2 velocity{speed(gen), speed(gen)};
+            const Circle bounds{position, region.width * 0.25F};
             const entt::entity asteroid = registry.create();
             registry.emplace<Transform>(asteroid, position);
             registry.emplace<Velocity>(asteroid, velocity);
+            registry.emplace<Asteroid>(asteroid);
+            registry.emplace<Collider>(asteroid, bounds);
             registry.emplace<Drawable>(asteroid, texture, region);
         }
     }
@@ -87,6 +95,7 @@ void Game::pollInput(const unsigned char* keystate)
 
 void Game::update(float delta)
 {
+    collision_system::update(m_registry);
     physics_system::update(m_registry, delta);
 }
 

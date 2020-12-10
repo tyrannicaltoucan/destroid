@@ -19,6 +19,8 @@ add_executable(destroid
     src/component/drawable.hpp
     src/component/transform.hpp
     src/component/velocity.hpp
+    src/component/collider.hpp
+    src/component/asteroid.hpp
     src/graphics/renderer.cpp
     src/graphics/renderer.hpp
     src/graphics/shader.cpp
@@ -26,6 +28,8 @@ add_executable(destroid
     src/graphics/texture.cpp
     src/graphics/texture.hpp
     src/math/rectangle.hpp
+    src/system/collision.cpp
+    src/system/collision.hpp
     src/system/drawing.cpp
     src/system/drawing.hpp
     src/system/input.cpp

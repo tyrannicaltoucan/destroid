@@ -11,33 +11,38 @@ namespace destroid::physics_system {
 void update(entt::registry& registry, float delta)
 {
     const auto view = registry.view<Velocity, Transform, Collider>();
-    view.each([&](const Velocity& velocity, Transform& transform, Collider& collider) {
+
+    for (const auto& entity : view) {
+        const auto [velocity, transform, collider] = view.get<Velocity, Transform, Collider>(entity);
+
         transform.position += velocity.linear * delta;
-        // Keep the rotation bound between 0 and 360 degrees.
-        transform.rotation = glm::mod((glm::mod(velocity.angular, 360.F) + 360.F), 360.F);
+        transform.rotation = velocity.angular;
 
         collider.bounds.x = transform.position.x;
         collider.bounds.y = transform.position.y;
 
-        const Rectangle viewRect = registry.ctx<Rectangle>();
+        // Keep rotations bound between 0-360 degrees.
+        velocity.angular = glm::mod((glm::mod(velocity.angular, 360.F) + 360.F), 360.F);
 
-        // Wrap entity positions when the apporach the view's edges
-        if (transform.position.x <= viewRect.left()) {
-            transform.position.x = transform.position.x + viewRect.width;
+        // Wrap entities around the viewport if they pass its edges.
+        const auto& viewport = registry.ctx<Rectangle>();
+
+        if (transform.position.x <= viewport.left()) {
+            transform.position.x = transform.position.x + viewport.width;
         }
 
-        if (transform.position.x >= viewRect.right()) {
-            transform.position.x = transform.position.x - viewRect.width;
+        if (transform.position.x >= viewport.right()) {
+            transform.position.x = transform.position.x - viewport.width;
         }
 
-        if (transform.position.y <= viewRect.top()) {
-            transform.position.y = transform.position.y + viewRect.height;
+        if (transform.position.y <= viewport.top()) {
+            transform.position.y = transform.position.y + viewport.height;
         }
 
-        if (transform.position.y >= viewRect.bottom()) {
-            transform.position.y = transform.position.y - viewRect.height;
+        if (transform.position.y >= viewport.bottom()) {
+            transform.position.y = transform.position.y - viewport.height;
         }
-    });
+    }
 }
 
 } // namespace destroid::physics_system

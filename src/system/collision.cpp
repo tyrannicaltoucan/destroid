@@ -11,12 +11,12 @@ void update(entt::registry& registry)
     const auto players = registry.view<Collider, Player>();
 
     for (const auto& asteroid : asteroids) {
-        const auto asteroidBounds = asteroids.get<Collider>(asteroid).bounds;
+        const auto& asteroidCollider = asteroids.get<Collider>(asteroid);
 
         for (const auto& player : players) {
-            const auto playerBounds = players.get<Collider>(player).bounds;
+            const auto& playerCollider = players.get<Collider>(player);
 
-            if (playerBounds.intersects(asteroidBounds)) {
+            if (playerCollider.bounds.intersects(asteroidCollider.bounds)) {
                 registry.destroy(player);
                 registry.destroy(asteroid);
             }

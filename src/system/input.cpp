@@ -8,9 +8,11 @@ namespace destroid::input_system {
 
 void update(entt::registry& registry, const unsigned char* keystate)
 {
-    const auto view = registry.view<Player, Velocity>();
+    const auto entities = registry.view<Player, Velocity>();
 
-    view.each([&](const Player& player, Velocity& velocity) {
+    for (const auto& entity : entities) {
+        const auto [player, velocity] = entities.get<Player, Velocity>(entity);
+
         if (keystate[SDL_SCANCODE_A]) {
             velocity.angular -= player.rotationSpeed;
         }
@@ -26,7 +28,7 @@ void update(entt::registry& registry, const unsigned char* keystate)
 
         // Add damping to make controls feel "tighter".
         velocity.linear *= player.damping;
-    });
+    }
 }
 
 } // namespace destroid::input_system

@@ -1,0 +1,11 @@
+---
+Language: Cpp
+BasedOnStyle: WebKit
+
+AlwaysBreakTemplateDeclarations: Yes
+Cpp11BracedListStyle: true
+FixNamespaceComments: true
+SortIncludes: false
+SortUsingDeclarations: false
+SpaceBeforeCpp11BracedList: false
+...

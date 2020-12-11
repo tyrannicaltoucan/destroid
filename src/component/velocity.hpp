@@ -5,7 +5,7 @@
 namespace destroid {
 
 struct Velocity {
-    glm::vec2 linear{ 0.F, 0.F };
+    glm::vec2 linear;
     float angular = 0.F;
 };
 

@@ -8,7 +8,7 @@ namespace destroid {
 
 struct Drawable {
     std::shared_ptr<Texture> texture = nullptr;
-    Rectangle region{ 0.F, 0.F, 0.F, 0.F };
+    Rectangle region;
 };
 
-}
+} // namespace destroid

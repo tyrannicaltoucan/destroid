@@ -25,7 +25,7 @@ void Application::run()
         previousTime = currentTime;
 
         while (SDL_PollEvent(&event)) {
-            switch(event.type) {
+            switch (event.type) {
             case SDL_QUIT:
                 active = false;
                 break;

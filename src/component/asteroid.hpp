@@ -2,9 +2,8 @@
 
 namespace destroid {
 
-struct Asteroid
-{
+struct Asteroid {
     // Empty, for now...
 };
 
-}
+} // namespace destroid

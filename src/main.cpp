@@ -13,7 +13,7 @@ void showErrorDialog(const char* message)
 int main(int argc, char* argv[])
 {
     try {
-        destroid::Application app{ "Destroid", 900, 600 };
+        destroid::Application app{"Destroid", 900, 600};
         app.run();
     } catch (const std::exception& e) {
         showErrorDialog(e.what());

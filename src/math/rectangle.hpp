@@ -13,7 +13,7 @@ struct Rectangle {
     {
     }
 
-    constexpr Rectangle(glm::vec2 position, glm::vec2 size)
+    constexpr Rectangle(const glm::vec2& position, const glm::vec2& size)
         : x(position.x)
         , y(position.y)
         , width(size.x)
@@ -51,7 +51,7 @@ struct Rectangle {
 
     constexpr glm::vec2 center() const
     {
-        return { x + (width * 0.5F), y + (height * 0.5F) };
+        return {x + (width * 0.5F), y + (height * 0.5F)};
     }
 
     float x;

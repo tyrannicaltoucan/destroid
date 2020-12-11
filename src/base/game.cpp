@@ -16,8 +16,8 @@ namespace destroid {
 
 namespace {
 
-    constexpr glm::vec4 BUFFER_CLEAR_COLOR{ 0.F, 0.F, 0.F, 1.F };
-    constexpr Rectangle GAME_BOUNDS{ 0.F, 0.F, 450.F, 300.F };
+    constexpr glm::vec4 BUFFER_CLEAR_COLOR{0.F, 0.F, 0.F, 1.F};
+    constexpr Rectangle GAME_BOUNDS{0.F, 0.F, 450.F, 300.F};
     constexpr int ASTEROID_COUNT = 5;
 
     void createPlayer(entt::registry& registry, std::shared_ptr<Texture> texture)

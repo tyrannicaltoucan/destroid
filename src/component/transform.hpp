@@ -5,7 +5,7 @@
 namespace destroid {
 
 struct Transform {
-    glm::vec2 position{ 0.F, 0.F };
+    glm::vec2 position;
     float rotation = 0.F;
 };
 

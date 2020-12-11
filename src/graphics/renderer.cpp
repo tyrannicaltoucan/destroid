@@ -45,10 +45,7 @@ namespace {
 
     void rotatePoint(glm::vec2& point, float sin, float cos)
     {
-        point = glm::vec2{
-            point.x * cos - point.y * sin,
-            point.x * sin + point.y * cos
-        };
+        point = glm::vec2{point.x * cos - point.y * sin, point.x * sin + point.y * cos};
     }
 
 } // namespace
@@ -156,13 +153,13 @@ void Renderer::draw(
         m_boundTexureHandle = texture.handle();
     }
 
-    const glm::vec2 origin{ region.width * 0.5F, region.height * 0.5F };
+    const glm::vec2 origin{region.width * 0.5F, region.height * 0.5F};
 
     // Vertex coordinates
-    glm::vec2 positionTL = glm::vec2{ -origin.x, -origin.y } * scale;
-    glm::vec2 positionTR = glm::vec2{ origin.x, -origin.y } * scale;
-    glm::vec2 positionBL = glm::vec2{ -origin.x, origin.y } * scale;
-    glm::vec2 positionBR = glm::vec2{ origin.x, origin.y } * scale;
+    auto positionTL = glm::vec2{-origin.x, -origin.y} * scale;
+    auto positionTR = glm::vec2{origin.x, -origin.y} * scale;
+    auto positionBL = glm::vec2{-origin.x, origin.y} * scale;
+    auto positionBR = glm::vec2{origin.x, origin.y} * scale;
 
     if (angle != 0.F) {
         const float sin = glm::sin(glm::radians(-angle));
@@ -187,10 +184,10 @@ void Renderer::draw(
     const float top = region.top() / texture.height();
     const float bottom = region.bottom() / texture.height();
 
-    m_vertices.emplace_back(Vertex { positionTL, glm::vec2{ left, top } });
-    m_vertices.emplace_back(Vertex { positionTR, glm::vec2{ right, top } });
-    m_vertices.emplace_back(Vertex { positionBL, glm::vec2{ left, bottom } });
-    m_vertices.emplace_back(Vertex { positionBR, glm::vec2{ right, bottom } });
+    m_vertices.emplace_back(Vertex{positionTL, glm::vec2{left, top}});
+    m_vertices.emplace_back(Vertex{positionTR, glm::vec2{right, top}});
+    m_vertices.emplace_back(Vertex{positionBL, glm::vec2{left, bottom}});
+    m_vertices.emplace_back(Vertex{positionBR, glm::vec2{right, bottom}});
 
     m_batchCount += 1;
 }

@@ -15,12 +15,24 @@ add_executable(destroid
     src/base/game.hpp
     src/base/window.cpp
     src/base/window.hpp
-    src/component/player.hpp
-    src/component/drawable.hpp
-    src/component/transform.hpp
-    src/component/velocity.hpp
-    src/component/collider.hpp
-    src/component/asteroid.hpp
+    src/entity/component/player.hpp
+    src/entity/component/drawable.hpp
+    src/entity/component/transform.hpp
+    src/entity/component/velocity.hpp
+    src/entity/component/collider.hpp
+    src/entity/component/asteroid.hpp
+    src/entity/system/collision.cpp
+    src/entity/system/collision.hpp
+    src/entity/system/drawing.cpp
+    src/entity/system/drawing.hpp
+    src/entity/system/input.cpp
+    src/entity/system/input.hpp
+    src/entity/system/physics.cpp
+    src/entity/system/physics.hpp
+    src/entity/components.hpp
+    src/entity/factory.cpp
+    src/entity/factory.hpp
+    src/entity/systems.hpp
     src/graphics/renderer.cpp
     src/graphics/renderer.hpp
     src/graphics/shader.cpp
@@ -28,14 +40,6 @@ add_executable(destroid
     src/graphics/texture.cpp
     src/graphics/texture.hpp
     src/math/rectangle.hpp
-    src/system/collision.cpp
-    src/system/collision.hpp
-    src/system/drawing.cpp
-    src/system/drawing.hpp
-    src/system/input.cpp
-    src/system/input.hpp
-    src/system/physics.cpp
-    src/system/physics.hpp
     src/main.cpp)
 
 target_include_directories(destroid PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)

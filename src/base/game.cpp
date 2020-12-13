@@ -1,14 +1,6 @@
 #include "game.hpp"
-#include "component/drawable.hpp"
-#include "component/velocity.hpp"
-#include "component/player.hpp"
-#include "component/transform.hpp"
-#include "component/collider.hpp"
-#include "component/asteroid.hpp"
-#include "system/drawing.hpp"
-#include "system/input.hpp"
-#include "system/physics.hpp"
-#include <system/collision.hpp>
+#include "entity/factory.hpp"
+#include "entity/systems.hpp"
 #include <glm/vec4.hpp>
 #include <random>
 
@@ -20,24 +12,7 @@ namespace {
     constexpr Rectangle GAME_BOUNDS{0.F, 0.F, 450.F, 300.F};
     constexpr int ASTEROID_COUNT = 5;
 
-    void createPlayer(entt::registry& registry, std::shared_ptr<Texture> texture)
-    {
-        const Rectangle region{0, 0, 32, 32};
-        const glm::vec2 position = GAME_BOUNDS.center() - region.center();
-        const Circle bounds{position, region.width * 0.25F};
-        const float thrustSpeed = 10.F;
-        const float rotationSpeed = thrustSpeed * 0.25F;
-        const float damping = 0.95F;
-
-        const entt::entity player = registry.create();
-        registry.emplace<Transform>(player, position);
-        registry.emplace<Velocity>(player);
-        registry.emplace<Player>(player, thrustSpeed, rotationSpeed, damping);
-        registry.emplace<Collider>(player, bounds);
-        registry.emplace<Drawable>(player, texture, region);
-    }
-
-    void createAsteroidField(entt::registry& registry, std::shared_ptr<Texture> texture)
+    void createAsteroidField(entt::registry& reg)
     {
         std::random_device rd;
         std::minstd_rand gen(rd());
@@ -47,8 +22,7 @@ namespace {
         std::uniform_real_distribution<float> speed(-45, 45);
         std::uniform_int_distribution<int> spawnDir(1, 4);
 
-        const Rectangle region{32, 0, 32, 32};
-        glm::vec2 position{};
+        glm::vec2 position;
 
         for (int i = 0; i < ASTEROID_COUNT; i++) {
             switch (spawnDir(gen)) {
@@ -67,13 +41,7 @@ namespace {
             }
 
             const glm::vec2 velocity{speed(gen), speed(gen)};
-            const Circle bounds{position, region.width * 0.25F};
-            const entt::entity asteroid = registry.create();
-            registry.emplace<Transform>(asteroid, position);
-            registry.emplace<Velocity>(asteroid, velocity);
-            registry.emplace<Asteroid>(asteroid);
-            registry.emplace<Collider>(asteroid, bounds);
-            registry.emplace<Drawable>(asteroid, texture, region);
+            entity_factory::createAsteroid(reg, position, velocity);
         }
     }
 
@@ -83,9 +51,12 @@ Game::Game()
     : m_debugTexture(std::make_shared<Texture>("assets/sprites.png"))
 {
     m_registry.set<Rectangle>(GAME_BOUNDS);
+    m_registry.set<std::shared_ptr<Texture>>(m_debugTexture);
 
-    createPlayer(m_registry, m_debugTexture);
-    createAsteroidField(m_registry, m_debugTexture);
+    entity_factory::createPlayer(m_registry);
+    createAsteroidField(m_registry);
+
+    m_registry.unset<std::shared_ptr<Texture>>();
 }
 
 void Game::pollInput(const unsigned char* keystate)

@@ -1,9 +1,6 @@
 #include "physics.hpp"
 #include "math/rectangle.hpp"
-#include "component/velocity.hpp"
-#include "component/player.hpp"
-#include "component/transform.hpp"
-#include "component/collider.hpp"
+#include "entity/components.hpp"
 #include <glm/common.hpp>
 
 namespace destroid::physics_system {

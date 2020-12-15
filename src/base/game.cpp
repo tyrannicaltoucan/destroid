@@ -1,6 +1,9 @@
 #include "game.hpp"
 #include "entity/factory.hpp"
-#include "entity/systems.hpp"
+#include "entity/system/collision.hpp"
+#include "entity/system/drawing.hpp"
+#include "entity/system/input.hpp"
+#include "entity/system/physics.hpp"
 #include <glm/vec4.hpp>
 #include <random>
 

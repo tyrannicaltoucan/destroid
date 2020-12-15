@@ -29,10 +29,8 @@ add_executable(destroid
     src/entity/system/input.hpp
     src/entity/system/physics.cpp
     src/entity/system/physics.hpp
-    src/entity/components.hpp
     src/entity/factory.cpp
     src/entity/factory.hpp
-    src/entity/systems.hpp
     src/graphics/renderer.cpp
     src/graphics/renderer.hpp
     src/graphics/shader.cpp

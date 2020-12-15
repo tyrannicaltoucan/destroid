@@ -1,5 +1,6 @@
 #include "drawing.hpp"
-#include "entity/components.hpp"
+#include "entity/component/drawable.hpp"
+#include "entity/component/transform.hpp"
 
 namespace destroid::drawing_system {
 

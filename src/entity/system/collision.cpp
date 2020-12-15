@@ -1,5 +1,7 @@
 #include "collision.hpp"
-#include "entity/components.hpp"
+#include "entity/component/asteroid.hpp"
+#include "entity/component/collider.hpp"
+#include "entity/component/player.hpp"
 
 namespace destroid::collision_system {
 

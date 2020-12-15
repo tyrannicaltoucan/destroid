@@ -1,5 +1,6 @@
 #include "input.hpp"
-#include "entity/components.hpp"
+#include "entity/component/player.hpp"
+#include "entity/component/velocity.hpp"
 #include <glm/trigonometric.hpp>
 #include <SDL.h>
 

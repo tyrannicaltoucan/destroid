@@ -28,9 +28,6 @@ void update(entt::registry& registry, const unsigned char* keystate)
             body.velocity.x += glm::sin(rotationRads) * ship.movementSpeed;
             body.velocity.y += glm::cos(rotationRads) * ship.movementSpeed;
         }
-
-        // Add damping to make controls feel "tighter".
-        body.velocity *= body.drag;
     }
 }
 

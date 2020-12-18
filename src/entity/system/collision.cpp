@@ -1,14 +1,13 @@
 #include "collision.hpp"
-#include "entity/component/asteroid.hpp"
+#include "entity/tags.hpp"
 #include "entity/component/collider.hpp"
-#include "entity/component/player.hpp"
 
 namespace destroid::collision_system {
 
 void update(entt::registry& registry)
 {
-    const auto asteroids = registry.view<Collider, Asteroid>();
-    const auto players = registry.view<Collider, Player>();
+    const auto asteroids = registry.view<Collider, AsteroidTag>();
+    const auto players = registry.view<Collider, PlayerTag>();
 
     for (const auto& asteroid : asteroids) {
         const auto& asteroidCollider = asteroids.get<Collider>(asteroid);

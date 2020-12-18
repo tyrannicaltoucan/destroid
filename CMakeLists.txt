@@ -20,7 +20,6 @@ add_executable(destroid
     src/entity/component/transform.hpp
     src/entity/component/velocity.hpp
     src/entity/component/collider.hpp
-    src/entity/component/asteroid.hpp
     src/entity/system/collision.cpp
     src/entity/system/collision.hpp
     src/entity/system/drawing.cpp
@@ -31,6 +30,7 @@ add_executable(destroid
     src/entity/system/physics.hpp
     src/entity/factory.cpp
     src/entity/factory.hpp
+    src/entity/tags.hpp
     src/graphics/renderer.cpp
     src/graphics/renderer.hpp
     src/graphics/shader.cpp

@@ -1,5 +1,5 @@
 #include "factory.hpp"
-#include "component/asteroid.hpp"
+#include "tags.hpp"
 #include "component/collider.hpp"
 #include "component/drawable.hpp"
 #include "component/player.hpp"
@@ -29,6 +29,7 @@ entt::entity createPlayer(entt::registry& reg)
     const float rotationSpeed = thrustSpeed / 4.F;
     const float damping = 0.95F;
 
+    reg.emplace<PlayerTag>(entity);
     reg.emplace<Player>(entity, thrustSpeed, rotationSpeed, damping);
     reg.emplace<Transform>(entity, position);
     reg.emplace<Velocity>(entity);
@@ -44,7 +45,7 @@ entt::entity createAsteroid(entt::registry& reg, const glm::vec2& pos, const glm
     const auto& texture = reg.ctx<std::shared_ptr<Texture>>();
     const Rectangle texRegion{REGION_SIZE, 0.F, REGION_SIZE, REGION_SIZE};
 
-    reg.emplace<Asteroid>(entity);
+    reg.emplace<AsteroidTag>(entity);
     reg.emplace<Transform>(entity, pos);
     reg.emplace<Velocity>(entity, vel);
     reg.emplace<Collider>(entity, Circle{pos, BOUNDING_SIZE});

@@ -1,27 +1,24 @@
 #include "physics.hpp"
-#include "math/rectangle.hpp"
+#include "entity/component/body.hpp"
 #include "entity/component/collider.hpp"
 #include "entity/component/transform.hpp"
-#include "entity/component/velocity.hpp"
+#include "math/rectangle.hpp"
 #include <glm/common.hpp>
 
 namespace destroid::physics_system {
 
 void update(entt::registry& registry, float delta)
 {
-    const auto view = registry.view<Velocity, Transform, Collider>();
+    const auto view = registry.view<Body, Transform, Collider>();
 
     for (const auto& entity : view) {
-        const auto [velocity, transform, collider] = view.get<Velocity, Transform, Collider>(entity);
+        const auto [body, transform, collider] = view.get<Body, Transform, Collider>(entity);
 
-        transform.position += velocity.linear * delta;
-        transform.rotation = velocity.angular;
+        transform.position += body.velocity * delta;
+        transform.rotation = glm::mod((glm::mod(transform.rotation, 360.F) + 360.F), 360.F);
 
         collider.bounds.x = transform.position.x;
         collider.bounds.y = transform.position.y;
-
-        // Keep rotations bound between 0-360 degrees.
-        velocity.angular = glm::mod((glm::mod(velocity.angular, 360.F) + 360.F), 360.F);
 
         // Wrap entities around the viewport if they pass its edges.
         const auto& viewport = registry.ctx<Rectangle>();

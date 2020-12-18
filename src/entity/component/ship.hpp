@@ -2,10 +2,9 @@
 
 namespace destroid {
 
-struct Player {
+struct Ship {
     float movementSpeed = 0.F;
     float rotationSpeed = 0.F;
-    float damping = 0.F;
 };
 
 } // namespace destroid

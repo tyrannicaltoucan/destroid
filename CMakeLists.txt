@@ -15,10 +15,10 @@ add_executable(destroid
     src/base/game.hpp
     src/base/window.cpp
     src/base/window.hpp
-    src/entity/component/player.hpp
+    src/entity/component/ship.hpp
     src/entity/component/drawable.hpp
     src/entity/component/transform.hpp
-    src/entity/component/velocity.hpp
+    src/entity/component/body.hpp
     src/entity/component/collider.hpp
     src/entity/system/collision.cpp
     src/entity/system/collision.hpp

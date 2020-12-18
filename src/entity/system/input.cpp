@@ -1,6 +1,8 @@
 #include "input.hpp"
-#include "entity/component/player.hpp"
-#include "entity/component/velocity.hpp"
+#include "entity/tags.hpp"
+#include "entity/component/body.hpp"
+#include "entity/component/ship.hpp"
+#include "entity/component/transform.hpp"
 #include <glm/trigonometric.hpp>
 #include <SDL.h>
 
@@ -8,26 +10,27 @@ namespace destroid::input_system {
 
 void update(entt::registry& registry, const unsigned char* keystate)
 {
-    const auto entities = registry.view<Player, Velocity>();
+    const auto entities = registry.view<Body, Ship, Transform>();
 
     for (const auto& entity : entities) {
-        const auto [player, velocity] = entities.get<Player, Velocity>(entity);
+        const auto [body, ship, transform] = entities.get<Body, Ship, Transform>(entity);
 
         if (keystate[SDL_SCANCODE_A]) {
-            velocity.angular -= player.rotationSpeed;
+            transform.rotation -= ship.rotationSpeed;
         }
 
         if (keystate[SDL_SCANCODE_D]) {
-            velocity.angular += player.rotationSpeed;
+            transform.rotation += ship.rotationSpeed;
         }
 
         if (keystate[SDL_SCANCODE_W]) {
-            velocity.linear.x += glm::sin(glm::radians(velocity.angular)) * player.movementSpeed;
-            velocity.linear.y += glm::cos(glm::radians(velocity.angular)) * player.movementSpeed;
+            const float rotationRads = glm::radians(transform.rotation);
+            body.velocity.x += glm::sin(rotationRads) * ship.movementSpeed;
+            body.velocity.y += glm::cos(rotationRads) * ship.movementSpeed;
         }
 
         // Add damping to make controls feel "tighter".
-        velocity.linear *= player.damping;
+        body.velocity *= body.drag;
     }
 }
 

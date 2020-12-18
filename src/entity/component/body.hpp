@@ -4,9 +4,9 @@
 
 namespace destroid {
 
-struct Velocity {
-    glm::vec2 linear;
-    float angular = 0.F;
+struct Body {
+    float drag = 0.F;
+    glm::vec2 velocity;
 };
 
 } // namespace destroid

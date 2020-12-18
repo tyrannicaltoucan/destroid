@@ -1,10 +1,10 @@
 #include "factory.hpp"
 #include "tags.hpp"
+#include "component/body.hpp"
 #include "component/collider.hpp"
 #include "component/drawable.hpp"
-#include "component/player.hpp"
+#include "component/ship.hpp"
 #include "component/transform.hpp"
-#include "component/velocity.hpp"
 #include "graphics/texture.hpp"
 #include <entt/entity/registry.hpp>
 #include <memory>
@@ -27,14 +27,14 @@ entt::entity createPlayer(entt::registry& reg)
     const glm::vec2 position = viewport.center() - texRegion.center();
     const float thrustSpeed = 10.F;
     const float rotationSpeed = thrustSpeed / 4.F;
-    const float damping = 0.95F;
+    const float drag = thrustSpeed / 3.F;
 
     reg.emplace<PlayerTag>(entity);
-    reg.emplace<Player>(entity, thrustSpeed, rotationSpeed, damping);
     reg.emplace<Transform>(entity, position);
-    reg.emplace<Velocity>(entity);
+    reg.emplace<Body>(entity, drag);
     reg.emplace<Collider>(entity, Circle{position, BOUNDING_SIZE});
     reg.emplace<Drawable>(entity, texture, texRegion);
+    reg.emplace<Ship>(entity, thrustSpeed, rotationSpeed);
 
     return entity;
 }
@@ -44,10 +44,11 @@ entt::entity createAsteroid(entt::registry& reg, const glm::vec2& pos, const glm
     const auto entity = reg.create();
     const auto& texture = reg.ctx<std::shared_ptr<Texture>>();
     const Rectangle texRegion{REGION_SIZE, 0.F, REGION_SIZE, REGION_SIZE};
+    const float drag = 0.F;
 
     reg.emplace<AsteroidTag>(entity);
     reg.emplace<Transform>(entity, pos);
-    reg.emplace<Velocity>(entity, vel);
+    reg.emplace<Body>(entity, drag, vel);
     reg.emplace<Collider>(entity, Circle{pos, BOUNDING_SIZE});
     reg.emplace<Drawable>(entity, texture, texRegion);
 

@@ -70,6 +70,10 @@ set_target_properties(destroid PROPERTIES
     CXX_EXTENSIONS OFF
     CXX_STANDARD_REQUIRED ON)
 
+target_compile_definitions(destroid PRIVATE
+    STBI_ONLY_PNG
+    GLM_FORCE_CXX17)
+
 target_link_libraries(destroid PRIVATE
     entt
     glad

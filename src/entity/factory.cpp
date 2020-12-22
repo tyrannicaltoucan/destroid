@@ -27,7 +27,7 @@ entt::entity createPlayer(entt::registry& reg)
     const auto& texture = reg.ctx<std::shared_ptr<Texture>>();
     const auto& viewport = reg.ctx<Rectangle>();
     const Rectangle texRegion{0.F, 0.F, REGION_SIZE, REGION_SIZE};
-    const glm::vec2 position = viewport.center() - texRegion.center();
+    const glm::vec2 position = viewport.center();
     const float thrustSpeed = 10.F;
     const float rotationSpeed = thrustSpeed / 4.F;
     const float drag = thrustSpeed / 4.F;
@@ -89,4 +89,5 @@ entt::entity createProjectile(entt::registry& reg, const glm::vec2& pos, float r
 
     return entity;
 }
+
 } // namespace destroid::entity_factory

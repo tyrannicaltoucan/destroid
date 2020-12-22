@@ -43,11 +43,6 @@ namespace {
         }
     )";
 
-    void rotatePoint(glm::vec2& point, float sin, float cos)
-    {
-        point = glm::vec2{point.x * cos - point.y * sin, point.x * sin + point.y * cos};
-    }
-
 } // namespace
 
 Renderer::Renderer()
@@ -153,30 +148,45 @@ void Renderer::draw(
         m_boundTexureHandle = texture.handle();
     }
 
-    const glm::vec2 origin{region.width * 0.5F, region.height * 0.5F};
+    glm::vec2 positionTL;
+    glm::vec2 positionTR;
+    glm::vec2 positionBL;
+    glm::vec2 positionBR;
 
-    // Vertex coordinates
-    auto positionTL = glm::vec2{-origin.x, -origin.y} * scale;
-    auto positionTR = glm::vec2{origin.x, -origin.y} * scale;
-    auto positionBL = glm::vec2{-origin.x, origin.y} * scale;
-    auto positionBR = glm::vec2{origin.x, origin.y} * scale;
+    const glm::vec2 origin = glm::vec2{(region.width / 2.F), (region.height / 2)} * scale;
 
     if (angle != 0.F) {
-        const float sin = glm::sin(glm::radians(-angle));
         const float cos = glm::cos(glm::radians(-angle));
+        const float sin = glm::sin(glm::radians(-angle));
+        const glm::vec2 offset{-origin.x + region.width, -origin.x + region.width};
 
-        rotatePoint(positionTL, sin, cos);
-        rotatePoint(positionTR, sin, cos);
-        rotatePoint(positionBL, sin, cos);
-        rotatePoint(positionBR, sin, cos);
+        positionTL = {
+            position.x + (-origin.x * cos) - (-origin.y * sin),
+            position.y + (-origin.x * sin) + (-origin.y * cos),
+        };
+
+        positionTR = {
+            position.x + (offset.x * cos) - (-origin.y * sin),
+            position.y + (offset.x * sin) + (-origin.y * cos),
+        };
+
+        positionBL = {
+            position.x + (-origin.x * cos) - (offset.y * sin),
+            position.y + (-origin.x * sin) + (offset.y * cos),
+        };
+
+        positionBR = {
+            position.x + (offset.x * cos) - (offset.y * sin),
+            position.y + (offset.x * sin) + (offset.y * cos),
+        };
+    } else {
+        const glm::vec2 offset = position - origin;
+
+        positionTL = offset;
+        positionTR = {offset.x + region.width, offset.y};
+        positionBL = {offset.x, offset.y + region.height};
+        positionBR = {offset.x + region.width, offset.y + region.height};
     }
-
-    const glm::vec2 worldPosition = position + origin;
-
-    positionTL += worldPosition;
-    positionTR += worldPosition;
-    positionBL += worldPosition;
-    positionBR += worldPosition;
 
     // Texture atlas coordinates
     const float left = region.left() / texture.width();

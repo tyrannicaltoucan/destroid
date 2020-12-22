@@ -20,12 +20,18 @@ add_executable(destroid
     src/entity/component/transform.hpp
     src/entity/component/body.hpp
     src/entity/component/collider.hpp
+    src/entity/component/lifetime.hpp
+    src/entity/component/weapon.hpp
     src/entity/system/collision.cpp
     src/entity/system/collision.hpp
+    src/entity/system/despawn.cpp
+    src/entity/system/despawn.hpp
     src/entity/system/drawing.cpp
     src/entity/system/drawing.hpp
     src/entity/system/input.cpp
     src/entity/system/input.hpp
+    src/entity/system/firing.cpp
+    src/entity/system/firing.hpp
     src/entity/system/physics.cpp
     src/entity/system/physics.hpp
     src/entity/factory.cpp

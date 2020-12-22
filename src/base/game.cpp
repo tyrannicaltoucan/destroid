@@ -1,8 +1,10 @@
 #include "game.hpp"
 #include "entity/factory.hpp"
 #include "entity/system/collision.hpp"
+#include "entity/system/despawn.hpp"
 #include "entity/system/drawing.hpp"
 #include "entity/system/input.hpp"
+#include "entity/system/firing.hpp"
 #include "entity/system/physics.hpp"
 #include <glm/vec4.hpp>
 #include <random>
@@ -58,8 +60,6 @@ Game::Game()
 
     entity_factory::createPlayer(m_registry);
     createAsteroidField(m_registry);
-
-    m_registry.unset<std::shared_ptr<Texture>>();
 }
 
 void Game::pollInput(const unsigned char* keystate)
@@ -71,6 +71,8 @@ void Game::update(float delta)
 {
     collision_system::update(m_registry);
     physics_system::update(m_registry, delta);
+    firing_system::update(m_registry, delta);
+    despawn_system::update(m_registry, delta);
 }
 
 void Game::draw(Renderer& renderer)

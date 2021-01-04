@@ -12,6 +12,9 @@ void showErrorDialog(const char* message)
 
 int main(int argc, char* argv[])
 {
+    static_cast<void>(argc);
+    static_cast<void>(argv);
+
     try {
         destroid::Application app{"Destroid", 900, 600};
         app.run();

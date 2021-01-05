@@ -14,7 +14,7 @@ struct ShaderUniform {
 
 class Shader {
 public:
-    explicit Shader(std::string_view vertSource, std::string_view fragSource);
+    explicit Shader(const std::string& vertSource, const std::string& fragSource);
     ~Shader();
 
     Shader(const Shader&) = delete;

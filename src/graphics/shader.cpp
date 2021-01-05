@@ -54,7 +54,7 @@ namespace {
 
 } // namespace
 
-Shader::Shader(std::string_view vertSource, std::string_view fragSource)
+Shader::Shader(const std::string& vertSource, const std::string& fragSource)
     : m_handle(glCreateProgram())
 {
     const GLuint vertHandle = compileShader(GL_VERTEX_SHADER, vertSource.data());

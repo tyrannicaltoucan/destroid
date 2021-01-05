@@ -1,7 +1,7 @@
 #include "renderer.hpp"
 #include <glm/gtc/matrix_transform.hpp>
 #include <array>
-#include <string_view>
+#include <string>
 
 namespace destroid {
 
@@ -13,7 +13,7 @@ namespace {
     constexpr std::size_t MAX_VERTICES = VERTICES_PER_QUAD * MAX_BATCHES;
     constexpr std::size_t MAX_INDICES = INDICES_PER_QUAD * MAX_BATCHES;
 
-    constexpr std::string_view VERTEX_SOURCE = R"(
+    const std::string VERTEX_SOURCE = R"(
         #version 330
 
         layout (location = 0) in vec2 position;
@@ -29,7 +29,7 @@ namespace {
         }
     )";
 
-    constexpr std::string_view FRAGMENT_SOURCE = R"(
+    const std::string FRAGMENT_SOURCE = R"(
         #version 330
 
         in vec2 texcoord;

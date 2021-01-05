@@ -48,33 +48,20 @@ add_executable(destroid
 
 target_include_directories(destroid PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)
 
-if(CMAKE_CXX_COMPILER_ID MATCHES "Clang" OR CMAKE_CXX_COMPILER_ID MATCHES "GNU")
-    target_compile_options(destroid PRIVATE
+target_compile_options(destroid PRIVATE
+    $<$<CXX_COMPILER_ID:Clang,GNU>:
         -Wall
         -Wextra
         -Wpedantic
-        -Wshadow
-        -Wcast-align
         -Wdouble-promotion
-        -Wold-style-cast)
-elseif(CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
-    # Can't add /W4 to 'target_compile_options' directly, because older versions of CMake add /W3
-    # implicitly (for some reason) to CMAKE_CXX_FLAGS. Since MSVC will complain if there are
-    # multiple warning levels enabled, /W4 has to be added by replacing the existing /W3 flag.
-    string(REGEX REPLACE "/W3" "/W4" CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS})
-
-    target_compile_options(destroid PRIVATE
+        -Wold-style-cast>
+    $<$<CXX_COMPILER_ID:MSVC>:
         /permissive-
         /Zc:__cplusplus
-        /EHsc
-        /MP)
-endif()
+        /W4
+        /MP>)
 
-# Force the use of standard C++17
-set_target_properties(destroid PROPERTIES
-    CXX_STANDARD 17
-    CXX_EXTENSIONS OFF
-    CXX_STANDARD_REQUIRED ON)
+target_compile_features(destroid PRIVATE cxx_std_17)
 
 target_compile_definitions(destroid PRIVATE
     STBI_ONLY_PNG

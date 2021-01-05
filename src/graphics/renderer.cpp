@@ -17,29 +17,29 @@ namespace {
         #version 330
 
         layout (location = 0) in vec2 position;
-        layout (location = 1) in vec2 in_texcoord;
+        layout (location = 1) in vec2 texcoord;
 
-        out vec2 texcoord;
+        out vec2 frag_texcoord;
 
         uniform mat4 projection;
 
         void main() {
             gl_Position = projection * vec4(position, 0.0, 1.0);
-            texcoord = vec2(in_texcoord.x, 1.0 - in_texcoord.y);
+            frag_texcoord = vec2(texcoord.x, 1.0 - texcoord.y);
         }
     )";
 
     const std::string FRAGMENT_SOURCE = R"(
         #version 330
 
-        in vec2 texcoord;
+        in vec2 frag_texcoord;
 
         out vec4 color;
 
         uniform sampler2D tex_sampler;
 
         void main() {
-            color = texture(tex_sampler, texcoord);
+            color = texture(tex_sampler, frag_texcoord);
         }
     )";
 

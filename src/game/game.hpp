@@ -2,7 +2,6 @@
 
 #include "graphics/renderer.hpp"
 #include "graphics/texture.hpp"
-#include <entt/entity/fwd.hpp>
 #include <entt/entity/registry.hpp>
 #include <SDL_video.h>
 #include <memory>

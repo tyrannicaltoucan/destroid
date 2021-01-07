@@ -1,5 +1,5 @@
 #include "despawn.hpp"
-#include "entity/component/lifetime.hpp"
+#include "component/lifetime.hpp"
 
 namespace destroid::despawn_system {
 

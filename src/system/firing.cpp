@@ -1,7 +1,7 @@
 #include "firing.hpp"
 #include "entity/factory.hpp"
-#include "entity/component/transform.hpp"
-#include "entity/component/weapon.hpp"
+#include "component/transform.hpp"
+#include "component/weapon.hpp"
 
 namespace destroid::firing_system {
 

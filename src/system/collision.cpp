@@ -1,6 +1,6 @@
 #include "collision.hpp"
 #include "entity/tags.hpp"
-#include "entity/component/collider.hpp"
+#include "component/collider.hpp"
 
 namespace destroid::collision_system {
 

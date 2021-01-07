@@ -1,7 +1,7 @@
 #include "physics.hpp"
-#include "entity/component/body.hpp"
-#include "entity/component/collider.hpp"
-#include "entity/component/transform.hpp"
+#include "component/body.hpp"
+#include "component/collider.hpp"
+#include "component/transform.hpp"
 #include "math/rectangle.hpp"
 #include <glm/common.hpp>
 #include <glm/gtx/norm.hpp>

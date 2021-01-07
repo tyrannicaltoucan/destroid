@@ -1,11 +1,11 @@
 #include "game.hpp"
 #include "entity/factory.hpp"
-#include "entity/system/collision.hpp"
-#include "entity/system/despawn.hpp"
-#include "entity/system/drawing.hpp"
-#include "entity/system/input.hpp"
-#include "entity/system/firing.hpp"
-#include "entity/system/physics.hpp"
+#include "system/collision.hpp"
+#include "system/despawn.hpp"
+#include "system/drawing.hpp"
+#include "system/input.hpp"
+#include "system/firing.hpp"
+#include "system/physics.hpp"
 #include <glad/gl.h>
 #include <SDL.h>
 #include <chrono>

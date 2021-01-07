@@ -1,9 +1,9 @@
 #include "input.hpp"
 #include "entity/tags.hpp"
-#include "entity/component/body.hpp"
-#include "entity/component/ship.hpp"
-#include "entity/component/transform.hpp"
-#include "entity/component/weapon.hpp"
+#include "component/body.hpp"
+#include "component/ship.hpp"
+#include "component/transform.hpp"
+#include "component/weapon.hpp"
 #include <glm/trigonometric.hpp>
 #include <SDL.h>
 

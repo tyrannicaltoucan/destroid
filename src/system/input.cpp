@@ -1,33 +1,31 @@
 #include "input.hpp"
-#include "entity/tags.hpp"
-#include "component/body.hpp"
-#include "component/ship.hpp"
+#include "component/momentum.hpp"
+#include "component/thrust.hpp"
 #include "component/transform.hpp"
 #include "component/weapon.hpp"
+#include <entt/entity/registry.hpp>
 #include <glm/trigonometric.hpp>
-#include <SDL.h>
+#include <glm/gtx/rotate_vector.hpp>
+#include <SDL_scancode.h>
 
 namespace destroid::input_system {
 
-void update(entt::registry& registry, const unsigned char* keystate)
+void update(entt::registry& registry, const unsigned char* keystate, float delta)
 {
-    const auto entities = registry.view<Body, Ship, Transform, Weapon>();
-
-    for (const auto& entity : entities) {
-        const auto [body, ship, transform, weapon] = entities.get<Body, Ship, Transform, Weapon>(entity);
+    const auto view = registry.view<Momentum, Thrust, Transform, Weapon>();
+    view.each([&](auto& momentum, const auto& thrust, const auto& transform, auto& weapon) {
+        if (keystate[SDL_SCANCODE_W]) {
+            const float rotationRads = glm::radians(transform.rotation);
+            momentum.linear.x += glm::sin(rotationRads) * thrust.linear * delta;
+            momentum.linear.y += glm::cos(rotationRads) * thrust.linear * delta;
+        }
 
         if (keystate[SDL_SCANCODE_A]) {
-            transform.rotation -= ship.rotationSpeed;
+            momentum.angular += -thrust.angular * delta;
         }
 
         if (keystate[SDL_SCANCODE_D]) {
-            transform.rotation += ship.rotationSpeed;
-        }
-
-        if (keystate[SDL_SCANCODE_W]) {
-            const float rotationRads = glm::radians(transform.rotation);
-            body.velocity.x += glm::sin(rotationRads) * ship.movementSpeed;
-            body.velocity.y += glm::cos(rotationRads) * ship.movementSpeed;
+            momentum.angular += thrust.angular * delta;
         }
 
         if (keystate[SDL_SCANCODE_SPACE]) {
@@ -36,7 +34,7 @@ void update(entt::registry& registry, const unsigned char* keystate)
                 weapon.canFire = true;
             }
         }
-    }
+    });
 }
 
 } // namespace destroid::input_system

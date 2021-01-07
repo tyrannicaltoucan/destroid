@@ -9,11 +9,12 @@ find_package(SDL2 REQUIRED)
 add_subdirectory(thirdparty)
 
 add_executable(destroid
-    src/component/ship.hpp
+    src/component/drag.hpp
     src/component/drawable.hpp
+    src/component/momentum.hpp
     src/component/transform.hpp
-    src/component/body.hpp
-    src/component/collider.hpp
+    src/component/thrust.hpp
+    src/component/momentum.hpp
     src/component/lifetime.hpp
     src/component/weapon.hpp
     src/entity/factory.cpp
@@ -38,8 +39,8 @@ add_executable(destroid
     src/system/input.hpp
     src/system/firing.cpp
     src/system/firing.hpp
-    src/system/physics.cpp
-    src/system/physics.hpp
+    src/system/movement.cpp
+    src/system/movement.hpp
     src/main.cpp)
 
 target_include_directories(destroid PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)

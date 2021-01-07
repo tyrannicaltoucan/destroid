@@ -5,7 +5,7 @@
 #include "system/drawing.hpp"
 #include "system/input.hpp"
 #include "system/firing.hpp"
-#include "system/physics.hpp"
+#include "system/movement.hpp"
 #include <glad/gl.h>
 #include <SDL.h>
 #include <chrono>
@@ -156,11 +156,11 @@ void Game::update(float delta)
 {
     const auto* keystate = SDL_GetKeyboardState(nullptr);
 
-    input_system::update(m_registry, keystate);
+    movement_system::update(m_registry, delta);
     collision_system::update(m_registry);
-    physics_system::update(m_registry, delta);
     firing_system::update(m_registry, delta);
     despawn_system::update(m_registry, delta);
+    input_system::update(m_registry, keystate, delta);
 }
 
 void Game::draw()

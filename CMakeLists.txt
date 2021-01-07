@@ -9,12 +9,6 @@ find_package(SDL2 REQUIRED)
 add_subdirectory(thirdparty)
 
 add_executable(destroid
-    src/base/application.cpp
-    src/base/application.hpp
-    src/base/game.cpp
-    src/base/game.hpp
-    src/base/window.cpp
-    src/base/window.hpp
     src/entity/component/ship.hpp
     src/entity/component/drawable.hpp
     src/entity/component/transform.hpp
@@ -37,6 +31,8 @@ add_executable(destroid
     src/entity/factory.cpp
     src/entity/factory.hpp
     src/entity/tags.hpp
+    src/game/game.cpp
+    src/game/game.hpp
     src/graphics/renderer.cpp
     src/graphics/renderer.hpp
     src/graphics/shader.cpp

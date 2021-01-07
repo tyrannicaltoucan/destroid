@@ -1,4 +1,4 @@
-#include "base/application.hpp"
+#include "game/game.hpp"
 #include <SDL.h>
 #include <exception>
 #include <iostream>
@@ -16,8 +16,8 @@ int main(int argc, char* argv[])
     static_cast<void>(argv);
 
     try {
-        destroid::Application app{"Destroid", 900, 600};
-        app.run();
+        destroid::Game game;
+        game.run();
     } catch (const std::exception& e) {
         showErrorDialog(e.what());
         return EXIT_FAILURE;

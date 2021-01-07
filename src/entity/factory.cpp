@@ -10,7 +10,6 @@
 #include "graphics/texture.hpp"
 #include <entt/entity/registry.hpp>
 #include <glm/trigonometric.hpp>
-#include <memory>
 
 namespace destroid::entity_factory {
 
@@ -24,7 +23,6 @@ namespace {
 entt::entity createPlayer(entt::registry& reg)
 {
     const auto entity = reg.create();
-    const auto& texture = reg.ctx<std::shared_ptr<Texture>>();
     const auto& viewport = reg.ctx<Rectangle>();
     const Rectangle texRegion{0.F, 0.F, REGION_SIZE, REGION_SIZE};
     const glm::vec2 position = viewport.center();
@@ -37,7 +35,7 @@ entt::entity createPlayer(entt::registry& reg)
     reg.emplace<Transform>(entity, position);
     reg.emplace<Body>(entity, drag);
     reg.emplace<Collider>(entity, Circle{position, BOUNDING_SIZE});
-    reg.emplace<Drawable>(entity, texture, texRegion);
+    reg.emplace<Drawable>(entity, texRegion);
     reg.emplace<Ship>(entity, thrustSpeed, rotationSpeed);
     reg.emplace<Weapon>(entity, weaponCooldown);
 
@@ -47,7 +45,6 @@ entt::entity createPlayer(entt::registry& reg)
 entt::entity createAsteroid(entt::registry& reg, const glm::vec2& pos, const glm::vec2& vel)
 {
     const auto entity = reg.create();
-    const auto& texture = reg.ctx<std::shared_ptr<Texture>>();
     const Rectangle texRegion{REGION_SIZE, 0.F, REGION_SIZE, REGION_SIZE};
     const float drag = 0.F;
 
@@ -55,7 +52,7 @@ entt::entity createAsteroid(entt::registry& reg, const glm::vec2& pos, const glm
     reg.emplace<Transform>(entity, pos);
     reg.emplace<Body>(entity, drag, vel);
     reg.emplace<Collider>(entity, Circle{pos, BOUNDING_SIZE});
-    reg.emplace<Drawable>(entity, texture, texRegion);
+    reg.emplace<Drawable>(entity, texRegion);
 
     return entity;
 }
@@ -64,7 +61,6 @@ entt::entity createProjectile(entt::registry& reg, const glm::vec2& pos, float r
 {
     const float regionSize = 8.F;
     const auto entity = reg.create();
-    const auto& texture = reg.ctx<std::shared_ptr<Texture>>();
     const Rectangle texRegion{REGION_SIZE * 2.F, 0.F, regionSize, regionSize};
     const float speed = 125.F;
     const float rotationRads = glm::radians(rot);
@@ -85,7 +81,7 @@ entt::entity createProjectile(entt::registry& reg, const glm::vec2& pos, float r
     reg.emplace<Body>(entity, drag, velocity);
     reg.emplace<Collider>(entity, Circle{offsetPosition, regionSize / 2.5F});
     reg.emplace<Lifetime>(entity, 2.F);
-    reg.emplace<Drawable>(entity, texture, texRegion);
+    reg.emplace<Drawable>(entity, texRegion);
 
     return entity;
 }

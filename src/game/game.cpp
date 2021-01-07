@@ -107,12 +107,11 @@ Game::Game()
     m_window.reset(makeWindow());
     m_glContext.reset(makeOpenGLContext(m_window.get()));
     m_renderer = std::make_unique<Renderer>();
-    m_spriteAtlas = std::make_shared<Texture>("assets/sprites.png");
+    m_spriteAtlas = std::make_unique<Texture>("assets/sprites.png");
     SDL_GL_SetSwapInterval(1);
     m_active = true;
 
     m_registry.set<Rectangle>(GAME_BOUNDS);
-    m_registry.set<std::shared_ptr<Texture>>(m_spriteAtlas);
     entity_factory::createPlayer(m_registry);
     createAsteroidField(m_registry);
 }
@@ -168,7 +167,7 @@ void Game::draw()
 {
     m_renderer->clearColor({0.F, 0.F, 0.F, 1.F});
     m_renderer->setViewBounds(GAME_BOUNDS.width, GAME_BOUNDS.height);
-    drawing_system::update(m_registry, *m_renderer);
+    drawing_system::update(m_registry, *m_renderer, *m_spriteAtlas);
     m_renderer->finish();
 
     SDL_GL_SwapWindow(m_window.get());

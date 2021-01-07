@@ -4,7 +4,7 @@
 
 namespace destroid::drawing_system {
 
-void update(entt::registry& registry, Renderer& renderer)
+void update(entt::registry& registry, Renderer& renderer, const Texture& texture)
 {
     const auto entities = registry.view<Drawable, Transform>();
 
@@ -13,7 +13,7 @@ void update(entt::registry& registry, Renderer& renderer)
         const float scale = 1.F;
 
         renderer.draw(
-            *drawable.texture,
+            texture,
             drawable.region,
             transform.position,
             transform.rotation,

@@ -27,7 +27,7 @@ private:
     std::unique_ptr<SDL_Window, decltype(&SDL_DestroyWindow)> m_window;
     std::unique_ptr<void, decltype(&SDL_GL_DeleteContext)> m_glContext;
     std::unique_ptr<Renderer> m_renderer;
-    std::shared_ptr<Texture> m_spriteAtlas;
+    std::unique_ptr<Texture> m_spriteAtlas;
     entt::registry m_registry;
     bool m_active = false;
 };

@@ -7,21 +7,23 @@
 
 namespace destroid::drawing_system {
 
+namespace {
+
+    constexpr float TEMP_SCALE = 1.F;
+
+}
+
 void update(entt::registry& registry, Renderer& renderer, const Texture& texture)
 {
-    const auto entities = registry.view<Drawable, Transform>();
-
-    for (const auto& entity : entities) {
-        const auto [drawable, transform] = entities.get<Drawable, Transform>(entity);
-        const float scale = 1.F;
-
+    const auto view = registry.view<Drawable, Transform>();
+    view.each([&](const auto& drawable, const auto& transform) {
         renderer.draw(
             texture,
             drawable.region,
             transform.position,
             transform.rotation,
-            scale);
-    }
+            TEMP_SCALE);
+    });
 }
 
 } // namespace destroid::drawing_system

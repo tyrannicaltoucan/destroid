@@ -3,7 +3,7 @@
 #include "component/drag.hpp"
 #include "component/momentum.hpp"
 #include "component/transform.hpp"
-#include "math/rectangle.hpp"
+#include "base/rectangle.hpp"
 #include <entt/entity/registry.hpp>
 #include <glm/common.hpp>
 #include <glm/exponential.hpp>

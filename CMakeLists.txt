@@ -9,6 +9,8 @@ find_package(SDL2 REQUIRED)
 add_subdirectory(thirdparty)
 
 add_executable(destroid
+    src/base/circle.hpp
+    src/base/rectangle.hpp
     src/component/drag.hpp
     src/component/drawable.hpp
     src/component/momentum.hpp
@@ -28,7 +30,6 @@ add_executable(destroid
     src/graphics/shader.hpp
     src/graphics/texture.cpp
     src/graphics/texture.hpp
-    src/math/rectangle.hpp
     src/system/collision.cpp
     src/system/collision.hpp
     src/system/despawn.cpp

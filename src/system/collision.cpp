@@ -1,6 +1,7 @@
 #include "collision.hpp"
 #include "entity/tags.hpp"
 #include "component/collider.hpp"
+#include <entt/entity/registry.hpp>
 
 namespace destroid::collision_system {
 
@@ -10,33 +11,29 @@ void update(entt::registry& registry)
     const auto players = registry.view<Collider, PlayerTag>();
     const auto bullets = registry.view<Collider, BulletTag>();
 
-    for (const auto& asteroid : asteroids) {
-        const auto& asteroidCollider = asteroids.get<Collider>(asteroid);
+    asteroids.each([&](const auto& asteroid, const auto& asteroidCollider) {
+        // Check collisions between asteroids and bullets
+        bullets.each([&](const auto& projectile, const auto& bulletCollider) {
+            if (bulletCollider.bounds.intersects(asteroidCollider.bounds)) {
+                if (registry.valid(asteroid)) {
+                    registry.destroy(asteroid);
+                }
 
-        for (const auto& projectile : bullets) {
-            const auto& projectileCollider = bullets.get<Collider>(projectile);
-
-            if (projectileCollider.bounds.intersects(asteroidCollider.bounds)) {
                 registry.destroy(projectile);
-
-                if (registry.valid(asteroid)) {
-                    registry.destroy(asteroid);
-                }
             }
-        }
+        });
 
-        for (const auto& player : players) {
-            const auto& playerCollider = players.get<Collider>(player);
-
+        // Check collisions between asteroids and players
+        players.each([&](const auto& player, const auto& playerCollider) {
             if (playerCollider.bounds.intersects(asteroidCollider.bounds)) {
-                registry.destroy(player);
-
                 if (registry.valid(asteroid)) {
                     registry.destroy(asteroid);
                 }
+
+                registry.destroy(player);
             }
-        }
-    }
+        });
+    });
 }
 
 } // namespace destroid::collision_system

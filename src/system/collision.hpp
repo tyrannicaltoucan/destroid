@@ -1,6 +1,6 @@
 #pragma once
 
-#include <entt/entity/registry.hpp>
+#include <entt/entity/fwd.hpp>
 
 namespace destroid::collision_system {
 

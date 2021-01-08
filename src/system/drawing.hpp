@@ -1,11 +1,16 @@
 #pragma once
 
-#include "graphics/renderer.hpp"
-#include "graphics/texture.hpp"
 #include <entt/entity/registry.hpp>
 
-namespace destroid::drawing_system {
+namespace destroid {
 
-void update(entt::registry& registry, Renderer& renderer, const Texture& texture);
+class Renderer;
+class Texture;
 
-} // namespace destroid::drawing_system
+namespace drawing_system {
+
+    void update(entt::registry& registry, Renderer& renderer, const Texture& texture);
+
+} // namespace drawing_system
+
+} // namespace destroid

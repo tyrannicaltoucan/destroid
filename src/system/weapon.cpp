@@ -2,16 +2,14 @@
 #include "entity/factory.hpp"
 #include "component/transform.hpp"
 #include "component/weapon.hpp"
+#include <entt/entity/registry.hpp>
 
 namespace destroid::weapon_system {
 
 void update(entt::registry& registry, float delta)
 {
     const auto view = registry.view<Weapon, Transform>();
-
-    for (const auto& entity : view) {
-        const auto [transform, weapon] = view.get<Transform, Weapon>(entity);
-
+    view.each([&](auto& weapon, const auto& transform) {
         if (weapon.canFire) {
             weapon.canFire = false;
             entity_factory::createProjectile(registry, transform.position, transform.rotation);
@@ -19,7 +17,7 @@ void update(entt::registry& registry, float delta)
         }
 
         weapon.cooldown -= delta;
-    }
+    });
 }
 
 } // namespace destroid::firing_system

@@ -5,7 +5,6 @@
 #include "component/weapon.hpp"
 #include <entt/entity/registry.hpp>
 #include <glm/trigonometric.hpp>
-#include <glm/gtx/rotate_vector.hpp>
 #include <SDL_scancode.h>
 
 namespace destroid::input_system {

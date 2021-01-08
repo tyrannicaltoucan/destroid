@@ -6,4 +6,4 @@ namespace destroid::weapon_system {
 
 void update(entt::registry& registry, float delta);
 
-} // namespace destroid::firing_system
+} // namespace destroid::weapon_system

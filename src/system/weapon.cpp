@@ -1,9 +1,9 @@
-#include "firing.hpp"
+#include "weapon.hpp"
 #include "entity/factory.hpp"
 #include "component/transform.hpp"
 #include "component/weapon.hpp"
 
-namespace destroid::firing_system {
+namespace destroid::weapon_system {
 
 void update(entt::registry& registry, float delta)
 {

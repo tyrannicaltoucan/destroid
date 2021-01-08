@@ -37,10 +37,10 @@ add_executable(destroid
     src/system/drawing.hpp
     src/system/input.cpp
     src/system/input.hpp
-    src/system/firing.cpp
-    src/system/firing.hpp
     src/system/movement.cpp
     src/system/movement.hpp
+    src/system/weapon.cpp
+    src/system/weapon.hpp
     src/main.cpp)
 
 target_include_directories(destroid PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)

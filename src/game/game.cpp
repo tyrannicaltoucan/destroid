@@ -4,8 +4,8 @@
 #include "system/despawn.hpp"
 #include "system/drawing.hpp"
 #include "system/input.hpp"
-#include "system/firing.hpp"
 #include "system/movement.hpp"
+#include "system/weapon.hpp"
 #include <glad/gl.h>
 #include <SDL.h>
 #include <chrono>
@@ -158,7 +158,7 @@ void Game::update(float delta)
 
     movement_system::update(m_registry, delta);
     collision_system::update(m_registry);
-    firing_system::update(m_registry, delta);
+    weapon_system::update(m_registry, delta);
     despawn_system::update(m_registry, delta);
     input_system::update(m_registry, keystate, delta);
 }

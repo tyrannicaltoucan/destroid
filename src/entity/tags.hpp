@@ -8,5 +8,6 @@ namespace destroid {
 using PlayerTag = entt::tag<"player"_hs>;
 using AsteroidTag = entt::tag<"asteroid"_hs>;
 using BulletTag = entt::tag<"bullet"_hs>;
+using DespawnTag = entt::tag<"despawnable"_hs>;
 
 } // namespace destroid::entity_tag

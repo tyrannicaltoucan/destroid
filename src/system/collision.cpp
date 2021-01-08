@@ -13,24 +13,18 @@ void update(entt::registry& registry)
 
     asteroids.each([&](const auto& asteroid, const auto& asteroidCollider) {
         // Check collisions between asteroids and bullets
-        bullets.each([&](const auto& projectile, const auto& bulletCollider) {
+        bullets.each([&](const auto& bullet, const auto& bulletCollider) {
             if (bulletCollider.bounds.intersects(asteroidCollider.bounds)) {
-                if (registry.valid(asteroid)) {
-                    registry.destroy(asteroid);
-                }
-
-                registry.destroy(projectile);
+                registry.emplace_or_replace<DespawnTag>(asteroid);
+                registry.emplace_or_replace<DespawnTag>(bullet);
             }
         });
 
         // Check collisions between asteroids and players
         players.each([&](const auto& player, const auto& playerCollider) {
             if (playerCollider.bounds.intersects(asteroidCollider.bounds)) {
-                if (registry.valid(asteroid)) {
-                    registry.destroy(asteroid);
-                }
-
-                registry.destroy(player);
+                registry.emplace_or_replace<DespawnTag>(asteroid);
+                registry.emplace_or_replace<DespawnTag>(player);
             }
         });
     });

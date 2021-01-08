@@ -3,6 +3,7 @@
 #include "system/collision.hpp"
 #include "system/despawn.hpp"
 #include "system/drawing.hpp"
+#include "system/expiry.hpp"
 #include "system/input.hpp"
 #include "system/movement.hpp"
 #include "system/weapon.hpp"
@@ -159,7 +160,8 @@ void Game::update(float delta)
     movement_system::update(m_registry, delta);
     collision_system::update(m_registry);
     weapon_system::update(m_registry, delta);
-    despawn_system::update(m_registry, delta);
+    expiry_system::update(m_registry, delta);
+    despawn_system::update(m_registry);
     input_system::update(m_registry, keystate, delta);
 }
 

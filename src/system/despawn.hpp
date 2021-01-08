@@ -4,6 +4,6 @@
 
 namespace destroid::despawn_system {
 
-void update(entt::registry& registry, float delta);
+void update(entt::registry& registry);
 
 } // namespace destroid::despawn_system

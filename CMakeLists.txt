@@ -36,6 +36,8 @@ add_executable(destroid
     src/system/despawn.hpp
     src/system/drawing.cpp
     src/system/drawing.hpp
+    src/system/expiry.cpp
+    src/system/expiry.hpp
     src/system/input.cpp
     src/system/input.hpp
     src/system/movement.cpp

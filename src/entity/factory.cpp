@@ -77,7 +77,7 @@ entt::entity createProjectile(entt::registry& reg, const glm::vec2& pos, float r
 
     const glm::vec2 offsetPosition = offset + pos;
 
-    reg.emplace<ProjectileTag>(entity);
+    reg.emplace<BulletTag>(entity);
     reg.emplace<Transform>(entity, offsetPosition, rot);
     reg.emplace<Momentum>(entity, velocity);
     reg.emplace<Collider>(entity, Circle{offsetPosition, regionSize / 2.5F});

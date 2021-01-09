@@ -49,7 +49,7 @@ add_executable(destroid
 target_include_directories(destroid PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)
 
 target_compile_options(destroid PRIVATE
-    $<$<CXX_COMPILER_ID:Clang,GNU>:
+    $<$<CXX_COMPILER_ID:AppleClang,Clang,GNU>:
         -Wall
         -Wextra
         -Wpedantic

@@ -5,8 +5,16 @@
 
 namespace destroid::entity_factory {
 
-entt::entity createPlayer(entt::registry& reg);
-entt::entity createAsteroid(entt::registry& reg, const glm::vec2& pos, const glm::vec2& vel);
-entt::entity createProjectile(entt::registry& reg, const glm::vec2& pos, float rot);
+entt::entity spawnPlayer(entt::registry& registry);
+
+entt::entity spawnAsteroid(
+    entt::registry& registry,
+    const glm::vec2& position,
+    const glm::vec2& velocity);
+
+entt::entity spawnBullet(
+    entt::registry& registry,
+    const glm::vec2& parentPosition,
+    float angle);
 
 } // namespace destroid::entity_factory

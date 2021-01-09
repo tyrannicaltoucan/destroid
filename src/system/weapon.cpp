@@ -12,7 +12,7 @@ void update(entt::registry& registry, float delta)
     view.each([&](auto& weapon, const auto& transform) {
         if (weapon.canFire) {
             weapon.canFire = false;
-            entity_factory::createProjectile(registry, transform.position, transform.rotation);
+            entity_factory::spawnBullet(registry, transform.position, transform.rotation);
             weapon.cooldown = weapon.fireRate;
         }
 

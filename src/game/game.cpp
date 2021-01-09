@@ -86,7 +86,7 @@ namespace {
             }
 
             const glm::vec2 velocity{speed(gen), speed(gen)};
-            entity_factory::createAsteroid(reg, position, velocity);
+            entity_factory::spawnAsteroid(reg, position, velocity);
         }
     }
 
@@ -113,7 +113,7 @@ Game::Game()
     m_active = true;
 
     m_registry.set<Rectangle>(GAME_BOUNDS);
-    entity_factory::createPlayer(m_registry);
+    entity_factory::spawnPlayer(m_registry);
     createAsteroidField(m_registry);
 }
 

@@ -8,4 +8,4 @@ struct Weapon {
     bool canFire = false;
 };
 
-}; // namespace destroid
+} // namespace destroid

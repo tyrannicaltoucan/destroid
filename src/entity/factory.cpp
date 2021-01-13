@@ -1,10 +1,12 @@
 #include "factory.hpp"
 #include "tags.hpp"
+#include "base/random.hpp"
 #include "component/drag.hpp"
 #include "component/collider.hpp"
 #include "component/drawable.hpp"
 #include "component/lifetime.hpp"
 #include "component/momentum.hpp"
+#include "component/spawner.hpp"
 #include "component/transform.hpp"
 #include "component/thrust.hpp"
 #include "component/weapon.hpp"
@@ -24,6 +26,9 @@ namespace {
     constexpr float PLAYER_ROTATION_SPEED = PLAYER_THRUST_SPEED * 2.F;
     constexpr float BULLET_SPEED = PLAYER_THRUST_SPEED * 1.25F;
     constexpr float BULLET_LIFETIME = 0.75F;
+    constexpr int ASTEROID_SPAWN_CAP = 5;
+    constexpr float ASTEROID_MIN_SPEED = 25.F;
+    constexpr float ASTEROID_MAX_SPEED = ASTEROID_MIN_SPEED * 2.F;
 
 } // namespace
 
@@ -49,7 +54,7 @@ entt::entity spawnPlayer(entt::registry& registry)
 entt::entity spawnAsteroid(
     entt::registry& registry,
     const glm::vec2& position,
-    const glm::vec2& velocity)
+    const glm::vec2& orientation)
 {
     const auto entity = registry.create();
     const auto region = Rectangle{
@@ -57,6 +62,11 @@ entt::entity spawnAsteroid(
         0.F,
         DEFAULT_REGION_SIZE,
         DEFAULT_REGION_SIZE};
+
+    const auto velocity = glm::vec2{
+        random::between(ASTEROID_MIN_SPEED, ASTEROID_MAX_SPEED) * orientation.x,
+        random::between(ASTEROID_MIN_SPEED, ASTEROID_MAX_SPEED) * orientation.y,
+    };
 
     registry.emplace<AsteroidTag>(entity);
     registry.emplace<Transform>(entity, position);
@@ -89,6 +99,14 @@ entt::entity spawnBullet(entt::registry& registry, const glm::vec2& parentPositi
     registry.emplace<Collider>(entity, Circle{position, regionSize / 2.5F});
     registry.emplace<Lifetime>(entity, BULLET_LIFETIME);
     registry.emplace<Drawable>(entity, region);
+
+    return entity;
+}
+
+entt::entity createSpawner(entt::registry& registry)
+{
+    const auto entity = registry.create();
+    registry.emplace<Spawner>(entity, ASTEROID_SPAWN_CAP);
 
     return entity;
 }

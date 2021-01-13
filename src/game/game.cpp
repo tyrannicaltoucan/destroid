@@ -6,12 +6,12 @@
 #include "system/expiry.hpp"
 #include "system/input.hpp"
 #include "system/movement.hpp"
+#include "system/spawning.hpp"
 #include "system/weapon.hpp"
 #include <glad/gl.h>
 #include <SDL.h>
 #include <chrono>
 #include <memory>
-#include <random>
 #include <stdexcept>
 
 namespace destroid {
@@ -25,7 +25,6 @@ namespace {
     constexpr int DEFAULT_WIDTH = 900;
     constexpr int DEFAULT_HEIGHT = 600;
     constexpr Rectangle GAME_BOUNDS{0.F, 0.F, DEFAULT_WIDTH / 2.F, DEFAULT_HEIGHT / 2.F};
-    constexpr int ASTEROID_COUNT = 5;
 
     SDL_Window* makeWindow()
     {
@@ -58,38 +57,6 @@ namespace {
         return context;
     }
 
-    void createAsteroidField(entt::registry& reg)
-    {
-        std::random_device rd;
-        std::minstd_rand gen(rd());
-        std::uniform_real_distribution<float> xPos(0, GAME_BOUNDS.width);
-        std::uniform_real_distribution<float> yPos(0, GAME_BOUNDS.height);
-        std::uniform_real_distribution<float> speed(-45, 45);
-        std::uniform_int_distribution<int> spawnDir(1, 4);
-
-        glm::vec2 position;
-
-        for (int i = 0; i < ASTEROID_COUNT; i++) {
-            switch (spawnDir(gen)) {
-            case 1: // left
-                position = {GAME_BOUNDS.x, yPos(gen)};
-                break;
-            case 2: // right
-                position = {GAME_BOUNDS.width, yPos(gen)};
-                break;
-            case 3: // bottom
-                position = {xPos(gen), GAME_BOUNDS.y};
-                break;
-            case 4: // top
-                position = {xPos(gen), GAME_BOUNDS.height};
-                break;
-            }
-
-            const glm::vec2 velocity{speed(gen), speed(gen)};
-            entity_factory::spawnAsteroid(reg, position, velocity);
-        }
-    }
-
 } // namespace
 
 Game::Game()
@@ -114,7 +81,7 @@ Game::Game()
 
     m_registry.set<Rectangle>(GAME_BOUNDS);
     entity_factory::spawnPlayer(m_registry);
-    createAsteroidField(m_registry);
+    entity_factory::createSpawner(m_registry);
 }
 
 void Game::run()
@@ -157,6 +124,7 @@ void Game::update(float delta)
 {
     const auto* keystate = SDL_GetKeyboardState(nullptr);
 
+    spawning_system::update(m_registry);
     movement_system::update(m_registry, delta);
     collision_system::update(m_registry);
     weapon_system::update(m_registry, delta);

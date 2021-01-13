@@ -10,6 +10,7 @@ add_subdirectory(thirdparty)
 
 add_executable(destroid
     src/base/circle.hpp
+    src/base/random.hpp
     src/base/rectangle.hpp
     src/component/drag.hpp
     src/component/drawable.hpp
@@ -18,6 +19,7 @@ add_executable(destroid
     src/component/thrust.hpp
     src/component/momentum.hpp
     src/component/lifetime.hpp
+    src/component/spawner.hpp
     src/component/weapon.hpp
     src/entity/factory.cpp
     src/entity/factory.hpp
@@ -42,6 +44,8 @@ add_executable(destroid
     src/system/input.hpp
     src/system/movement.cpp
     src/system/movement.hpp
+    src/system/spawning.cpp
+    src/system/spawning.hpp
     src/system/weapon.cpp
     src/system/weapon.hpp
     src/main.cpp)

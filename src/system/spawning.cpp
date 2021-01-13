@@ -44,7 +44,9 @@ void update(entt::registry& registry)
             break;
         }
 
-        entity_factory::spawnAsteroid(registry, position, orientation);
+        const float rotation = random::between(0.F, 359.F);
+        entity_factory::spawnAsteroid(registry, position, orientation, rotation);
+
         spawner.count += 1;
     });
 }

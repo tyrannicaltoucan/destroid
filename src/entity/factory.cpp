@@ -54,7 +54,8 @@ entt::entity spawnPlayer(entt::registry& registry)
 entt::entity spawnAsteroid(
     entt::registry& registry,
     const glm::vec2& position,
-    const glm::vec2& orientation)
+    const glm::vec2& orientation,
+    float angle)
 {
     const auto entity = registry.create();
     const auto region = Rectangle{
@@ -69,7 +70,7 @@ entt::entity spawnAsteroid(
     };
 
     registry.emplace<AsteroidTag>(entity);
-    registry.emplace<Transform>(entity, position);
+    registry.emplace<Transform>(entity, position, angle);
     registry.emplace<Momentum>(entity, velocity);
     registry.emplace<Collider>(entity, Circle{position, DEFAULT_BOUNDING_SIZE});
     registry.emplace<Drawable>(entity, region);

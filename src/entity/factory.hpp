@@ -10,7 +10,8 @@ entt::entity spawnPlayer(entt::registry& registry);
 entt::entity spawnAsteroid(
     entt::registry& registry,
     const glm::vec2& position,
-    const glm::vec2& orientation);
+    const glm::vec2& orientation,
+    float angle);
 
 entt::entity spawnBullet(
     entt::registry& registry,

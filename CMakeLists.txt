@@ -72,10 +72,10 @@ target_compile_definitions(destroid PRIVATE
     GLM_FORCE_CXX17)
 
 target_link_libraries(destroid PRIVATE
-    entt
-    glad
-    glm
-    stb_image
+    EnTT::EnTT
+    glad::glad
+    glm::glm
+    stb::image
     SDL2::SDL2main)
 
 add_custom_command(TARGET destroid POST_BUILD

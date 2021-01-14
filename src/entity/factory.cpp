@@ -58,11 +58,32 @@ entt::entity spawnAsteroid(
     float angle)
 {
     const auto entity = registry.create();
-    const auto region = Rectangle{
-        DEFAULT_REGION_SIZE,
-        0.F,
-        DEFAULT_REGION_SIZE,
-        DEFAULT_REGION_SIZE};
+    const int asteroidTypes = random::between(1, 3);
+    Rectangle region;
+
+    switch (asteroidTypes) {
+    case 1:
+        region = Rectangle{
+            DEFAULT_REGION_SIZE,
+            0.F,
+            DEFAULT_REGION_SIZE,
+            DEFAULT_REGION_SIZE};
+        break;
+    case 2:
+        region = Rectangle{
+            DEFAULT_REGION_SIZE * 2,
+            0.F,
+            DEFAULT_REGION_SIZE,
+            DEFAULT_REGION_SIZE};
+        break;
+    case 3:
+        region = Rectangle{
+            DEFAULT_REGION_SIZE * 3,
+            0.F,
+            DEFAULT_REGION_SIZE,
+            DEFAULT_REGION_SIZE};
+        break;
+    }
 
     const auto velocity = glm::vec2{
         random::between(ASTEROID_MIN_SPEED, ASTEROID_MAX_SPEED) * orientation.x,
@@ -82,7 +103,7 @@ entt::entity spawnBullet(entt::registry& registry, const glm::vec2& parentPositi
 {
     const float regionSize = 8.F;
     const auto entity = registry.create();
-    const auto region = Rectangle(DEFAULT_REGION_SIZE * 2.F, 0.F, regionSize, regionSize);
+    const auto region = Rectangle(0.F, DEFAULT_REGION_SIZE, regionSize, regionSize);
     const float cos = glm::cos(glm::radians(angle));
     const float sin = glm::sin(glm::radians(angle));
 

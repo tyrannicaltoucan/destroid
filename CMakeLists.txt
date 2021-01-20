@@ -12,14 +12,14 @@ add_executable(destroid
     src/base/circle.hpp
     src/base/random.hpp
     src/base/rectangle.hpp
+    src/component/collider.hpp
     src/component/drag.hpp
     src/component/drawable.hpp
-    src/component/momentum.hpp
-    src/component/transform.hpp
-    src/component/thrust.hpp
-    src/component/momentum.hpp
     src/component/lifetime.hpp
+    src/component/momentum.hpp
     src/component/spawner.hpp
+    src/component/thrust.hpp
+    src/component/transform.hpp
     src/component/weapon.hpp
     src/entity/factory.cpp
     src/entity/factory.hpp
@@ -50,26 +50,29 @@ add_executable(destroid
     src/system/weapon.hpp
     src/main.cpp)
 
-target_include_directories(destroid PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)
+target_compile_features(destroid PRIVATE cxx_std_17)
+set_target_properties(destroid PROPERTIES CXX_EXTENSIONS OFF)
 
-target_compile_options(destroid PRIVATE
-    $<$<OR:$<CXX_COMPILER_ID:AppleClang>,$<CXX_COMPILER_ID:Clang>,$<CXX_COMPILER_ID:GNU>>:
+if(CMAKE_CXX_COMPILER_ID MATCHES "Clang" OR CMAKE_CXX_COMPILER_ID MATCHES "GNU")
+    target_compile_options(destroid PRIVATE
         -Wall
         -Wextra
         -Wpedantic
-        -Wdouble-promotion
-        -Wold-style-cast>
-    $<$<CXX_COMPILER_ID:MSVC>:
+        -Wsign-compare
+        -Wold-style-cast)
+elseif(CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
+    target_compile_options(destroid PRIVATE
         /permissive-
         /Zc:__cplusplus
-        /W4
-        /MP>)
-
-target_compile_features(destroid PRIVATE cxx_std_17)
+        /EHsc
+        /MP)
+endif()
 
 target_compile_definitions(destroid PRIVATE
     STBI_ONLY_PNG
     GLM_FORCE_CXX17)
+
+target_include_directories(destroid PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)
 
 target_link_libraries(destroid PRIVATE
     EnTT::EnTT

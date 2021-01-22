@@ -5,24 +5,17 @@
 namespace destroid {
 
 struct Circle {
-    constexpr Circle()
-        : x(0.F)
-        , y(0.F)
-        , radius(0.F)
-    {
-    }
-
-    constexpr Circle(const glm::vec2& origin, float sizeRadius)
-        : x(origin.x)
-        , y(origin.y)
-        , radius(sizeRadius)
-    {
-    }
+    constexpr Circle() = default;
 
     constexpr Circle(float originX, float originY, float sizeRadius)
         : x(originX)
         , y(originY)
         , radius(sizeRadius)
+    {
+    }
+
+    constexpr Circle(const glm::vec2& origin, float sizeRadius)
+        : Circle(origin.x, origin.y, sizeRadius)
     {
     }
 
@@ -42,9 +35,9 @@ struct Circle {
         return distance < radiusSum * radiusSum;
     }
 
-    float x;
-    float y;
-    float radius;
+    float x = 0.F;
+    float y = 0.F;
+    float radius = 0.F;
 };
 
 } // namespace destroid

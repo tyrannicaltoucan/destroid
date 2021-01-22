@@ -5,27 +5,18 @@
 namespace destroid {
 
 struct Rectangle {
-    constexpr Rectangle()
-        : x(0.F)
-        , y(0.F)
-        , width(0.F)
-        , height(0.F)
-    {
-    }
-
-    constexpr Rectangle(const glm::vec2& position, const glm::vec2& size)
-        : x(position.x)
-        , y(position.y)
-        , width(size.x)
-        , height(size.y)
-    {
-    }
+    constexpr Rectangle() = default;
 
     constexpr Rectangle(float xPos, float yPos, float sizeWidth, float sizeHeight)
         : x(xPos)
         , y(yPos)
         , width(sizeWidth)
         , height(sizeHeight)
+    {
+    }
+
+    constexpr Rectangle(const glm::vec2& position, const glm::vec2& size)
+        : Rectangle(position.x, position.y, size.x, size.y)
     {
     }
 
@@ -54,10 +45,10 @@ struct Rectangle {
         return {x + (width * 0.5F), y + (height * 0.5F)};
     }
 
-    float x;
-    float y;
-    float width;
-    float height;
+    float x = 0.F;
+    float y = 0.F;
+    float width = 0.F;
+    float height = 0.F;
 };
 
 } // namespace destroid

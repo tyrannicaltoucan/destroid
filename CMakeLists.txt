@@ -24,8 +24,6 @@ add_executable(destroid
     src/entity/factory.cpp
     src/entity/factory.hpp
     src/entity/tags.hpp
-    src/game/game.cpp
-    src/game/game.hpp
     src/graphics/renderer.cpp
     src/graphics/renderer.hpp
     src/graphics/shader.cpp
@@ -48,6 +46,8 @@ add_executable(destroid
     src/system/spawning.hpp
     src/system/weapon.cpp
     src/system/weapon.hpp
+    src/game.cpp
+    src/game.hpp
     src/main.cpp)
 
 target_compile_features(destroid PRIVATE cxx_std_17)

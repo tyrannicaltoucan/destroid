@@ -15,16 +15,16 @@ void update(entt::registry& registry, const unsigned char* keystate, float delta
     view.each([&](auto& momentum, const auto& thrust, const auto& transform, auto& weapon) {
         if (keystate[SDL_SCANCODE_W]) {
             const float rotationRads = glm::radians(transform.rotation);
-            momentum.linear.x += glm::sin(rotationRads) * thrust.linear * delta;
+            momentum.linear.x += -glm::sin(rotationRads) * thrust.linear * delta;
             momentum.linear.y += glm::cos(rotationRads) * thrust.linear * delta;
         }
 
         if (keystate[SDL_SCANCODE_A]) {
-            momentum.angular += -thrust.angular * delta;
+            momentum.angular += thrust.angular * delta;
         }
 
         if (keystate[SDL_SCANCODE_D]) {
-            momentum.angular += thrust.angular * delta;
+            momentum.angular += -thrust.angular * delta;
         }
 
         if (keystate[SDL_SCANCODE_SPACE]) {

@@ -105,7 +105,7 @@ entt::entity spawnBullet(entt::registry& registry, const glm::vec2& parentPositi
     const auto entity = registry.create();
     const auto region = Rectangle(0.F, DEFAULT_REGION_SIZE, regionSize, regionSize);
     const float cos = glm::cos(glm::radians(angle));
-    const float sin = glm::sin(glm::radians(angle));
+    const float sin = -glm::sin(glm::radians(angle));
 
     const glm::vec2 position{
         parentPosition.x + sin * (regionSize / 2.F),

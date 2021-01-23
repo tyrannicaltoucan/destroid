@@ -1,5 +1,6 @@
 #include "renderer.hpp"
-#include <glm/gtc/matrix_transform.hpp>
+#include <glm/ext/matrix_clip_space.hpp>
+#include <glm/gtx/matrix_transform_2d.hpp>
 #include <array>
 #include <string>
 
@@ -148,56 +149,32 @@ void Renderer::draw(
         m_boundTexureHandle = texture.handle();
     }
 
-    glm::vec2 positionTL;
-    glm::vec2 positionTR;
-    glm::vec2 positionBL;
-    glm::vec2 positionBR;
+    auto transform = glm::mat3(1.F);
+    transform = glm::translate(transform, position);
+    transform = glm::rotate(transform, glm::radians(angle));
+    transform = glm::scale(transform, glm::vec2(scale, scale));
+    transform = glm::translate(transform, -glm::vec2(region.width, region.height) / 2.F);
 
-    const glm::vec2 origin = glm::vec2{(region.width / 2.F), (region.height / 2)} * scale;
+    const float leftUV = region.left() / texture.width();
+    const float rightUV = region.right() / texture.width();
+    const float topUV = region.top() / texture.height();
+    const float bottomUV = region.bottom() / texture.height();
 
-    if (angle != 0.F) {
-        const float cos = glm::cos(glm::radians(-angle));
-        const float sin = glm::sin(glm::radians(-angle));
-        const glm::vec2 offset{-origin.x + region.width, -origin.x + region.width};
+    m_vertices.emplace_back(Vertex{
+        transform * glm::vec3(0.F, 0.F, 1.F),
+        glm::vec2(leftUV, topUV)});
 
-        positionTL = {
-            position.x + (-origin.x * cos) - (-origin.y * sin),
-            position.y + (-origin.x * sin) + (-origin.y * cos),
-        };
+    m_vertices.emplace_back(Vertex{
+        transform * glm::vec3(region.width, 0.F, 1.F),
+        glm::vec2(rightUV, topUV)});
 
-        positionTR = {
-            position.x + (offset.x * cos) - (-origin.y * sin),
-            position.y + (offset.x * sin) + (-origin.y * cos),
-        };
+    m_vertices.emplace_back(Vertex{
+        transform * glm::vec3(0.F, region.height, 1.F),
+        glm::vec2(leftUV, bottomUV)});
 
-        positionBL = {
-            position.x + (-origin.x * cos) - (offset.y * sin),
-            position.y + (-origin.x * sin) + (offset.y * cos),
-        };
-
-        positionBR = {
-            position.x + (offset.x * cos) - (offset.y * sin),
-            position.y + (offset.x * sin) + (offset.y * cos),
-        };
-    } else {
-        const glm::vec2 offset = position - origin;
-
-        positionTL = offset;
-        positionTR = {offset.x + region.width, offset.y};
-        positionBL = {offset.x, offset.y + region.height};
-        positionBR = {offset.x + region.width, offset.y + region.height};
-    }
-
-    // Texture atlas coordinates
-    const float left = region.left() / texture.width();
-    const float right = region.right() / texture.width();
-    const float top = region.top() / texture.height();
-    const float bottom = region.bottom() / texture.height();
-
-    m_vertices.emplace_back(Vertex{positionTL, glm::vec2{left, top}});
-    m_vertices.emplace_back(Vertex{positionTR, glm::vec2{right, top}});
-    m_vertices.emplace_back(Vertex{positionBL, glm::vec2{left, bottom}});
-    m_vertices.emplace_back(Vertex{positionBR, glm::vec2{right, bottom}});
+    m_vertices.emplace_back(Vertex{
+        transform * glm::vec3(region.width, region.height, 1.F),
+        glm::vec2(rightUV, bottomUV)});
 
     m_batchCount += 1;
 }

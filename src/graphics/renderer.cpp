@@ -1,7 +1,6 @@
 #include "renderer.hpp"
 #include <glm/ext/matrix_clip_space.hpp>
 #include <glm/gtx/matrix_transform_2d.hpp>
-#include <array>
 #include <string>
 
 namespace destroid {
@@ -69,22 +68,15 @@ Renderer::Renderer()
     glGenBuffers(1, &m_ibo);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo);
 
-    // TL       TR
-    //  0 ----- 1   ASCII Art Time!
-    //  | A   / |   Quads are assembled from four vertices in the following order:
-    //  |   /   |   0, 1, 2 = Triangle A
-    //  | /   B |   2, 1, 3 = Triangle B
-    //  2 ----- 3
-    // BL       BR
-
-    std::array<GLushort, MAX_INDICES> indices;
-    for (unsigned short i = 0; i < MAX_BATCHES; i++) {
-        indices[i * INDICES_PER_QUAD + 0] = i * VERTICES_PER_QUAD + 0;
-        indices[i * INDICES_PER_QUAD + 1] = i * VERTICES_PER_QUAD + 1;
-        indices[i * INDICES_PER_QUAD + 2] = i * VERTICES_PER_QUAD + 2;
-        indices[i * INDICES_PER_QUAD + 3] = i * VERTICES_PER_QUAD + 2;
-        indices[i * INDICES_PER_QUAD + 4] = i * VERTICES_PER_QUAD + 1;
-        indices[i * INDICES_PER_QUAD + 5] = i * VERTICES_PER_QUAD + 3;
+    std::vector<GLushort> indices;
+    indices.reserve(MAX_INDICES);
+    for (GLushort i = 0; i < MAX_BATCHES; i++) {
+        indices.emplace_back(i * VERTICES_PER_QUAD + 0);
+        indices.emplace_back(i * VERTICES_PER_QUAD + 1);
+        indices.emplace_back(i * VERTICES_PER_QUAD + 2);
+        indices.emplace_back(i * VERTICES_PER_QUAD + 2);
+        indices.emplace_back(i * VERTICES_PER_QUAD + 1);
+        indices.emplace_back(i * VERTICES_PER_QUAD + 3);
     }
 
     glBufferData(

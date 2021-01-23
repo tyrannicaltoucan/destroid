@@ -88,14 +88,14 @@ void Shader::bind() const
     glUseProgram(m_handle);
 }
 
-GLuint Shader::uniformLocation(const std::string& name)
+GLint Shader::uniformLocation(const std::string& name)
 {
-    auto iter = m_uniformCache.find(name);
+    const auto iter = m_uniformCache.find(name);
     if (iter != m_uniformCache.end()) {
         return iter->second;
     }
 
-    const GLuint location = glGetUniformLocation(m_handle, name.c_str());
+    const GLint location = glGetUniformLocation(m_handle, name.c_str());
     m_uniformCache.emplace(name, location);
 
     return location;

@@ -24,10 +24,10 @@ public:
     void bind() const;
 
 private:
-    GLuint uniformLocation(const std::string& name);
+    GLint uniformLocation(const std::string& name);
 
     GLuint m_handle;
-    std::unordered_map<std::string, GLuint> m_uniformCache;
+    std::unordered_map<std::string, GLint> m_uniformCache;
 };
 
 } // namespace destroid

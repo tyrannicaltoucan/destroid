@@ -10,6 +10,11 @@
 
 namespace destroid {
 
+struct Vertex {
+    glm::vec2 position;
+    glm::vec2 texcoord;
+};
+
 class Renderer {
 public:
     Renderer();
@@ -31,19 +36,14 @@ public:
     void finish();
 
 private:
-    struct Vertex {
-        glm::vec2 position;
-        glm::vec2 texcoord;
-    };
-
-    Shader m_shader;
     std::vector<Vertex> m_vertices;
-    GLsizei m_batchCount;
-    GLuint m_boundTexureHandle;
+    GLuint m_boundTexureHandle = 0;
+    GLsizei m_batchCount = 0;
+    Shader m_shader;
 
-    GLuint m_vbo;
-    GLuint m_ibo;
-    GLuint m_vao;
+    GLuint m_vbo = 0;
+    GLuint m_ibo = 0;
+    GLuint m_vao = 0;
 };
 
 } // namespace destroid

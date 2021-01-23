@@ -48,7 +48,6 @@ namespace {
 
 Renderer::Renderer()
     : m_shader(VERTEX_SOURCE, FRAGMENT_SOURCE)
-    , m_batchCount(0)
 {
     m_vertices.reserve(MAX_VERTICES);
 

@@ -18,16 +18,18 @@ namespace {
         glGetShaderiv(shaderHandle, GL_COMPILE_STATUS, &status);
 
         if (status == GL_FALSE) {
-            GLint logSize;
-            glGetShaderiv(shaderHandle, GL_INFO_LOG_LENGTH, &logSize);
+            GLint logLength;
+            glGetShaderiv(shaderHandle, GL_INFO_LOG_LENGTH, &logLength);
 
-            assert(logSize > 0);
+            if (logLength > 0) {
+                std::string log;
+                log.resize(static_cast<std::string::size_type>(logLength - 1));
 
-            std::string log;
-            log.resize(static_cast<std::string::size_type>(logSize - 1));
-            glGetShaderInfoLog(shaderHandle, logSize, nullptr, log.data());
-
-            throw std::runtime_error("Failed to compile shader:\n" + log);
+                glGetShaderInfoLog(shaderHandle, logLength, nullptr, log.data());
+                throw std::runtime_error("Failed to compile shader:\n" + log);
+            } else {
+                throw std::runtime_error("Failed to compile shader, but no error log was found");
+            }
         }
 
         return shaderHandle;
@@ -39,16 +41,18 @@ namespace {
         glGetProgramiv(programHandle, GL_LINK_STATUS, &status);
 
         if (status == GL_FALSE) {
-            GLint logSize;
-            glGetProgramiv(programHandle, GL_INFO_LOG_LENGTH, &logSize);
+            GLint logLength;
+            glGetProgramiv(programHandle, GL_INFO_LOG_LENGTH, &logLength);
 
-            assert(logSize > 0);
+            if (logLength > 0) {
+                std::string log;
+                log.resize(static_cast<std::string::size_type>(logLength - 1));
 
-            std::string log;
-            log.resize(static_cast<std::size_t>(logSize - 1));
-            glGetProgramInfoLog(programHandle, logSize, nullptr, log.data());
-
-            throw std::runtime_error("Failed to link shaders:\n" + log);
+                glGetProgramInfoLog(programHandle, logLength, nullptr, log.data());
+                throw std::runtime_error("Failed to link shaders:\n" + log);
+            } else {
+                throw std::runtime_error("Failed to link shaders, but no error log was found");
+            }
         }
     }
 

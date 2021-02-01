@@ -8,10 +8,11 @@ namespace destroid {
 
 namespace {
 
-    GLuint compileShader(GLenum type, const char* source)
+    GLuint compileShader(GLenum type, const std::string& source)
     {
         const GLuint shaderHandle = glCreateShader(type);
-        glShaderSource(shaderHandle, 1, &source, nullptr);
+        const GLchar* sourcePtr = source.c_str();
+        glShaderSource(shaderHandle, 1, &sourcePtr, nullptr);
         glCompileShader(shaderHandle);
 
         GLint status;
@@ -61,8 +62,8 @@ namespace {
 Shader::Shader(const std::string& vertSource, const std::string& fragSource)
     : m_handle(glCreateProgram())
 {
-    const GLuint vertHandle = compileShader(GL_VERTEX_SHADER, vertSource.data());
-    const GLuint fragHandle = compileShader(GL_FRAGMENT_SHADER, fragSource.data());
+    const GLuint vertHandle = compileShader(GL_VERTEX_SHADER, vertSource);
+    const GLuint fragHandle = compileShader(GL_FRAGMENT_SHADER, fragSource);
 
     glAttachShader(m_handle, vertHandle);
     glAttachShader(m_handle, fragHandle);

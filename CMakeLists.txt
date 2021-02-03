@@ -46,6 +46,8 @@ add_executable(destroid
     src/system/spawning.hpp
     src/system/weapon.cpp
     src/system/weapon.hpp
+    src/game_scene.cpp
+    src/game_scene.hpp
     src/game.cpp
     src/game.hpp
     src/main.cpp)

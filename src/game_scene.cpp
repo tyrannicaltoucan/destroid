@@ -10,6 +10,7 @@
 #include "system/movement.hpp"
 #include "system/spawning.hpp"
 #include "system/weapon.hpp"
+#include <glm/vec4.hpp>
 
 namespace destroid {
 

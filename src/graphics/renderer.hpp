@@ -1,19 +1,15 @@
 #pragma once
 
 #include "shader.hpp"
-#include "texture.hpp"
-#include "base/rectangle.hpp"
 #include <glad/gl.h>
-#include <glm/vec2.hpp>
-#include <glm/vec4.hpp>
+#include <glm/fwd.hpp>
 #include <vector>
 
 namespace destroid {
 
-struct Vertex {
-    glm::vec2 position;
-    glm::vec2 texcoord;
-};
+struct Rectangle;
+class Texture;
+struct Vertex;
 
 class Renderer {
 public:

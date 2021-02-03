@@ -1,9 +1,18 @@
 #include "renderer.hpp"
+#include "texture.hpp"
+#include "base/rectangle.hpp"
+#include <glm/vec2.hpp>
+#include <glm/vec4.hpp>
 #include <glm/ext/matrix_clip_space.hpp>
 #include <glm/gtx/matrix_transform_2d.hpp>
 #include <string>
 
 namespace destroid {
+
+struct Vertex {
+    glm::vec2 position;
+    glm::vec2 texcoord;
+};
 
 namespace {
 

@@ -1,7 +1,6 @@
 #pragma once
 
 #include <glad/gl.h>
-#include <glm/vec2.hpp>
 #include <string>
 
 namespace destroid {

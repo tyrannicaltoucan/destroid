@@ -2,7 +2,6 @@
 #include <glad/gl.h>
 #include <SDL.h>
 #include <chrono>
-#include <memory>
 #include <stdexcept>
 
 namespace destroid {

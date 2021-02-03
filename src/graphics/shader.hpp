@@ -1,16 +1,11 @@
 #pragma once
 
 #include <glad/gl.h>
-#include <glm/mat4x4.hpp>
+#include <glm/fwd.hpp>
 #include <string>
 #include <unordered_map>
 
 namespace destroid {
-
-struct ShaderUniform {
-    std::string m_name;
-    GLint m_id;
-};
 
 class Shader {
 public:

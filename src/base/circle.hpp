@@ -19,6 +19,11 @@ struct Circle {
     {
     }
 
+    constexpr glm::vec2 position() const
+    {
+        return {x, y};
+    }
+
     constexpr bool contains(const glm::vec2& point) const
     {
         const float dx = x - point.x;

@@ -20,6 +20,16 @@ struct Rectangle {
     {
     }
 
+    constexpr glm::vec2 position() const
+    {
+        return {x, y};
+    }
+
+    constexpr glm::vec2 size() const
+    {
+        return {width, height};
+    }
+
     constexpr float left() const
     {
         return x;

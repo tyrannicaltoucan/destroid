@@ -1,6 +1,6 @@
 #include "expiry.hpp"
-#include "entity/tags.hpp"
 #include "component/lifetime.hpp"
+#include "component/tag.hpp"
 #include <entt/entity/registry.hpp>
 
 namespace destroid::expiry_system {

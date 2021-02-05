@@ -18,6 +18,7 @@ add_executable(destroid
     src/component/lifetime.hpp
     src/component/momentum.hpp
     src/component/spawner.hpp
+    src/component/tag.hpp
     src/component/thrust.hpp
     src/component/transform.hpp
     src/component/weapon.hpp

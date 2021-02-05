@@ -8,19 +8,17 @@
 #include "component/lifetime.hpp"
 #include "component/momentum.hpp"
 #include "component/spawner.hpp"
+#include "component/tag.hpp"
 #include "component/transform.hpp"
 #include "component/thrust.hpp"
 #include "component/weapon.hpp"
 #include <entt/entity/registry.hpp>
-#include <entt/core/type_traits.hpp>
 #include <glm/trigonometric.hpp>
 #include <glm/vec2.hpp>
 
 namespace destroid::entity_factory {
 
 namespace {
-
-    using namespace entt::literals;
 
     constexpr Rectangle SHIP_SOURCE = Rectangle(0, 0, 32, 32);
     constexpr float SHIP_LINEAR_DRAG = 0.15F;
@@ -45,7 +43,7 @@ entt::entity createShip(entt::registry& registry)
     const glm::vec2 position = viewport.center();
     const auto collider = Circle(position, SHIP_SOURCE.width / 3.5F);
 
-    registry.emplace<entt::tag<"ship"_hs>>(e);
+    registry.emplace<ShipTag>(e);
     registry.emplace<Collider>(e, collider);
     registry.emplace<Drag>(e, SHIP_LINEAR_DRAG, SHIP_ANGULAR_DRAG);
     registry.emplace<Drawable>(e, SHIP_SOURCE);
@@ -86,7 +84,7 @@ entt::entity createAsteroid(entt::registry& registry, const glm::vec2& position)
     const auto velocity = glm::vec2(glm::cos(direction), -glm::sin(direction)) * speed * impulse;
     const auto collider = Circle(position, SHIP_SOURCE.width / 3.5F);
 
-    registry.emplace<entt::tag<"asteroid"_hs>>(e);
+    registry.emplace<AsteroidTag>(e);
     registry.emplace<Collider>(e, collider);
     registry.emplace<Drawable>(e, source);
     registry.emplace<Momentum>(e, velocity);
@@ -105,7 +103,7 @@ entt::entity createBullet(entt::registry& registry, const glm::vec2& position, f
     const auto collider = Circle(offset, BULLET_SOURCE.width / 2.5F);
     const auto velocity = glm::vec2(BULLET_SPEED * sin, BULLET_SPEED * cos);
 
-    registry.emplace<entt::tag<"bullet"_hs>>(e);
+    registry.emplace<BulletTag>(e);
     registry.emplace<Collider>(e, collider);
     registry.emplace<Drawable>(e, BULLET_SOURCE);
     registry.emplace<Lifetime>(e, BULLET_TIME_ACTIVE);
@@ -119,7 +117,7 @@ entt::entity createSpawner(entt::registry& registry)
 {
     const auto e = registry.create();
 
-    registry.emplace<entt::tag<"spawner"_hs>>(e);
+    registry.emplace<SpawnerTag>(e);
     registry.emplace<Spawner>(e, ASTEROID_SPAWNER_CAP);
 
     return e;

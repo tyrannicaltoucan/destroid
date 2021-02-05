@@ -1,6 +1,6 @@
 #include "despawn.hpp"
 #include "component/spawner.hpp"
-#include "entity/tags.hpp"
+#include "component/tag.hpp"
 #include <entt/entity/registry.hpp>
 
 namespace destroid::despawn_system {

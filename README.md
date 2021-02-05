@@ -1,20 +1,16 @@
 # Destroid
 
-Destroid is the one-bazillionth arcade game about shooting dirty rocks in space, inspired by the
-arcade classic, Asteroids *(1979, Atari)*. Destroid is written in modern C++, utilizing an entity
-component system (ECS) architecture.
+The one-bazillionth game inspired by the arcade classic, Asteroids. Destroid is written using C++17, OpenGL and an entity component system (ECS) architecture.
 
 ## Controls
 
-<kbd>W</kbd> - Move forwards
+<kbd>W</kbd> - Thrust
 
-<kbd>A</kbd> - Rotate left
+<kbd>A</kbd> <kbd>D</kbd> - Rotate
 
-<kbd>D</kbd> - Rotate right
+<kbd>Space</kbd> - Fire
 
-<kbd>Space</kbd> - Shoot
-
-<kbd>Esc</kbd> - Exit game
+<kbd>ESC</kbd> - Exit game
 
 ## Licensing
 

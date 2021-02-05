@@ -1,6 +1,6 @@
 #include "game_scene.hpp"
 #include "base/rectangle.hpp"
-#include "entity/factory.hpp"
+#include "factory/entity_factory.hpp"
 #include "graphics/renderer.hpp"
 #include "system/collision.hpp"
 #include "system/despawn.hpp"
@@ -24,7 +24,7 @@ GameScene::GameScene()
     : m_spriteSheet("assets/sprites.png")
 {
     m_registry.set<Rectangle>(GAME_BOUNDS);
-    entity_factory::spawnPlayer(m_registry);
+    entity_factory::createShip(m_registry);
     entity_factory::createSpawner(m_registry);
 }
 
@@ -36,11 +36,11 @@ void GameScene::processInput(const unsigned char* keystate, float delta)
 void GameScene::update(float delta)
 {
     spawning_system::update(m_registry);
-    despawn_system::update(m_registry);
     movement_system::update(m_registry, delta);
     weapon_system::update(m_registry, delta);
     collision_system::update(m_registry);
     expiry_system::update(m_registry, delta);
+    despawn_system::update(m_registry);
 }
 
 void GameScene::draw(Renderer& renderer)

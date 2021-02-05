@@ -2,9 +2,8 @@
 #include "base/random.hpp"
 #include "base/rectangle.hpp"
 #include "component/spawner.hpp"
-#include "entity/factory.hpp"
+#include "factory/entity_factory.hpp"
 #include <entt/entity/registry.hpp>
-#include <glm/trigonometric.hpp>
 #include <glm/vec2.hpp>
 
 namespace destroid::spawning_system {
@@ -18,16 +17,8 @@ void update(entt::registry& registry)
         }
 
         const auto viewport = registry.ctx<Rectangle>();
-        const auto direction = glm::vec2{random::either(-1.F, 1.F), random::either(-1.F, 1.F)};
-        const float angle = glm::radians(random::between(0.F, 359.F));
-
-        const auto orientation = glm::vec2{
-            glm::sin(angle) * direction.x,
-            glm::cos(angle) * direction.y,
-        };
-
-        glm::vec2 position;
         const int spawnDireciton = random::between(1, 4);
+        glm::vec2 position;
 
         switch (spawnDireciton) {
         case 1:
@@ -44,9 +35,7 @@ void update(entt::registry& registry)
             break;
         }
 
-        const float rotation = random::between(0.F, 359.F);
-        entity_factory::spawnAsteroid(registry, position, orientation, rotation);
-
+        entity_factory::createAsteroid(registry, position);
         spawner.count += 1;
     });
 }

@@ -21,9 +21,8 @@ add_executable(destroid
     src/component/thrust.hpp
     src/component/transform.hpp
     src/component/weapon.hpp
-    src/entity/factory.cpp
-    src/entity/factory.hpp
-    src/entity/tags.hpp
+    src/factory/entity_factory.cpp
+    src/factory/entity_factory.hpp
     src/graphics/renderer.cpp
     src/graphics/renderer.hpp
     src/graphics/shader.cpp

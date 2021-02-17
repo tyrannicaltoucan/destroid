@@ -2,6 +2,7 @@
 .vs/
 .vscode/
 *.user
+*.autosave
 CMakeSettings.json
 
 # LSP files

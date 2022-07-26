@@ -1,107 +1,74 @@
-# FindSDL2 - CMake find module for SDL2
-# --------------------------------------------------------------
-# This module defines the following:
+# FindSDL2 CMake module
 #
-# -- Public
-# SDL2::SDL2     - SDL2 core target
-# SDL2::SDL2main - SDL2 main target
-# SDL2_FOUND     - Returns true if SDL2 has been located
-# SDL2MAIN_FOUND - Returns true if SDL2main has been located
+# The following targets are exported:
+#   * SDL2::SDL2 -- Primary SDL library
+#   * SDL2::SDL2main -- Platform entry point helper
 #
-# -- Internal
-# SDL2_LIBRARY_RELEASE     - SDL2 release library location
-# SDL2_LIBRARY_DEBUG       - SDL2 debug library location
-# SDL2MAIN_LIBRARY_RELEASE - SDL2 release library location
-# SDL2MAIN_LIBRARY_DEBUG   - SDL2 debug library location
-# SDL2_INCLUDE_DIR         - SDL2 include directory
-# --------------------------------------------------------------
+# An environment variable named SDL2DIR can be set to specify a custom search
+# location.
 
 if(CMAKE_C_COMPILER_ID MATCHES "MSVC")
     if(CMAKE_SIZEOF_VOID_P EQUAL 8)
-        set(_SDL2_LIB_PATH_SUFFIX lib/x64)
+        set(_SDL2_LIBRARY_PATH_SUFFIX lib/x64)
     else()
-        set(_SDL2_LIB_PATH_SUFFIX lib/x86)
+        set(_SDL2_LIBRARY_PATH_SUFFIX lib/x86)
     endif()
 endif()
 
 find_library(SDL2_LIBRARY_RELEASE
-    NAMES SDL2
-    PATH_SUFFIXES lib ${_SDL2_LIB_PATH_SUFFIX})
+    HINTS "$ENV{SDL2DIR}"
+    NAMES SDL2 SDL2-2.0
+    PATH_SUFFIXES "${_SDL2_LIBRARY_PATH_SUFFIX}"
+)
 
 find_library(SDL2_LIBRARY_DEBUG
+    HINTS "$ENV{SDL2DIR}"
     NAMES SDL2d
-    PATH_SUFFIXES lib ${_SDL2_LIB_PATH_SUFFIX})
+    PATH_SUFFIXES "${_SDL2_LIBRARY_PATH_SUFFIX}"
+)
 
-find_library(SDL2MAIN_LIBRARY_RELEASE
+find_library(SDL2MAIN_LIBRARY
+    HINTS "$ENV{SDL2DIR}"
     NAMES SDL2main
-    PATH_SUFFIXES lib ${_SDL2_LIB_PATH_SUFFIX})
-
-find_library(SDL2MAIN_LIBRARY_DEBUG
-    NAMES SDL2maind
-    PATH_SUFFIXES lib ${_SDL2_LIB_PATH_SUFFIX})
-
-find_path(SDL2_INCLUDE_DIR
-    # Check for a file that only exists with SDL2 in case SDL1 is also installed.
-    NAMES SDL_assert.h
-    PATH_SUFFIXES SDL2)
+    PATH_SUFFIXES lib "${_SDL2_LIBRARY_PATH_SUFFIX}"
+)
 
 include(SelectLibraryConfigurations)
 select_library_configurations(SDL2)
-select_library_configurations(SDL2main)
+
+find_path(SDL2_INCLUDE_DIR
+    HINTS "$ENV{SDL2DIR}"
+    NAMES SDL_assert.h
+    PATH_SUFFIXES SDL2
+)
 
 include(FindPackageHandleStandardArgs)
 find_package_handle_standard_args(SDL2 DEFAULT_MSG SDL2_LIBRARY SDL2_INCLUDE_DIR)
 
+if(SDL2MAIN_LIBRARY)
+    set(FPHSA_NAME_MISMATCHED ON)
+    find_package_handle_standard_args(SDL2main DEFAULT_MSG SDL2MAIN_LIBRARY SDL2_INCLUDE_DIR)
+endif()
+
 if(NOT TARGET SDL2::SDL2)
-    add_library(SDL2::SDL2 UNKNOWN IMPORTED)
+    add_library(SDL2::SDL2 INTERFACE IMPORTED)
+    target_include_directories(SDL2::SDL2 INTERFACE "${SDL2_INCLUDE_DIR}")
 
     if(SDL2_LIBRARY_RELEASE)
-        set_property(TARGET SDL2::SDL2 APPEND PROPERTY
-            IMPORTED_CONFIGURATIONS RELEASE)
-
-        set_property(TARGET SDL2::SDL2 PROPERTY
-            IMPORTED_LOCATION_RELEASE ${SDL2_LIBRARY_RELEASE})
+        target_link_libraries(SDL2::SDL2 INTERFACE "${SDL2_LIBRARY_RELEASE}")
+    elseif(SDL2_LIBRARY_DEBUG)
+        target_link_libraries(SDL2::SDL2 INTERFACE "${SDL2_LIBRARY_DEBUG}")
     endif()
-
-    if(SDL2_LIBRARY_DEBUG)
-        set_property(TARGET SDL2::SDL2 APPEND PROPERTY
-            IMPORTED_CONFIGURATIONS DEBUG)
-
-        set_property(TARGET SDL2::SDL2 PROPERTY
-            IMPORTED_LOCATION_DEBUG ${SDL2_LIBRARY_DEBUG})
-    endif()
-
-    set_property(TARGET SDL2::SDL2 PROPERTY
-        INTERFACE_INCLUDE_DIRECTORIES ${SDL2_INCLUDE_DIR})
 endif()
 
 if(NOT TARGET SDL2::SDL2main)
-    add_library(SDL2::SDL2main STATIC IMPORTED)
+    add_library(SDL2::SDL2main INTERFACE IMPORTED)
 
-    if(SDL2MAIN_LIBRARY_RELEASE)
-        set_property(TARGET SDL2::SDL2main APPEND PROPERTY
-            IMPORTED_CONFIGURATIONS RELEASE)
-
-        set_property(TARGET SDL2::SDL2main PROPERTY
-            IMPORTED_LOCATION_RELEASE ${SDL2MAIN_LIBRARY_RELEASE})
+    if(NOT SDL2MAIN_LIBRARY)
+        target_link_libraries(SDL2::SDL2main INTERFACE SDL2::SDL2)
+    else()
+        target_link_libraries(SDL2::SDL2main INTERFACE "${SDL2MAIN_LIBRARY}" SDL2::SDL2)
     endif()
-
-    if(SDL2MAIN_LIBRARY_DEBUG)
-        set_property(TARGET SDL2::SDL2main APPEND PROPERTY
-            IMPORTED_CONFIGURATIONS DEBUG)
-
-        set_property(TARGET SDL2::SDL2main PROPERTY
-            IMPORTED_LOCATION_DEBUG ${SDL2MAIN_LIBRARY_DEBUG})
-    endif()
-
-    set_property(TARGET SDL2::SDL2main PROPERTY
-        # Linking SDL2::SDL2main implicitly includes SDL2::SDL2 as well.
-        INTERFACE_LINK_LIBRARIES SDL2::SDL2)
 endif()
 
-# Hide internal variables from CMake GUI.
-mark_as_advanced(SDL2_INCLUDE_DIR
-    SDL2_LIBRARY_RELEASE
-    SDL2_LIBRARY_DEBUG
-    SDL2MAIN_LIBRARY_RELEASE
-    SDL2MAIN_LIBRARY_DEBUG)
+mark_as_advanced(SDL2_INCLUDE_DIR)

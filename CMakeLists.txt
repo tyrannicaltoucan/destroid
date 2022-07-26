@@ -76,11 +76,6 @@ elseif(CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
     )
 endif()
 
-target_compile_definitions(destroid PRIVATE
-    STBI_ONLY_PNG
-    GLM_FORCE_CXX17
-)
-
 target_link_libraries(destroid PRIVATE
     EnTT::EnTT
     glad::glad

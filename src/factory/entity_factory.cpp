@@ -20,18 +20,18 @@ namespace destroid::entity_factory {
 
 namespace {
 
-    constexpr Rectangle SHIP_SOURCE = Rectangle(0, 0, 32, 32);
-    constexpr float SHIP_LINEAR_DRAG = 0.15F;
-    constexpr float SHIP_ANGULAR_DRAG = 0.02F;
-    constexpr float SHIP_LINEAR_SPEED = 200.F;
-    constexpr float SHIP_ANGULAR_SPEED = SHIP_LINEAR_SPEED * 2.F;
-    constexpr float SHIP_WEAPON_COOLDOWN = 0.3F;
-    constexpr Rectangle BULLET_SOURCE = Rectangle(0, 32, 8, 8);
-    constexpr float BULLET_SPEED = SHIP_LINEAR_SPEED * 1.35F;
-    constexpr float BULLET_TIME_ACTIVE = 0.7F;
-    constexpr float ASTEROID_MIN_SPEED = 25.F;
-    constexpr float ASTEROID_MAX_SPEED = 65.F;
-    constexpr int ASTEROID_SPAWNER_CAP = 5;
+    constexpr Rectangle shipSource = Rectangle(0, 0, 32, 32);
+    constexpr float shipLinearDrag = 0.15f;
+    constexpr float shipAngularDrag = 0.02f;
+    constexpr float shipLinearSpeed = 200.0f;
+    constexpr float shipAngularSpeed = shipLinearSpeed * 2.0f;
+    constexpr float shipWeaponCooldown = 0.3f;
+    constexpr Rectangle bulletSource = Rectangle(0, 32, 8, 8);
+    constexpr float bulletSpeed = shipLinearSpeed * 1.35f;
+    constexpr float bulletTimeActive = 0.7f;
+    constexpr float asteroidMinSpeed = 25.0f;
+    constexpr float asteroidMaxSpeed = 65.0f;
+    constexpr int asteroidSpawnCap = 5;
 
 } // namespace
 
@@ -41,16 +41,16 @@ entt::entity createShip(entt::registry& registry)
 
     const auto viewport = registry.ctx<Rectangle>();
     const glm::vec2 position = viewport.center();
-    const auto collider = Circle(position, SHIP_SOURCE.width / 3.5F);
+    const auto collider = Circle(position, shipSource.width / 3.5f);
 
     registry.emplace<ShipTag>(e);
     registry.emplace<Collider>(e, collider);
-    registry.emplace<Drag>(e, SHIP_LINEAR_DRAG, SHIP_ANGULAR_DRAG);
-    registry.emplace<Drawable>(e, SHIP_SOURCE);
+    registry.emplace<Drag>(e, shipLinearDrag, shipAngularDrag);
+    registry.emplace<Drawable>(e, shipSource);
     registry.emplace<Momentum>(e);
     registry.emplace<Transform>(e, position);
-    registry.emplace<Thrust>(e, SHIP_LINEAR_SPEED, SHIP_ANGULAR_SPEED);
-    registry.emplace<Weapon>(e, SHIP_WEAPON_COOLDOWN);
+    registry.emplace<Thrust>(e, shipLinearSpeed, shipAngularSpeed);
+    registry.emplace<Weapon>(e, shipWeaponCooldown);
 
     return e;
 }
@@ -74,15 +74,15 @@ entt::entity createAsteroid(entt::registry& registry, const glm::vec2& position)
     }
 
     // Calculate two rotations: one for the velocity direction, and one for visual orientation.
-    const float direction = glm::radians(random::between(0.F, 359.F));
-    const float orientation = random::between(0.F, 359.F);
+    const float direction = glm::radians(random::between(0.0f, 359.0f));
+    const float orientation = random::between(0.0f, 359.0f);
 
-    const float speedX = random::between(ASTEROID_MIN_SPEED, ASTEROID_MAX_SPEED);
-    const float speedY = random::between(ASTEROID_MIN_SPEED, ASTEROID_MAX_SPEED);
+    const float speedX = random::between(asteroidMinSpeed, asteroidMaxSpeed);
+    const float speedY = random::between(asteroidMinSpeed, asteroidMaxSpeed);
     const auto speed = glm::vec2(speedX, speedY);
-    const auto impulse = glm::vec2(random::either(-1.F, 1.F), random::either(-1.F, 1.F));
+    const auto impulse = glm::vec2(random::either(-1.0f, 1.0f), random::either(-1.0f, 1.0f));
     const auto velocity = glm::vec2(glm::cos(direction), -glm::sin(direction)) * speed * impulse;
-    const auto collider = Circle(position, SHIP_SOURCE.width / 3.5F);
+    const auto collider = Circle(position, shipSource.width / 3.5f);
 
     registry.emplace<AsteroidTag>(e);
     registry.emplace<Collider>(e, collider);
@@ -100,13 +100,13 @@ entt::entity createBullet(entt::registry& registry, const glm::vec2& position, f
     const float cos = glm::cos(glm::radians(angle));
     const float sin = -glm::sin(glm::radians(angle));
     const auto offset = glm::vec2(position.x + sin, position.y + cos);
-    const auto collider = Circle(offset, BULLET_SOURCE.width / 2.5F);
-    const auto velocity = glm::vec2(BULLET_SPEED * sin, BULLET_SPEED * cos);
+    const auto collider = Circle(offset, bulletSource.width / 2.5f);
+    const auto velocity = glm::vec2(bulletSpeed * sin, bulletSpeed * cos);
 
     registry.emplace<BulletTag>(e);
     registry.emplace<Collider>(e, collider);
-    registry.emplace<Drawable>(e, BULLET_SOURCE);
-    registry.emplace<Lifetime>(e, BULLET_TIME_ACTIVE);
+    registry.emplace<Drawable>(e, bulletSource);
+    registry.emplace<Lifetime>(e, bulletTimeActive);
     registry.emplace<Momentum>(e, velocity);
     registry.emplace<Transform>(e, offset, angle);
 
@@ -118,7 +118,7 @@ entt::entity createSpawner(entt::registry& registry)
     const auto e = registry.create();
 
     registry.emplace<SpawnerTag>(e);
-    registry.emplace<Spawner>(e, ASTEROID_SPAWNER_CAP);
+    registry.emplace<Spawner>(e, asteroidSpawnCap);
 
     return e;
 }

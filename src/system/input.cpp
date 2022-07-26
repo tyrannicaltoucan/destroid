@@ -28,8 +28,8 @@ void update(entt::registry& registry, const unsigned char* keystate, float delta
         }
 
         if (keystate[SDL_SCANCODE_SPACE]) {
-            if (weapon.cooldown <= 0.F) {
-                weapon.cooldown = 0.F;
+            if (weapon.cooldown <= 0.0f) {
+                weapon.cooldown = 0.0f;
                 weapon.canFire = true;
             }
         }

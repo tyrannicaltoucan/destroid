@@ -18,7 +18,7 @@ void update(entt::registry& registry, float delta)
         transform.rotation += momentum.angular * delta;
 
         // Keep rotations bound between 0 and 360 degrees.
-        transform.rotation = glm::mod((glm::mod(transform.rotation, 360.F) + 360.F), 360.F);
+        transform.rotation = glm::mod((glm::mod(transform.rotation, 360.0f) + 360.0f), 360.0f);
 
         // Keep entity positions inside the window area.
         const auto viewport = registry.ctx<Rectangle>();

@@ -3,8 +3,8 @@
 namespace destroid {
 
 struct Weapon {
-    float fireRate = 0.F;
-    float cooldown = 0.F;
+    float fireRate = 0.0f;
+    float cooldown = 0.0f;
     bool canFire = false;
 };
 

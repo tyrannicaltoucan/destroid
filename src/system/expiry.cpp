@@ -11,7 +11,7 @@ void update(entt::registry& registry, float delta)
     view.each([&](const auto& entity, auto& lifetime) {
         lifetime.duration -= delta;
 
-        if (lifetime.duration <= 0.F) {
+        if (lifetime.duration <= 0.0f) {
             registry.emplace_or_replace<DespawnTag>(entity);
         }
     });

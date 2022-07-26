@@ -3,7 +3,7 @@
 namespace destroid {
 
 struct Lifetime {
-    float duration = 0.F;
+    float duration = 0.0f;
 };
 
 } // namespace destroid

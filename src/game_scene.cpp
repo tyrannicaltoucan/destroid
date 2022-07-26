@@ -16,14 +16,14 @@ namespace destroid {
 
 namespace {
 
-    constexpr auto GAME_BOUNDS = Rectangle(0.F, 0.F, 450.F, 300.F);
+    constexpr auto viewBounds = Rectangle(0.0f, 0.0f, 450.0f, 300.0f);
 
 } // namespace
 
 GameScene::GameScene()
     : m_spriteSheet("assets/sprites.png")
 {
-    m_registry.set<Rectangle>(GAME_BOUNDS);
+    m_registry.set<Rectangle>(viewBounds);
     entity_factory::createShip(m_registry);
     entity_factory::createSpawner(m_registry);
 }
@@ -45,8 +45,8 @@ void GameScene::update(float delta)
 
 void GameScene::draw(Renderer& renderer)
 {
-    renderer.clearColor({0.F, 0.F, 0.F, 1.F});
-    renderer.setViewBounds(GAME_BOUNDS.width, GAME_BOUNDS.height);
+    renderer.clearColor({0.0f, 0.0f, 0.0f, 1.0f});
+    renderer.setViewBounds(viewBounds.width, viewBounds.height);
     drawing_system::update(m_registry, renderer, m_spriteSheet);
     renderer.finish();
 }

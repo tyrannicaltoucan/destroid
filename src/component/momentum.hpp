@@ -6,7 +6,7 @@ namespace destroid {
 
 struct Momentum {
     glm::vec2 linear{};
-    float angular = 0.F;
+    float angular = 0.0f;
 };
 
 } // namespace destroid

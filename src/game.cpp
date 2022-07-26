@@ -11,9 +11,8 @@ namespace {
     using Clock = std::chrono::steady_clock;
     using Duration = std::chrono::duration<float>;
 
-    constexpr const char* DEFAULT_TITLE = "Destroid";
-    constexpr int DEFAULT_WIDTH = 900;
-    constexpr int DEFAULT_HEIGHT = 600;
+    constexpr int windowWidth = 900;
+    constexpr int windowHeight = 600;
 
 } // namespace
 
@@ -31,11 +30,11 @@ Game::Game()
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
 
     m_window.reset(SDL_CreateWindow(
-        DEFAULT_TITLE,
+        "Destroid",
         SDL_WINDOWPOS_CENTERED,
         SDL_WINDOWPOS_CENTERED,
-        DEFAULT_WIDTH,
-        DEFAULT_HEIGHT,
+        windowWidth,
+        windowHeight,
         SDL_WINDOW_OPENGL));
 
     if (!m_window) {

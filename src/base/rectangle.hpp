@@ -52,13 +52,13 @@ struct Rectangle {
 
     constexpr glm::vec2 center() const
     {
-        return {x + (width * 0.5F), y + (height * 0.5F)};
+        return {x + (width * 0.5f), y + (height * 0.5f)};
     }
 
-    float x = 0.F;
-    float y = 0.F;
-    float width = 0.F;
-    float height = 0.F;
+    float x = 0.0f;
+    float y = 0.0f;
+    float width = 0.0f;
+    float height = 0.0f;
 };
 
 } // namespace destroid

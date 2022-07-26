@@ -40,9 +40,9 @@ struct Circle {
         return distance < radiusSum * radiusSum;
     }
 
-    float x = 0.F;
-    float y = 0.F;
-    float radius = 0.F;
+    float x = 0.0f;
+    float y = 0.0f;
+    float radius = 0.0f;
 };
 
 } // namespace destroid

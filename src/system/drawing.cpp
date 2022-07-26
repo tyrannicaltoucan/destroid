@@ -7,12 +7,6 @@
 
 namespace destroid::drawing_system {
 
-namespace {
-
-    constexpr float TEMP_SCALE = 1.F;
-
-}
-
 void update(entt::registry& registry, Renderer& renderer, const Texture& texture)
 {
     const auto view = registry.view<Drawable, Transform>();
@@ -22,7 +16,7 @@ void update(entt::registry& registry, Renderer& renderer, const Texture& texture
             drawable.region,
             transform.position,
             transform.rotation,
-            TEMP_SCALE);
+            1.0f);
     });
 }
 

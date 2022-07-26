@@ -16,13 +16,13 @@ struct Vertex {
 
 namespace {
 
-    constexpr std::size_t MAX_BATCHES = 128;
-    constexpr std::size_t VERTICES_PER_QUAD = 4;
-    constexpr std::size_t INDICES_PER_QUAD = 6;
-    constexpr std::size_t MAX_VERTICES = VERTICES_PER_QUAD * MAX_BATCHES;
-    constexpr std::size_t MAX_INDICES = INDICES_PER_QUAD * MAX_BATCHES;
+    constexpr std::size_t totalBatches = 128;
+    constexpr std::size_t verticesPerQuad = 4;
+    constexpr std::size_t indicesPerQuad = 6;
+    constexpr std::size_t totalVertices = verticesPerQuad * totalBatches;
+    constexpr std::size_t totalIndices = indicesPerQuad * totalBatches;
 
-    const std::string VERTEX_SOURCE = R"(
+    const std::string vertexSource = R"(
         #version 330
 
         layout (location = 0) in vec2 position;
@@ -38,7 +38,7 @@ namespace {
         }
     )";
 
-    const std::string FRAGMENT_SOURCE = R"(
+    const std::string fragmentSource = R"(
         #version 330
 
         in vec2 frag_texcoord;
@@ -55,9 +55,9 @@ namespace {
 } // namespace
 
 Renderer::Renderer()
-    : m_shader(VERTEX_SOURCE, FRAGMENT_SOURCE)
+    : m_shader(vertexSource, fragmentSource)
 {
-    m_vertices.reserve(MAX_VERTICES);
+    m_vertices.reserve(totalVertices);
 
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -78,19 +78,19 @@ Renderer::Renderer()
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo);
 
     std::vector<GLushort> indices;
-    indices.reserve(MAX_INDICES);
-    for (GLushort i = 0; i < MAX_BATCHES; i++) {
-        indices.emplace_back(i * VERTICES_PER_QUAD + 0);
-        indices.emplace_back(i * VERTICES_PER_QUAD + 1);
-        indices.emplace_back(i * VERTICES_PER_QUAD + 2);
-        indices.emplace_back(i * VERTICES_PER_QUAD + 2);
-        indices.emplace_back(i * VERTICES_PER_QUAD + 1);
-        indices.emplace_back(i * VERTICES_PER_QUAD + 3);
+    indices.reserve(totalIndices);
+    for (GLushort i = 0; i < totalBatches; i++) {
+        indices.emplace_back(i * verticesPerQuad + 0);
+        indices.emplace_back(i * verticesPerQuad + 1);
+        indices.emplace_back(i * verticesPerQuad + 2);
+        indices.emplace_back(i * verticesPerQuad + 2);
+        indices.emplace_back(i * verticesPerQuad + 1);
+        indices.emplace_back(i * verticesPerQuad + 3);
     }
 
     glBufferData(
         GL_ELEMENT_ARRAY_BUFFER,
-        sizeof(GLushort) * MAX_INDICES,
+        sizeof(GLushort) * totalIndices,
         indices.data(),
         GL_STATIC_DRAW);
 
@@ -125,7 +125,7 @@ Renderer::~Renderer()
 
 void Renderer::setViewBounds(float width, float height)
 {
-    const glm::mat4x4 view = glm::ortho(0.F, width, 0.F, height, -1.F, 1.F);
+    const glm::mat4x4 view = glm::ortho(0.0f, width, 0.0f, height, -1.0f, 1.0f);
     m_shader.bind();
     m_shader.setUniform("projection", view);
 }
@@ -149,11 +149,11 @@ void Renderer::draw(
         m_boundTexureHandle = texture.handle();
     }
 
-    auto transform = glm::mat3(1.F);
+    auto transform = glm::mat3(1.0f);
     transform = glm::translate(transform, position);
     transform = glm::rotate(transform, glm::radians(angle));
     transform = glm::scale(transform, glm::vec2(scale, scale));
-    transform = glm::translate(transform, -glm::vec2(region.width, region.height) / 2.F);
+    transform = glm::translate(transform, -glm::vec2(region.width, region.height) / 2.0f);
 
     const float leftUV = region.left() / texture.width();
     const float rightUV = region.right() / texture.width();
@@ -161,19 +161,19 @@ void Renderer::draw(
     const float bottomUV = region.bottom() / texture.height();
 
     m_vertices.emplace_back(Vertex{
-        transform * glm::vec3(0.F, 0.F, 1.F),
+        transform * glm::vec3(0.0f, 0.0f, 1.0f),
         glm::vec2(leftUV, topUV)});
 
     m_vertices.emplace_back(Vertex{
-        transform * glm::vec3(region.width, 0.F, 1.F),
+        transform * glm::vec3(region.width, 0.0f, 1.0f),
         glm::vec2(rightUV, topUV)});
 
     m_vertices.emplace_back(Vertex{
-        transform * glm::vec3(0.F, region.height, 1.F),
+        transform * glm::vec3(0.0f, region.height, 1.0f),
         glm::vec2(leftUV, bottomUV)});
 
     m_vertices.emplace_back(Vertex{
-        transform * glm::vec3(region.width, region.height, 1.F),
+        transform * glm::vec3(region.width, region.height, 1.0f),
         glm::vec2(rightUV, bottomUV)});
 
     m_batchCount += 1;
@@ -193,7 +193,7 @@ void Renderer::finish()
 
     glDrawElements(
         GL_TRIANGLES,
-        m_batchCount * INDICES_PER_QUAD,
+        m_batchCount * indicesPerQuad,
         GL_UNSIGNED_SHORT,
         nullptr);
 

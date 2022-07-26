@@ -2,8 +2,12 @@ cmake_minimum_required(VERSION 3.10)
 project(destroid)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
-set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_LIST_DIR}/cmake)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
+list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
 
 find_package(SDL2 REQUIRED)
 add_subdirectory(thirdparty)
@@ -50,40 +54,37 @@ add_executable(destroid
     src/game_scene.hpp
     src/game.cpp
     src/game.hpp
-    src/main.cpp)
+    src/main.cpp
+)
 
-target_compile_features(destroid PRIVATE cxx_std_17)
-set_target_properties(destroid PROPERTIES CXX_EXTENSIONS OFF)
+target_include_directories(destroid PRIVATE "${PROJECT_SOURCE_DIR}/src")
 
-if(CMAKE_CXX_COMPILER_ID MATCHES "Clang" OR CMAKE_CXX_COMPILER_ID MATCHES "GNU")
+if(CMAKE_CXX_COMPILER_ID MATCHES "Clang|GNU")
     target_compile_options(destroid PRIVATE
         -Wall
         -Wextra
         -Wpedantic
         -Wsign-compare
-        -Wold-style-cast)
+        -Wold-style-cast
+    )
 elseif(CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
     target_compile_options(destroid PRIVATE
         /permissive-
         /Zc:__cplusplus
         /EHsc
-        /MP)
+        /MP
+    )
 endif()
 
 target_compile_definitions(destroid PRIVATE
     STBI_ONLY_PNG
-    GLM_FORCE_CXX17)
-
-target_include_directories(destroid PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)
+    GLM_FORCE_CXX17
+)
 
 target_link_libraries(destroid PRIVATE
     EnTT::EnTT
     glad::glad
     glm::glm
     stb::image
-    SDL2::SDL2main)
-
-add_custom_command(TARGET destroid POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy_directory
-    ${PROJECT_SOURCE_DIR}/assets $<TARGET_FILE_DIR:destroid>/assets
-    COMMENT "Copying assets to ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}")
+    SDL2::SDL2main
+)

@@ -1,9 +1,9 @@
 #include "movement.hpp"
+#include "base/rectangle.hpp"
 #include "component/collider.hpp"
 #include "component/drag.hpp"
 #include "component/momentum.hpp"
 #include "component/transform.hpp"
-#include "base/rectangle.hpp"
 #include <entt/entity/registry.hpp>
 #include <glm/common.hpp>
 #include <glm/exponential.hpp>

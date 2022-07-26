@@ -1,13 +1,12 @@
 #pragma once
 
-#include <entt/core/type_traits.hpp>
 #include <entt/core/hashed_string.hpp>
+#include <entt/core/type_traits.hpp>
 
 namespace destroid {
-
 namespace {
 
-    using namespace entt::literals;
+using namespace entt::literals;
 
 } // namespace
 

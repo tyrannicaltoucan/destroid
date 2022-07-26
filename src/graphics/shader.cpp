@@ -1,61 +1,59 @@
 #include "shader.hpp"
 #include <glm/gtc/type_ptr.hpp>
 #include <cassert>
-#include <iostream>
 #include <stdexcept>
 
 namespace destroid {
-
 namespace {
 
-    GLuint compileShader(GLenum type, const std::string& source)
-    {
-        const GLuint shaderHandle = glCreateShader(type);
-        const GLchar* sourcePtr = source.c_str();
-        glShaderSource(shaderHandle, 1, &sourcePtr, nullptr);
-        glCompileShader(shaderHandle);
+GLuint compileShader(GLenum type, const std::string& source)
+{
+    const GLuint shaderHandle = glCreateShader(type);
+    const GLchar* sourcePtr = source.c_str();
+    glShaderSource(shaderHandle, 1, &sourcePtr, nullptr);
+    glCompileShader(shaderHandle);
 
-        GLint status;
-        glGetShaderiv(shaderHandle, GL_COMPILE_STATUS, &status);
+    GLint status;
+    glGetShaderiv(shaderHandle, GL_COMPILE_STATUS, &status);
 
-        if (status == GL_FALSE) {
-            GLint logLength;
-            glGetShaderiv(shaderHandle, GL_INFO_LOG_LENGTH, &logLength);
+    if (status == GL_FALSE) {
+        GLint logLength;
+        glGetShaderiv(shaderHandle, GL_INFO_LOG_LENGTH, &logLength);
 
-            if (logLength > 0) {
-                std::string log;
-                log.resize(static_cast<std::string::size_type>(logLength - 1));
+        if (logLength > 0) {
+            std::string log;
+            log.resize(static_cast<std::string::size_type>(logLength - 1));
 
-                glGetShaderInfoLog(shaderHandle, logLength, nullptr, log.data());
-                throw std::runtime_error("Failed to compile shader:\n" + log);
-            } else {
-                throw std::runtime_error("Failed to compile shader, but no error log was found");
-            }
-        }
-
-        return shaderHandle;
-    }
-
-    void checkLinkStatus(GLuint programHandle)
-    {
-        GLint status;
-        glGetProgramiv(programHandle, GL_LINK_STATUS, &status);
-
-        if (status == GL_FALSE) {
-            GLint logLength;
-            glGetProgramiv(programHandle, GL_INFO_LOG_LENGTH, &logLength);
-
-            if (logLength > 0) {
-                std::string log;
-                log.resize(static_cast<std::string::size_type>(logLength - 1));
-
-                glGetProgramInfoLog(programHandle, logLength, nullptr, log.data());
-                throw std::runtime_error("Failed to link shaders:\n" + log);
-            } else {
-                throw std::runtime_error("Failed to link shaders, but no error log was found");
-            }
+            glGetShaderInfoLog(shaderHandle, logLength, nullptr, log.data());
+            throw std::runtime_error("Failed to compile shader:\n" + log);
+        } else {
+            throw std::runtime_error("Failed to compile shader, but no error log was found");
         }
     }
+
+    return shaderHandle;
+}
+
+void checkLinkStatus(GLuint programHandle)
+{
+    GLint status;
+    glGetProgramiv(programHandle, GL_LINK_STATUS, &status);
+
+    if (status == GL_FALSE) {
+        GLint logLength;
+        glGetProgramiv(programHandle, GL_INFO_LOG_LENGTH, &logLength);
+
+        if (logLength > 0) {
+            std::string log;
+            log.resize(static_cast<std::string::size_type>(logLength - 1));
+
+            glGetProgramInfoLog(programHandle, logLength, nullptr, log.data());
+            throw std::runtime_error("Failed to link shaders:\n" + log);
+        } else {
+            throw std::runtime_error("Failed to link shaders, but no error log was found");
+        }
+    }
+}
 
 } // namespace
 

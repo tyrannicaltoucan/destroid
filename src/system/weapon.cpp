@@ -1,7 +1,7 @@
 #include "weapon.hpp"
-#include "factory/entity_factory.hpp"
 #include "component/transform.hpp"
 #include "component/weapon.hpp"
+#include "factory/entity_factory.hpp"
 #include <entt/entity/registry.hpp>
 
 namespace destroid::weapon_system {

@@ -9,7 +9,7 @@ class Texture;
 
 namespace drawing_system {
 
-    void update(entt::registry& registry, Renderer& renderer, const Texture& texture);
+void update(entt::registry& registry, Renderer& renderer, const Texture& texture);
 
 } // namespace drawing_system
 

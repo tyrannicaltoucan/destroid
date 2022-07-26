@@ -1,10 +1,10 @@
 #include "renderer.hpp"
-#include "texture.hpp"
 #include "base/rectangle.hpp"
-#include <glm/vec2.hpp>
-#include <glm/vec4.hpp>
+#include "texture.hpp"
 #include <glm/ext/matrix_clip_space.hpp>
 #include <glm/gtx/matrix_transform_2d.hpp>
+#include <glm/vec2.hpp>
+#include <glm/vec4.hpp>
 #include <string>
 
 namespace destroid {
@@ -16,41 +16,41 @@ struct Vertex {
 
 namespace {
 
-    constexpr std::size_t totalBatches = 128;
-    constexpr std::size_t verticesPerQuad = 4;
-    constexpr std::size_t indicesPerQuad = 6;
-    constexpr std::size_t totalVertices = verticesPerQuad * totalBatches;
-    constexpr std::size_t totalIndices = indicesPerQuad * totalBatches;
+constexpr std::size_t totalBatches = 128;
+constexpr std::size_t verticesPerQuad = 4;
+constexpr std::size_t indicesPerQuad = 6;
+constexpr std::size_t totalVertices = verticesPerQuad * totalBatches;
+constexpr std::size_t totalIndices = indicesPerQuad * totalBatches;
 
-    const std::string vertexSource = R"(
-        #version 330
+const std::string vertexSource = R"(
+    #version 330
 
-        layout (location = 0) in vec2 position;
-        layout (location = 1) in vec2 texcoord;
+    layout (location = 0) in vec2 position;
+    layout (location = 1) in vec2 texcoord;
 
-        out vec2 frag_texcoord;
+    out vec2 frag_texcoord;
 
-        uniform mat4 projection;
+    uniform mat4 projection;
 
-        void main() {
-            gl_Position = projection * vec4(position, 0.0, 1.0);
-            frag_texcoord = vec2(texcoord.x, 1.0 - texcoord.y);
-        }
-    )";
+    void main() {
+        gl_Position = projection * vec4(position, 0.0, 1.0);
+        frag_texcoord = vec2(texcoord.x, 1.0 - texcoord.y);
+    }
+)";
 
-    const std::string fragmentSource = R"(
-        #version 330
+const std::string fragmentSource = R"(
+    #version 330
 
-        in vec2 frag_texcoord;
+    in vec2 frag_texcoord;
 
-        out vec4 color;
+    out vec4 color;
 
-        uniform sampler2D tex_sampler;
+    uniform sampler2D tex_sampler;
 
-        void main() {
-            color = texture(tex_sampler, frag_texcoord);
-        }
-    )";
+    void main() {
+        color = texture(tex_sampler, frag_texcoord);
+    }
+)";
 
 } // namespace
 
@@ -67,12 +67,7 @@ Renderer::Renderer()
 
     glGenBuffers(1, &m_vbo);
     glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
-
-    glBufferData(
-        GL_ARRAY_BUFFER,
-        sizeof(Vertex) * m_vertices.capacity(),
-        nullptr,
-        GL_STREAM_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * m_vertices.capacity(), nullptr, GL_STREAM_DRAW);
 
     glGenBuffers(1, &m_ibo);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo);
@@ -88,11 +83,7 @@ Renderer::Renderer()
         indices.emplace_back(i * verticesPerQuad + 3);
     }
 
-    glBufferData(
-        GL_ELEMENT_ARRAY_BUFFER,
-        sizeof(GLushort) * totalIndices,
-        indices.data(),
-        GL_STATIC_DRAW);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLushort) * totalIndices, indices.data(), GL_STATIC_DRAW);
 
     const GLuint positionAttribID = 0;
     glEnableVertexAttribArray(positionAttribID);
@@ -160,21 +151,23 @@ void Renderer::draw(
     const float topUV = region.top() / texture.height();
     const float bottomUV = region.bottom() / texture.height();
 
-    m_vertices.emplace_back(Vertex{
-        transform * glm::vec3(0.0f, 0.0f, 1.0f),
+    // clang-format off
+    m_vertices.emplace_back(Vertex {
+        transform * glm::vec3(0.0f, 0.0f, 1.0f), 
         glm::vec2(leftUV, topUV)});
 
-    m_vertices.emplace_back(Vertex{
-        transform * glm::vec3(region.width, 0.0f, 1.0f),
+    m_vertices.emplace_back(Vertex {
+        transform * glm::vec3(region.width, 0.0f, 1.0f), 
         glm::vec2(rightUV, topUV)});
 
-    m_vertices.emplace_back(Vertex{
-        transform * glm::vec3(0.0f, region.height, 1.0f),
+    m_vertices.emplace_back(Vertex {
+        transform * glm::vec3(0.0f, region.height, 1.0f), 
         glm::vec2(leftUV, bottomUV)});
 
-    m_vertices.emplace_back(Vertex{
-        transform * glm::vec3(region.width, region.height, 1.0f),
+    m_vertices.emplace_back(Vertex {
+        transform * glm::vec3(region.width, region.height, 1.0f), 
         glm::vec2(rightUV, bottomUV)});
+    // clang-format on
 
     m_batchCount += 1;
 }
@@ -185,17 +178,8 @@ void Renderer::finish()
         return;
     }
 
-    glBufferSubData(
-        GL_ARRAY_BUFFER,
-        0,
-        m_vertices.size() * sizeof(Vertex),
-        m_vertices.data());
-
-    glDrawElements(
-        GL_TRIANGLES,
-        m_batchCount * indicesPerQuad,
-        GL_UNSIGNED_SHORT,
-        nullptr);
+    glBufferSubData(GL_ARRAY_BUFFER, 0, m_vertices.size() * sizeof(Vertex), m_vertices.data());
+    glDrawElements(GL_TRIANGLES, m_batchCount * indicesPerQuad, GL_UNSIGNED_SHORT, nullptr);
 
     m_vertices.clear();
     m_batchCount = 0;

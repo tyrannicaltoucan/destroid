@@ -11,12 +11,7 @@ void update(entt::registry& registry, Renderer& renderer, const Texture& texture
 {
     const auto view = registry.view<Drawable, Transform>();
     view.each([&](const auto& drawable, const auto& transform) {
-        renderer.draw(
-            texture,
-            drawable.region,
-            transform.position,
-            transform.rotation,
-            1.0f);
+        renderer.draw(texture, drawable.region, transform.position, transform.rotation, 1.0f);
     });
 }
 

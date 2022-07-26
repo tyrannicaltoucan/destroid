@@ -9,29 +9,28 @@
 #include "component/momentum.hpp"
 #include "component/spawner.hpp"
 #include "component/tag.hpp"
-#include "component/transform.hpp"
 #include "component/thrust.hpp"
+#include "component/transform.hpp"
 #include "component/weapon.hpp"
 #include <entt/entity/registry.hpp>
 #include <glm/trigonometric.hpp>
 #include <glm/vec2.hpp>
 
 namespace destroid::entity_factory {
-
 namespace {
 
-    constexpr Rectangle shipSource = Rectangle(0, 0, 32, 32);
-    constexpr float shipLinearDrag = 0.15f;
-    constexpr float shipAngularDrag = 0.02f;
-    constexpr float shipLinearSpeed = 200.0f;
-    constexpr float shipAngularSpeed = shipLinearSpeed * 2.0f;
-    constexpr float shipWeaponCooldown = 0.3f;
-    constexpr Rectangle bulletSource = Rectangle(0, 32, 8, 8);
-    constexpr float bulletSpeed = shipLinearSpeed * 1.35f;
-    constexpr float bulletTimeActive = 0.7f;
-    constexpr float asteroidMinSpeed = 25.0f;
-    constexpr float asteroidMaxSpeed = 65.0f;
-    constexpr int asteroidSpawnCap = 5;
+constexpr Rectangle shipSource = Rectangle(0, 0, 32, 32);
+constexpr float shipLinearDrag = 0.15f;
+constexpr float shipAngularDrag = 0.02f;
+constexpr float shipLinearSpeed = 200.0f;
+constexpr float shipAngularSpeed = shipLinearSpeed * 2.0f;
+constexpr float shipWeaponCooldown = 0.3f;
+constexpr Rectangle bulletSource = Rectangle(0, 32, 8, 8);
+constexpr float bulletSpeed = shipLinearSpeed * 1.35f;
+constexpr float bulletTimeActive = 0.7f;
+constexpr float asteroidMinSpeed = 25.0f;
+constexpr float asteroidMaxSpeed = 65.0f;
+constexpr int asteroidSpawnCap = 5;
 
 } // namespace
 

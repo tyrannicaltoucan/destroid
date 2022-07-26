@@ -1,11 +1,27 @@
 ---
 Language: Cpp
 BasedOnStyle: WebKit
-
+AlignAfterOpenBracket: AlwaysBreak
+AllowShortEnumsOnASingleLine: false
+AllowShortFunctionsOnASingleLine: None
+AllowShortLambdasOnASingleLine: None
 AlwaysBreakTemplateDeclarations: Yes
+BinPackArguments: false
+BinPackParameters: false
+ColumnLimit: 100
 Cpp11BracedListStyle: true
 FixNamespaceComments: true
-SortIncludes: false
-SortUsingDeclarations: false
-SpaceBeforeCpp11BracedList: false
+IncludeBlocks: Merge
+IncludeCategories:
+  # Local headers
+  - Regex: '"([A-Za-z0-9.\Q/-_\E])+"'
+    Priority: 1
+  # External library headers
+  - Regex: '<([A-Za-z0-9\_\-]+\/)*(\.\.)*([A-Za-z0-9\_\-]+)\.([A-Za-z0-9\_\-]+)>'
+    Priority: 2
+  # Standard library headers
+  - Regex: '<([A-Za-z0-9\_\-]+)>'
+    Priority: 3
+NamespaceIndentation: None
+Standard: c++17
 ...

@@ -1,18 +1,17 @@
 #include "game.hpp"
-#include <glad/gl.h>
 #include <SDL.h>
+#include <glad/gl.h>
 #include <chrono>
 #include <stdexcept>
 
 namespace destroid {
-
 namespace {
 
-    using Clock = std::chrono::steady_clock;
-    using Duration = std::chrono::duration<float>;
+using Clock = std::chrono::steady_clock;
+using Duration = std::chrono::duration<float>;
 
-    constexpr int windowWidth = 900;
-    constexpr int windowHeight = 600;
+constexpr int windowWidth = 900;
+constexpr int windowHeight = 600;
 
 } // namespace
 

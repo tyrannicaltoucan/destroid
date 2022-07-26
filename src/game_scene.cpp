@@ -13,10 +13,9 @@
 #include <glm/vec4.hpp>
 
 namespace destroid {
-
 namespace {
 
-    constexpr auto viewBounds = Rectangle(0.0f, 0.0f, 450.0f, 300.0f);
+constexpr auto viewBounds = Rectangle(0.0f, 0.0f, 450.0f, 300.0f);
 
 } // namespace
 

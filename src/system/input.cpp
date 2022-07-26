@@ -3,9 +3,9 @@
 #include "component/thrust.hpp"
 #include "component/transform.hpp"
 #include "component/weapon.hpp"
+#include <SDL_scancode.h>
 #include <entt/entity/registry.hpp>
 #include <glm/trigonometric.hpp>
-#include <SDL_scancode.h>
 
 namespace destroid::input_system {
 

@@ -1,5 +1,5 @@
 #include "renderer.hpp"
-#include "base/rectangle.hpp"
+#include "math/rectangle.hpp"
 #include "texture.hpp"
 #include <glm/ext/matrix_clip_space.hpp>
 #include <glm/gtx/matrix_transform_2d.hpp>

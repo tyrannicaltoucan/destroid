@@ -1,7 +1,7 @@
 #include "game_scene.hpp"
-#include "base/rectangle.hpp"
 #include "factory/entity_factory.hpp"
 #include "graphics/renderer.hpp"
+#include "math/rectangle.hpp"
 #include "system/collision.hpp"
 #include "system/despawn.hpp"
 #include "system/drawing.hpp"

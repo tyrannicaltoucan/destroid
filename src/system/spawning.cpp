@@ -1,8 +1,8 @@
 #include "spawning.hpp"
-#include "base/random.hpp"
-#include "base/rectangle.hpp"
 #include "component/spawner.hpp"
 #include "factory/entity_factory.hpp"
+#include "math/random.hpp"
+#include "math/rectangle.hpp"
 #include <entt/entity/registry.hpp>
 #include <glm/vec2.hpp>
 

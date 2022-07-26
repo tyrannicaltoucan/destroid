@@ -1,6 +1,7 @@
 #include "collision.hpp"
 #include "component/collider.hpp"
 #include "component/tag.hpp"
+#include "math/circle.hpp"
 #include <entt/entity/registry.hpp>
 
 namespace destroid::collision_system {

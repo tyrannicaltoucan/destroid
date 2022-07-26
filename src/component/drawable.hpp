@@ -1,6 +1,6 @@
 #pragma once
 
-#include "base/rectangle.hpp"
+#include "math/rectangle.hpp"
 
 namespace destroid {
 

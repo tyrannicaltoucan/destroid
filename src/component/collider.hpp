@@ -1,6 +1,6 @@
 #pragma once
 
-#include "base/circle.hpp"
+#include "math/circle.hpp"
 
 namespace destroid {
 

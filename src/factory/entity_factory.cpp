@@ -1,7 +1,4 @@
 #include "entity_factory.hpp"
-#include "base/circle.hpp"
-#include "base/random.hpp"
-#include "base/rectangle.hpp"
 #include "component/collider.hpp"
 #include "component/drag.hpp"
 #include "component/drawable.hpp"
@@ -12,6 +9,9 @@
 #include "component/thrust.hpp"
 #include "component/transform.hpp"
 #include "component/weapon.hpp"
+#include "math/circle.hpp"
+#include "math/random.hpp"
+#include "math/rectangle.hpp"
 #include <entt/entity/registry.hpp>
 #include <glm/trigonometric.hpp>
 #include <glm/vec2.hpp>

@@ -31,6 +31,7 @@ add_executable(destroid
     src/graphics/shader.hpp
     src/graphics/texture.cpp
     src/graphics/texture.hpp
+    src/graphics/vertex.hpp
     src/math/circle.hpp
     src/math/random.hpp
     src/math/rectangle.hpp

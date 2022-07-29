@@ -1,5 +1,6 @@
 #include "renderer.hpp"
 #include "math/rectangle.hpp"
+#include "graphics/vertex.hpp"
 #include "texture.hpp"
 #include <glm/ext/matrix_clip_space.hpp>
 #include <glm/gtx/matrix_transform_2d.hpp>
@@ -8,12 +9,6 @@
 #include <string>
 
 namespace destroid {
-
-struct Vertex {
-    glm::vec2 position;
-    glm::vec2 texcoord;
-};
-
 namespace {
 
 constexpr std::size_t totalBatches = 128;

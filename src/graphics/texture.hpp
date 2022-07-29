@@ -14,8 +14,8 @@ public:
     Texture& operator=(const Texture&) = delete;
 
     void bind() const;
-    GLuint handle() const;
 
+    GLuint handle() const;
     int width() const;
     int height() const;
 

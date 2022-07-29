@@ -22,7 +22,7 @@ constexpr std::size_t indicesPerQuad = 6;
 constexpr std::size_t totalVertices = verticesPerQuad * totalBatches;
 constexpr std::size_t totalIndices = indicesPerQuad * totalBatches;
 
-const std::string vertexSource = R"(
+constexpr const char* vertexSource = R"(
     #version 330
 
     layout (location = 0) in vec2 position;
@@ -38,7 +38,7 @@ const std::string vertexSource = R"(
     }
 )";
 
-const std::string fragmentSource = R"(
+constexpr const char* fragmentSource = R"(
     #version 330
 
     in vec2 frag_texcoord;
@@ -101,6 +101,8 @@ Renderer::Renderer()
     glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), makeOffset(0));
     glEnableVertexAttribArray(1);
     glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), makeOffset(sizeof(glm::vec2)));
+
+    m_shader.use();
 }
 
 Renderer::~Renderer()
@@ -114,7 +116,6 @@ Renderer::~Renderer()
 void Renderer::setViewBounds(float width, float height)
 {
     const glm::mat4x4 view = glm::ortho(0.0f, width, 0.0f, height, -1.0f, 1.0f);
-    m_shader.bind();
     m_shader.setUniform("projection", view);
 }
 

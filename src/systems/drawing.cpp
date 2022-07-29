@@ -1,6 +1,6 @@
 #include "drawing.hpp"
-#include "component/drawable.hpp"
-#include "component/transform.hpp"
+#include "entity/components/drawable.hpp"
+#include "entity/components/transform.hpp"
 #include "graphics/renderer.hpp"
 #include "graphics/texture.hpp"
 #include <entt/entity/registry.hpp>

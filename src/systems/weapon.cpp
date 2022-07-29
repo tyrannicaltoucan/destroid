@@ -1,7 +1,7 @@
 #include "weapon.hpp"
-#include "component/transform.hpp"
-#include "component/weapon.hpp"
-#include "factory/entity_factory.hpp"
+#include "entity/components/transform.hpp"
+#include "entity/components/weapon.hpp"
+#include "entity/factory.hpp"
 #include <entt/entity/registry.hpp>
 
 namespace destroid::weapon_system {
@@ -12,7 +12,7 @@ void update(entt::registry& registry, float delta)
     view.each([&](auto& weapon, const auto& transform) {
         if (weapon.canFire) {
             weapon.canFire = false;
-            entity_factory::createBullet(registry, transform.position, transform.rotation);
+            entity::createBullet(registry, transform.position, transform.rotation);
             weapon.cooldown = weapon.fireRate;
         }
 

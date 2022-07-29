@@ -1,8 +1,8 @@
 #include "movement.hpp"
-#include "component/collider.hpp"
-#include "component/drag.hpp"
-#include "component/momentum.hpp"
-#include "component/transform.hpp"
+#include "entity/components/collider.hpp"
+#include "entity/components/drag.hpp"
+#include "entity/components/momentum.hpp"
+#include "entity/components/transform.hpp"
 #include "math/rectangle.hpp"
 #include <entt/entity/registry.hpp>
 #include <glm/common.hpp>

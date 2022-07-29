@@ -1,6 +1,6 @@
 #include "collision.hpp"
-#include "component/collider.hpp"
-#include "component/tag.hpp"
+#include "entity/components/collider.hpp"
+#include "entity/components/tag.hpp"
 #include "math/circle.hpp"
 #include <entt/entity/registry.hpp>
 

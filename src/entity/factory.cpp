@@ -1,14 +1,14 @@
-#include "entity_factory.hpp"
-#include "component/collider.hpp"
-#include "component/drag.hpp"
-#include "component/drawable.hpp"
-#include "component/lifetime.hpp"
-#include "component/momentum.hpp"
-#include "component/spawner.hpp"
-#include "component/tag.hpp"
-#include "component/thrust.hpp"
-#include "component/transform.hpp"
-#include "component/weapon.hpp"
+#include "factory.hpp"
+#include "entity/components/collider.hpp"
+#include "entity/components/drag.hpp"
+#include "entity/components/drawable.hpp"
+#include "entity/components/lifetime.hpp"
+#include "entity/components/momentum.hpp"
+#include "entity/components/spawner.hpp"
+#include "entity/components/tag.hpp"
+#include "entity/components/thrust.hpp"
+#include "entity/components/transform.hpp"
+#include "entity/components/weapon.hpp"
 #include "math/circle.hpp"
 #include "math/random.hpp"
 #include "math/rectangle.hpp"
@@ -16,7 +16,7 @@
 #include <glm/trigonometric.hpp>
 #include <glm/vec2.hpp>
 
-namespace destroid::entity_factory {
+namespace destroid::entity {
 namespace {
 
 constexpr Rectangle shipSource = Rectangle(0, 0, 32, 32);
@@ -122,4 +122,4 @@ entt::entity createSpawner(entt::registry& registry)
     return e;
 }
 
-} // namespace destroid::entity_factory
+} // namespace destroid::entity

@@ -1,8 +1,8 @@
 #include "input.hpp"
-#include "component/momentum.hpp"
-#include "component/thrust.hpp"
-#include "component/transform.hpp"
-#include "component/weapon.hpp"
+#include "entity/components/momentum.hpp"
+#include "entity/components/thrust.hpp"
+#include "entity/components/transform.hpp"
+#include "entity/components/weapon.hpp"
 #include <SDL_scancode.h>
 #include <entt/entity/registry.hpp>
 #include <glm/trigonometric.hpp>

@@ -13,18 +13,18 @@ find_package(SDL2 REQUIRED)
 add_subdirectory(thirdparty)
 
 add_executable(destroid
-    src/component/collider.hpp
-    src/component/drag.hpp
-    src/component/drawable.hpp
-    src/component/lifetime.hpp
-    src/component/momentum.hpp
-    src/component/spawner.hpp
-    src/component/tag.hpp
-    src/component/thrust.hpp
-    src/component/transform.hpp
-    src/component/weapon.hpp
-    src/factory/entity_factory.cpp
-    src/factory/entity_factory.hpp
+    src/entity/components/collider.hpp
+    src/entity/components/drag.hpp
+    src/entity/components/drawable.hpp
+    src/entity/components/lifetime.hpp
+    src/entity/components/momentum.hpp
+    src/entity/components/spawner.hpp
+    src/entity/components/tag.hpp
+    src/entity/components/thrust.hpp
+    src/entity/components/transform.hpp
+    src/entity/components/weapon.hpp
+    src/entity/factory.cpp
+    src/entity/factory.hpp
     src/graphics/renderer.cpp
     src/graphics/renderer.hpp
     src/graphics/shader.cpp
@@ -34,22 +34,22 @@ add_executable(destroid
     src/math/circle.hpp
     src/math/random.hpp
     src/math/rectangle.hpp
-    src/system/collision.cpp
-    src/system/collision.hpp
-    src/system/despawn.cpp
-    src/system/despawn.hpp
-    src/system/drawing.cpp
-    src/system/drawing.hpp
-    src/system/expiry.cpp
-    src/system/expiry.hpp
-    src/system/input.cpp
-    src/system/input.hpp
-    src/system/movement.cpp
-    src/system/movement.hpp
-    src/system/spawning.cpp
-    src/system/spawning.hpp
-    src/system/weapon.cpp
-    src/system/weapon.hpp
+    src/systems/collision.cpp
+    src/systems/collision.hpp
+    src/systems/despawn.cpp
+    src/systems/despawn.hpp
+    src/systems/drawing.cpp
+    src/systems/drawing.hpp
+    src/systems/expiry.cpp
+    src/systems/expiry.hpp
+    src/systems/input.cpp
+    src/systems/input.hpp
+    src/systems/movement.cpp
+    src/systems/movement.hpp
+    src/systems/spawning.cpp
+    src/systems/spawning.hpp
+    src/systems/weapon.cpp
+    src/systems/weapon.hpp
     src/game_scene.cpp
     src/game_scene.hpp
     src/game.cpp

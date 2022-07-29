@@ -1,6 +1,6 @@
 #include "spawning.hpp"
-#include "component/spawner.hpp"
-#include "factory/entity_factory.hpp"
+#include "entity/components/spawner.hpp"
+#include "entity/factory.hpp"
 #include "math/random.hpp"
 #include "math/rectangle.hpp"
 #include <entt/entity/registry.hpp>
@@ -35,7 +35,7 @@ void update(entt::registry& registry)
             break;
         }
 
-        entity_factory::createAsteroid(registry, position);
+        entity::createAsteroid(registry, position);
         spawner.count += 1;
     });
 }

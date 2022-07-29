@@ -1,15 +1,15 @@
 #include "game_scene.hpp"
-#include "factory/entity_factory.hpp"
+#include "entity/factory.hpp"
 #include "graphics/renderer.hpp"
 #include "math/rectangle.hpp"
-#include "system/collision.hpp"
-#include "system/despawn.hpp"
-#include "system/drawing.hpp"
-#include "system/expiry.hpp"
-#include "system/input.hpp"
-#include "system/movement.hpp"
-#include "system/spawning.hpp"
-#include "system/weapon.hpp"
+#include "systems/collision.hpp"
+#include "systems/despawn.hpp"
+#include "systems/drawing.hpp"
+#include "systems/expiry.hpp"
+#include "systems/input.hpp"
+#include "systems/movement.hpp"
+#include "systems/spawning.hpp"
+#include "systems/weapon.hpp"
 #include <glm/vec4.hpp>
 
 namespace destroid {
@@ -23,8 +23,8 @@ GameScene::GameScene()
     : m_spriteSheet("assets/sprites.png")
 {
     m_registry.set<Rectangle>(viewBounds);
-    entity_factory::createShip(m_registry);
-    entity_factory::createSpawner(m_registry);
+    entity::createShip(m_registry);
+    entity::createSpawner(m_registry);
 }
 
 void GameScene::processInput(const unsigned char* keystate, float delta)

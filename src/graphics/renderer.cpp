@@ -52,28 +52,11 @@ const std::string fragmentSource = R"(
     }
 )";
 
-} // namespace
-
-Renderer::Renderer()
-    : m_shader(vertexSource, fragmentSource)
+std::vector<GLushort> generateIndices()
 {
-    m_vertices.reserve(totalVertices);
-
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-    glGenVertexArrays(1, &m_vao);
-    glBindVertexArray(m_vao);
-
-    glGenBuffers(1, &m_vbo);
-    glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * m_vertices.capacity(), nullptr, GL_STREAM_DRAW);
-
-    glGenBuffers(1, &m_ibo);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo);
-
     std::vector<GLushort> indices;
     indices.reserve(totalIndices);
+
     for (GLushort i = 0; i < totalBatches; i++) {
         indices.emplace_back(i * verticesPerQuad + 0);
         indices.emplace_back(i * verticesPerQuad + 1);
@@ -83,27 +66,41 @@ Renderer::Renderer()
         indices.emplace_back(i * verticesPerQuad + 3);
     }
 
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLushort) * totalIndices, indices.data(), GL_STATIC_DRAW);
+    return indices;
+}
 
-    const GLuint positionAttribID = 0;
-    glEnableVertexAttribArray(positionAttribID);
-    glVertexAttribPointer(
-        positionAttribID,
-        glm::vec2::length(),
-        GL_FLOAT,
-        GL_FALSE,
-        sizeof(Vertex),
-        reinterpret_cast<void*>(0));
+const void* makeOffset(std::uintptr_t size)
+{
+    return reinterpret_cast<const void*>(size);
+}
 
-    const GLuint texcoordAttribID = 1;
-    glEnableVertexAttribArray(texcoordAttribID);
-    glVertexAttribPointer(
-        texcoordAttribID,
-        glm::vec2::length(),
-        GL_FLOAT,
-        GL_FALSE,
-        sizeof(Vertex),
-        reinterpret_cast<void*>(glm::vec2::length() * sizeof(GLfloat)));
+} // namespace
+
+Renderer::Renderer()
+    : m_shader(vertexSource, fragmentSource)
+{
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+    glGenVertexArrays(1, &m_vao);
+    glBindVertexArray(m_vao);
+
+    m_vertices.reserve(totalVertices);
+    const GLuint vboSize = totalVertices * sizeof(Vertex);
+    glGenBuffers(1, &m_vbo);
+    glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
+    glBufferData(GL_ARRAY_BUFFER, vboSize, nullptr, GL_STREAM_DRAW);
+
+    const auto indices = generateIndices();
+    const GLuint iboSize = totalIndices * sizeof(GLushort);
+    glGenBuffers(1, &m_ibo);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, iboSize, indices.data(), GL_STATIC_DRAW);
+
+    glEnableVertexAttribArray(1);
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), makeOffset(0));
+    glEnableVertexAttribArray(1);
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), makeOffset(sizeof(glm::vec2)));
 }
 
 Renderer::~Renderer()

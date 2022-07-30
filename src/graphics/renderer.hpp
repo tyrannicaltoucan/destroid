@@ -7,7 +7,7 @@
 
 namespace destroid {
 
-struct Rectangle;
+struct Rect;
 class Texture;
 struct Vertex;
 
@@ -24,7 +24,7 @@ public:
 
     void draw(
         const Texture& texture,
-        const Rectangle& region,
+        const Rect& region,
         const glm::vec2& position,
         float angle,
         float scale);

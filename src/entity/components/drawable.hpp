@@ -5,7 +5,7 @@
 namespace destroid {
 
 struct Drawable {
-    Rectangle region;
+    Rect region;
 };
 
 } // namespace destroid

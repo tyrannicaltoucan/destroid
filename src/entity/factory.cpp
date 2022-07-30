@@ -19,13 +19,13 @@
 namespace destroid::entity {
 namespace {
 
-constexpr Rectangle shipSource = Rectangle(0, 0, 32, 32);
+constexpr Rect shipSource = Rect(0, 0, 32, 32);
 constexpr float shipLinearDrag = 0.15f;
 constexpr float shipAngularDrag = 0.02f;
 constexpr float shipLinearSpeed = 200.0f;
 constexpr float shipAngularSpeed = shipLinearSpeed * 2.0f;
 constexpr float shipWeaponCooldown = 0.3f;
-constexpr Rectangle bulletSource = Rectangle(0, 32, 8, 8);
+constexpr Rect bulletSource = Rect(0, 32, 8, 8);
 constexpr float bulletSpeed = shipLinearSpeed * 1.35f;
 constexpr float bulletTimeActive = 0.7f;
 constexpr float asteroidMinSpeed = 25.0f;
@@ -38,7 +38,7 @@ entt::entity createShip(entt::registry& registry)
 {
     const auto e = registry.create();
 
-    const auto viewport = registry.ctx<Rectangle>();
+    const auto viewport = registry.ctx<Rect>();
     const glm::vec2 position = viewport.center();
     const auto collider = Circle(position, shipSource.width / 3.5f);
 
@@ -58,17 +58,17 @@ entt::entity createAsteroid(entt::registry& registry, const glm::vec2& position)
 {
     const auto e = registry.create();
 
-    Rectangle source;
+    Rect source;
     const int asteroidTypes = random::between(1, 3);
     switch (asteroidTypes) {
     case 1:
-        source = Rectangle(32, 0, 32, 32);
+        source = Rect(32, 0, 32, 32);
         break;
     case 2:
-        source = Rectangle(64, 0, 32, 32);
+        source = Rect(64, 0, 32, 32);
         break;
     case 3:
-        source = Rectangle(96, 0, 32, 32);
+        source = Rect(96, 0, 32, 32);
         break;
     }
 

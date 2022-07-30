@@ -21,7 +21,7 @@ void update(entt::registry& registry, float delta)
         transform.rotation = glm::mod((glm::mod(transform.rotation, 360.0f) + 360.0f), 360.0f);
 
         // Keep entity positions inside the window area.
-        const auto viewport = registry.ctx<Rectangle>();
+        const auto viewport = registry.ctx<Rect>();
 
         if (transform.position.x <= viewport.left()) {
             transform.position.x = transform.position.x + viewport.width;

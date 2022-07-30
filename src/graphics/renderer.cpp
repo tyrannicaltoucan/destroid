@@ -122,7 +122,7 @@ void Renderer::clearColor(const glm::vec4& color) const
 
 void Renderer::draw(
     const Texture& texture,
-    const Rectangle& region,
+    const Rect& region,
     const glm::vec2& position,
     float angle,
     float scale)

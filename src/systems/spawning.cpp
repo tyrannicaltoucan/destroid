@@ -16,7 +16,7 @@ void update(entt::registry& registry)
             return;
         }
 
-        const auto viewport = registry.ctx<Rectangle>();
+        const auto viewport = registry.ctx<Rect>();
         const int spawnDireciton = random::between(1, 4);
         glm::vec2 position;
 

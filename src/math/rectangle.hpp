@@ -4,10 +4,10 @@
 
 namespace destroid {
 
-struct Rectangle {
-    constexpr Rectangle() = default;
+struct Rect {
+    constexpr Rect() = default;
 
-    constexpr Rectangle(float xPos, float yPos, float sizeWidth, float sizeHeight)
+    constexpr Rect(float xPos, float yPos, float sizeWidth, float sizeHeight)
         : x(xPos)
         , y(yPos)
         , width(sizeWidth)
@@ -15,8 +15,8 @@ struct Rectangle {
     {
     }
 
-    constexpr Rectangle(const glm::vec2& position, const glm::vec2& size)
-        : Rectangle(position.x, position.y, size.x, size.y)
+    constexpr Rect(const glm::vec2& position, const glm::vec2& size)
+        : Rect(position.x, position.y, size.x, size.y)
     {
     }
 

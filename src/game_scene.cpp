@@ -15,14 +15,14 @@
 namespace destroid {
 namespace {
 
-constexpr auto viewBounds = Rectangle(0.0f, 0.0f, 450.0f, 300.0f);
+constexpr auto viewBounds = Rect(0.0f, 0.0f, 450.0f, 300.0f);
 
 } // namespace
 
 GameScene::GameScene()
     : m_spriteSheet("assets/sprites.png")
 {
-    m_registry.set<Rectangle>(viewBounds);
+    m_registry.set<Rect>(viewBounds);
     entity::createShip(m_registry);
     entity::createSpawner(m_registry);
 }

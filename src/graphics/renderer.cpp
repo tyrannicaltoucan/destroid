@@ -97,6 +97,7 @@ Renderer::Renderer()
     glEnableVertexAttribArray(1);
     glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), makeOffset(sizeof(glm::vec2)));
 
+    glBindVertexArray(0);
     m_shader.use();
 }
 
@@ -171,8 +172,10 @@ void Renderer::finish()
         return;
     }
 
+    glBindVertexArray(m_vao);
     glBufferSubData(GL_ARRAY_BUFFER, 0, m_vertices.size() * sizeof(Vertex), m_vertices.data());
     glDrawElements(GL_TRIANGLES, m_batchCount * indicesPerQuad, GL_UNSIGNED_SHORT, nullptr);
+    glBindVertexArray(0);;
 
     m_vertices.clear();
     m_batchCount = 0;

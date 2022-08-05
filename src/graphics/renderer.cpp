@@ -163,7 +163,7 @@ void Renderer::draw(
         glm::vec2(rightUV, bottomUV)});
     // clang-format on
 
-    m_batchCount += 1;
+    m_indexCount += indicesPerQuad;
 }
 
 void Renderer::finish()
@@ -174,11 +174,11 @@ void Renderer::finish()
 
     glBindVertexArray(m_vao);
     glBufferSubData(GL_ARRAY_BUFFER, 0, m_vertices.size() * sizeof(Vertex), m_vertices.data());
-    glDrawElements(GL_TRIANGLES, m_batchCount * indicesPerQuad, GL_UNSIGNED_SHORT, nullptr);
+    glDrawElements(GL_TRIANGLES, m_indexCount, GL_UNSIGNED_SHORT, nullptr);
     glBindVertexArray(0);;
 
     m_vertices.clear();
-    m_batchCount = 0;
+    m_indexCount = 0;
 }
 
 } // namespace destroid

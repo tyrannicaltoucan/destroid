@@ -34,7 +34,7 @@ public:
 private:
     std::vector<Vertex> m_vertices;
     GLuint m_boundTexureHandle = 0;
-    GLsizei m_batchCount = 0;
+    GLsizei m_indexCount = 0;
     Shader m_shader;
 
     GLuint m_vbo = 0;

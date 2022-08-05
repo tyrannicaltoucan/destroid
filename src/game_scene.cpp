@@ -10,7 +10,6 @@
 #include "systems/movement.hpp"
 #include "systems/spawning.hpp"
 #include "systems/weapon.hpp"
-#include <glm/vec4.hpp>
 
 namespace destroid {
 namespace {
@@ -44,7 +43,7 @@ void GameScene::update(float delta)
 
 void GameScene::draw(Renderer& renderer)
 {
-    renderer.clearColor({0.0f, 0.0f, 0.0f, 1.0f});
+    renderer.clearColor(0.0f, 0.0f, 0.0f);
     renderer.setViewBounds(viewBounds.width, viewBounds.height);
     drawing_system::update(m_registry, renderer, m_spriteSheet);
     renderer.finish();

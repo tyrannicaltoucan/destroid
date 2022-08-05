@@ -20,7 +20,7 @@ public:
     Renderer& operator=(const Renderer&) = delete;
 
     void setViewBounds(float width, float height);
-    void clearColor(const glm::vec4& color) const;
+    void clearColor(float r, float g, float b) const;
 
     void draw(
         const Texture& texture,

@@ -5,7 +5,6 @@
 #include <glm/ext/matrix_clip_space.hpp>
 #include <glm/gtx/matrix_transform_2d.hpp>
 #include <glm/vec2.hpp>
-#include <glm/vec4.hpp>
 #include <string>
 
 namespace destroid {
@@ -115,10 +114,10 @@ void Renderer::setViewBounds(float width, float height)
     m_shader.setUniform("projection", view);
 }
 
-void Renderer::clearColor(const glm::vec4& color) const
+void Renderer::clearColor(float r, float g, float b) const
 {
+    glClearColor(r, g, b, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
-    glClearColor(color.r, color.g, color.b, color.a);
 }
 
 void Renderer::draw(

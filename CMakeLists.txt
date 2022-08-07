@@ -13,6 +13,10 @@ find_package(SDL2 REQUIRED)
 add_subdirectory(thirdparty)
 
 add_executable(destroid
+    src/core/window.cpp
+    src/core/window.hpp
+    src/core/game.cpp
+    src/core/game.hpp
     src/entity/components/collider.hpp
     src/entity/components/drag.hpp
     src/entity/components/drawable.hpp
@@ -51,10 +55,6 @@ add_executable(destroid
     src/systems/spawning.hpp
     src/systems/weapon.cpp
     src/systems/weapon.hpp
-    src/game_scene.cpp
-    src/game_scene.hpp
-    src/game.cpp
-    src/game.hpp
     src/main.cpp
 )
 

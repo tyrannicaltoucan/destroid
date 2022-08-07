@@ -37,12 +37,13 @@ void Game::run()
 {
     using Clock = std::chrono::steady_clock;
     using Duration = std::chrono::duration<float>;
+    using TimePoint = std::chrono::time_point<Clock, Duration>;
 
-    auto previousTime = Clock::now();
+    TimePoint previousTime = Clock::now();
 
     while (m_running) {
-        const auto currentTime = Clock::now();
-        const auto delta = Duration(currentTime - previousTime);
+        const TimePoint currentTime = Clock::now();
+        const Duration delta = currentTime - previousTime;
         previousTime = currentTime;
 
         processEvents();

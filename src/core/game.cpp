@@ -62,7 +62,7 @@ void Game::processEvents()
             m_running = false;
             break;
         case SDL_KEYDOWN:
-            if (event.key.keysym.sym == SDLK_ESCAPE) {
+            if (event.key.keysym.scancode == SDL_SCANCODE_ESCAPE) {
                 m_running = false;
             }
         }

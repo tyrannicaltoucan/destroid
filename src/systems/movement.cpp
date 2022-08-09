@@ -9,6 +9,28 @@
 #include <glm/exponential.hpp>
 
 namespace destroid::movement_system {
+namespace {
+
+void wrapPosition(const Rect& viewport, glm::vec2& position)
+{
+    if (position.x < viewport.left()) {
+        position.x += viewport.width;
+    }
+
+    if (position.x > viewport.right()) {
+        position.x -= viewport.width;
+    }
+
+    if (position.y < viewport.top()) {
+        position.y += viewport.height;
+    }
+
+    if (position.y > viewport.bottom()) {
+        position.y -= viewport.height;
+    }
+}
+
+} // namespace
 
 void update(entt::registry& registry, float delta)
 {
@@ -20,24 +42,8 @@ void update(entt::registry& registry, float delta)
         // Keep rotations bound between 0 and 360 degrees.
         transform.rotation = glm::mod((glm::mod(transform.rotation, 360.0f) + 360.0f), 360.0f);
 
-        // Keep entity positions inside the window area.
         const auto viewport = registry.ctx<Rect>();
-
-        if (transform.position.x <= viewport.left()) {
-            transform.position.x = transform.position.x + viewport.width;
-        }
-
-        if (transform.position.x >= viewport.right()) {
-            transform.position.x = transform.position.x - viewport.width;
-        }
-
-        if (transform.position.y <= viewport.top()) {
-            transform.position.y = transform.position.y + viewport.height;
-        }
-
-        if (transform.position.y >= viewport.bottom()) {
-            transform.position.y = transform.position.y - viewport.height;
-        }
+        wrapPosition(viewport, transform.position);
     });
 
     const auto colliderView = registry.view<Collider, Transform>();

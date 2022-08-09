@@ -66,6 +66,7 @@ void Game::processEvents()
             if (event.key.keysym.scancode == SDL_SCANCODE_ESCAPE) {
                 m_running = false;
             }
+            break;
         }
     }
 }

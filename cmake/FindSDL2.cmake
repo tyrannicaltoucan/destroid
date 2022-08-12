@@ -39,7 +39,7 @@ select_library_configurations(SDL2)
 find_path(SDL2_INCLUDE_DIR
     HINTS "$ENV{SDL2DIR}"
     NAMES SDL_assert.h
-    PATH_SUFFIXES SDL2
+    PATH_SUFFIXES SDL2 include/SDL2 include
 )
 
 include(FindPackageHandleStandardArgs)

@@ -5,16 +5,6 @@
 
 namespace destroid {
 
-void Window::WinDeleter::operator()(SDL_Window* window)
-{
-    SDL_DestroyWindow(window);
-}
-
-void Window::WinDeleter::operator()(SDL_GLContext context)
-{
-    SDL_GL_DeleteContext(context);
-}
-
 Window::Window(const std::string& title, int width, int height)
 {
     if (SDL_Init(SDL_INIT_VIDEO) != 0) {
@@ -60,6 +50,16 @@ Window::~Window()
 void Window::present()
 {
     SDL_GL_SwapWindow(m_window.get());
+}
+
+void Window::WinDeleter::operator()(SDL_Window* window)
+{
+    SDL_DestroyWindow(window);
+}
+
+void Window::WinDeleter::operator()(SDL_GLContext context)
+{
+    SDL_GL_DeleteContext(context);
 }
 
 } // namespace destroid

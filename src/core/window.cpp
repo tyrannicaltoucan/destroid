@@ -22,7 +22,7 @@ Window::Window(const std::string& title, int width, int height)
         SDL_WINDOWPOS_CENTERED,
         width,
         height,
-        SDL_WINDOW_OPENGL));
+        SDL_WINDOW_ALLOW_HIGHDPI | SDL_WINDOW_OPENGL));
 
     if (m_window == nullptr) {
         throw std::runtime_error("Window creation failure: " + std::string(SDL_GetError()));

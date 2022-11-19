@@ -19,22 +19,20 @@ GLuint compileShader(GLenum type, const std::string& source)
         GLint logLength = 0;
         glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &logLength);
 
-        std::string shaderType;
-        switch (type) {
-        case GL_VERTEX_SHADER:
-            shaderType = "vertex";
-            break;
-        case GL_FRAGMENT_SHADER:
-            shaderType = "fragment";
-            break;
-        default:
-            shaderType = "unknown";
-            break;
-        }
+        auto typeString = ([type]() -> std::string {
+            switch (type) {
+            case GL_VERTEX_SHADER:
+                return "vertex";
+            case GL_FRAGMENT_SHADER:
+                return "fragment";
+            default:
+                return "unknown";
+            }
+        });
 
         auto log = std::string(logLength - 1, '\0');
         glGetShaderInfoLog(shader, logLength, nullptr, log.data());
-        throw std::runtime_error("Failed to compile " + shaderType + " shader:\n" + log);
+        throw std::runtime_error("Failed to compile " + typeString() + " shader:\n" + log);
     }
 
     return shader;
